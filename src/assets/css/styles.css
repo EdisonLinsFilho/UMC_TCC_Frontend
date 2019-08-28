@@ -1,0 +1,241 @@
+:root{
+	--birorange: #FA4C05;
+}
+
+/* LIXINHO DE TABLE */
+.trash {
+	background:#22528A;
+	width: 11px;
+	height: 15px;
+	display: inline-block;
+	margin:0 auto;
+	cursor: pointer;
+	
+	position: relative;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+.trash span {
+	position: absolute;
+	height: 3px;
+	background: #22528A;
+	top: -4px;
+	left: -2px;
+	right: -2px;
+	
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	transform: rotate(0deg);
+	transition: transform 250ms;
+	transform-origin: 81% 100%;
+}
+.trash span:after {
+	content: '';
+	position: absolute;
+	width: 4px;
+	height: 3px;
+	background: #22528A;
+	top: -4px;
+	
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	transform: rotate(0deg);
+	transition: transform 250ms;
+	transform-origin: 19% 100%;
+	left: 5px;
+}
+.trash i {
+	position:relative;
+	width:1px;
+	height:10px;
+	background:#fff;
+	display:block;
+	margin:3px auto;
+	border-radius: 3px;
+}
+.trash i:after {
+	content: '';
+	width: 1px;
+	height: 10px;
+	background: #fff;
+	position: absolute;
+	left: -3px;
+	border-radius: 1px;
+}
+.trash i:before {
+	content: '';
+	width: 1px;
+	height: 10px;
+	background: #fff;
+	position: absolute;
+	right: -3px;
+	border-radius: 1px;
+}
+
+.trash:hover span {
+	transform: rotate(45deg);
+	transition: transform 250ms;
+	background: var(--birorange);
+}
+.trash:hover {
+	background: var(--birorange);
+
+}
+.trash:hover span:after{
+	background: var(--birorange);
+
+}
+.text-bureau{
+    color: var(--birorange);
+}
+
+.container {
+  padding: 15px;
+}
+.side-scroll {
+  border: 60px 60px 60px 60px;
+  background-color: #bababb;
+  color: black;
+}
+.side-scroll:hover {
+  background-color: #7a7a7a;
+}
+.blue-button {
+  background-color: #22528A;
+  color: #f3f4f7;
+}
+.blue-button i{
+	vertical-align: middle;
+	font-size: 18px;
+  color: #f3f4f7;
+}
+.blue-button:hover {
+  background-color: #22528A;
+}
+.gray-button {
+  background-color: #f3f4f7;
+  color: rgba(100, 100, 100, 0.986);
+  width: 180px;
+  border-color: rgba(211, 211, 211, 0.986);
+  font-weight: bold;
+}
+.gray-button:hover {
+  background-color: #bababb;
+}
+.big-button {
+  height: 150px;
+  width: 180px;
+  text-align: center;
+  background-color: #22528A;
+  color: aliceblue;
+  margin: 0 0 0 7px;
+}
+.big-button:hover {
+  background-image: url(../dark-triangles.png);
+  background-color: rgb(32, 60, 97);
+}
+.edit-single-user {
+  vertical-align: middle;
+  color: transparent;
+}
+.blue-button:hover .edit-single-user {
+  color: var(--birorange);
+}
+.nav-item{
+  text-align: center;
+}
+.nav-pills .nav-link.active{
+  background-color: transparent;
+  color:black;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--birorange);
+  border-radius: 0;
+}
+.nav-pills .nav-link.active:hover{ 
+  background-color: transparent;
+  color:#365c7b;
+  cursor: default;
+}
+.nav-pills .nav-link:hover{
+  background-color: transparent;
+  color:black;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: #fcaa89;
+  border-radius: 0;
+}
+.nav-pills .nav-link{
+  color: #365c7b;
+
+}
+.table-inpote {
+  margin-top: 32px;
+  background-color: #e9ecef;
+  color: #6b757d;
+  height: 101px;
+  border: solid 1px #ced4da;
+  border-radius: 0.25rem;
+}
+/* Calendar */
+.vdatetime-input{
+	border: none;
+	cursor: pointer;
+}
+
+.vdatetime-popup__header {
+  padding: 18px 30px;
+  background: #FA4C05;
+  color: #fff;
+  font-size: 32px;
+  border-radius: 30px 30px 0 0;
+
+}
+.vdatetime-popup{
+  border-radius: 30px;
+  background: #fff;
+    color: #365c7b;
+}
+.vdatetime-calendar__month__day--selected:hover span span{
+  background: #FA4C05;
+}
+.vdatetime-calendar__month__day--selected span span{
+  background: #FA4C05;
+}
+.vdatetime-popup__actions__button{
+  color: #365c7b;
+}
+.vdatetime-time-picker__item--selected{
+  color: #FA4C05;
+}
+i{
+	vertical-align: middle;
+}
+.align-icon {
+  padding: 0;
+  vertical-align: middle;
+}
+.add-button {
+  margin-top: 0;
+  background-color: transparent;
+  border: none;
+  cursor: copy;
+}
+.add-button:disabled {
+  cursor: not-allowed;
+}
+.add-button i {
+  color: #53bb2a;
+  cursor: copy;
+}
+.add-button:disabled i {
+  color: #6b757d;
+  cursor: not-allowed;
+}
+.add-new-p {
+  border: none;
+}
