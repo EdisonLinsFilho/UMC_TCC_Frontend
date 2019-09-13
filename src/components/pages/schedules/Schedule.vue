@@ -24,13 +24,13 @@
 </template>
 
 <script>
-import NewProject from './NewProject.vue';
-import SearchProject from './SearchProject.vue';
+// import NewProject from './NewProject.vue';
+// import SearchProject from './SearchProject.vue';
 export default {
     components:{
        
-        'my-new-project': NewProject,
-        'my-search-project': SearchProject
+        // 'my-new-project': NewProject,
+        // 'my-search-project': SearchProject
     },
 
 }

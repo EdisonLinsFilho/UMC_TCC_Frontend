@@ -67,7 +67,7 @@
     <div class="row">
       <div class="col-5">
         <div class="user-slack">
-          <label for="user-slack">Slack Handle</label>
+          <label for="user-slack">Slack Handle</label>-
           <input
             type="text"
             class="form-control"

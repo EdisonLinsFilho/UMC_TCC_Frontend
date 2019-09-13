@@ -1,32 +1,14 @@
 <template>
   <div class="row">
-    <div class="col-12">
-      <!-- Tabs -->
-      <div class="align-filter">
-        <ul class="nav nav-pills" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link item-mod active" data-toggle="pill" href="#projects">Projects</a>
-          </li>
-          <li class="align-li"></li>
-        </ul>
-      </div>
-      <!-- Panels -->
-      <div class="tab-content">
-        <div id="projects" class="container tab-pane active">
-          <br />
-          <my-projects-home></my-projects-home>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import ProjectsHome from "../projects/ProjectsHome.vue";
+// import ProjectsSchedule from "../schedules/ScheduleHome.vue";
 
 export default {
   components: {
-    "my-projects-home": ProjectsHome
+    // "my-schedule-home": ScheduleHome
   }
 };
 </script>
