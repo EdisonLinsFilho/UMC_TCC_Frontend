@@ -1,11 +1,11 @@
 import Login from './components/pages/login/LoginPage.vue'
-import Home from './components/pages/home/HomePm.vue'
-import Clients from './components/pages/clients/Clients.vue'
-import NewClient from './components/pages/clients/NewClient.vue'
-import SingleClient from './components/pages/clients/SingleClient.vue'
-import Agenda from './components/pages/projects/Agenda.vue'
-import NewProject from './components/pages/projects/NewProject.vue'
-import SingleProject from './components/pages/projects/SingleProject.vue'
+import Home from './components/pages/home/Home.vue'
+import Materials from './components/pages/materials/Materials.vue'
+import NewMaterial from './components/pages/materials/NewMaterial.vue'
+import SingleMaterial from './components/pages/schedules/SingleSchedule.vue'
+import Schedule from './components/pages/schedules/Schedule.vue'
+import NewSchedule from './components/pages/schedules/NewSchedule.vue'
+import SingleSchedule from './components/pages/schedules/SingleSchedule.vue'
 import Users from './components/pages/users/Users.vue'
 import NewUser from './components/pages/users/NewUser.vue'
 import SingleUser from './components/pages/users/SingleUser.vue'
@@ -16,13 +16,13 @@ export default [
 
     { path: '/home', name: 'homePage', component: Home },
 
-    { path: '/clients', name: 'clients', component: Clients },
-    { path: '/clients/new', name: 'newClient', component: NewClient },
-    { path: '/client/:id', name: 'clientid', component: SingleClient },
+    { path: '/materials', name: 'materials', component: Materials },
+    { path: '/materials/new', name: 'newMaterial', component: NewMaterial },
+    { path: '/materials/:id', name: 'materialId', component: SingleMaterial },
 
-    { path: '/agenda', name: 'agenda', component: Agenda },
-    { path: '/projects/new', name: 'newProject', component: NewProject },
-    { path: '/project/:id', name: 'projectid', component: SingleProject },
+    { path: '/schedule', name: 'schedule', component: Schedule },
+    { path: '/schedule/new', name: 'newschedule', component: NewSchedule },
+    { path: '/schedule/:id', name: 'scheduleId', component: SingleSchedule },
 
     { path: '/users', name: 'users', component: Users },
     { path: '/users/new', name: 'newUser', component: NewUser },
