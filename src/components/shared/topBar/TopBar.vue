@@ -47,7 +47,9 @@
           <router-link to="/users">
             <button class="btn btn-light btn-mennu">Usuarios</button>
           </router-link>
-          <button class="btn btn-light btn-mennu">Material</button>
+          <router-link to="/materials">
+            <button class="btn btn-light btn-mennu">Material</button>
+          </router-link>
           <div class="dropdown">
             <button class="btn btn-light btn-mennu dropdown-toggle" data-toggle="dropdown">Mais</button>
             <div class="dropdown-menu">

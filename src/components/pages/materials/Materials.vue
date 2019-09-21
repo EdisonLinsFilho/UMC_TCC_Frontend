@@ -13,19 +13,19 @@
     <div class="tab-content">
       <div id="search-material" class="container tab-pane active">
         <br />
-        <my-search-material></my-search-material>
+        <search-material></search-material>
       </div>
       <div id="new-material" class="container tab-pane fade">
         <br />
-        <my-new-material></my-new-material>
+        <new-material></new-material>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import NewMaterial from "./components/pages/materials/NewMaterial.vue"
-// import SearchMaterial from "./components/pages/materials/SearchMaterial.vue"
+import NewMaterial from "./NewMaterial.vue"
+import SearchMaterial from "./SearchMaterial.vue"
 export default {
   data() {
     return {
@@ -33,8 +33,8 @@ export default {
     };
   },
   components: {
-    // "new-material": NewMaterial,
-    // "search-material": SearchMaterial
+     "new-material": NewMaterial,
+     "search-material": SearchMaterial
   }
 };
 </script>
