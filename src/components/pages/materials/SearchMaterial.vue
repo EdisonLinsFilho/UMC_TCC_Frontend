@@ -3,50 +3,48 @@
     <!-- Search bar -->
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Material: </span>
-      </div>
+        <span class="input-group-text" id="inputGroup-sizing-default">
+          <i class="material-icons">search</i>
+        </span>
+        
+    </div>
       <input
         type="text"
         class="form-control"
         aria-label="Default"
         aria-describedby="inputGroup-sizing-default"
-      >
+    />
     </div>
     <!-- Search results -->
     <div class="container">
       <table class="table table-hover">
         <thead>
-          <tr>
-            
-          </tr>
+          <tr></tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
   </div>
+  
+
 </template>
 
 <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
-  computed: {
-  },
+  computed: {},
 
-  mounted() {
-
-  }
+  mounted() {}
 };
 </script>
 
 <style scoped>
-i{
-  color:#365c7b;
+i {
+  color: #365c7b;
 }
-i:hover{
+i:hover {
   color: var(--birorange);
 }
 </style>
