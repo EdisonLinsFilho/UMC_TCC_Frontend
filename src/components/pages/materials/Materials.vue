@@ -6,7 +6,7 @@
         <a class="nav-link active" data-toggle="pill" href="#search-material">Procurar Material</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#new-material">Novo Material</a>
+        <a class="nav-link" data-toggle="pill" href="#new-material">Cadastrar Material</a>
       </li>
     </ul>
     <!-- Panels -->
