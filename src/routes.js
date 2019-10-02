@@ -14,7 +14,7 @@ import SingleUserLogged from './components/pages/users/SingleUserLogged.vue'
 //Telas referentes a Atividade
 import Agenda from './components/pages/agenda/Agenda.vue'
 import NovaAgenda from './components/pages/agenda/NovaAgenda.vue'
-//import ConsultaAgenda from './components/pages/agenda/ConsultaAgenda.vue'
+import ConsultaAgenda from './components/pages/agenda/ConsultaAgenda.vue'
 
 export default [
 

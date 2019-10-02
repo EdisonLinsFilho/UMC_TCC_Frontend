@@ -25,8 +25,9 @@
         </div >
         <div class="input-group mb-3">
           <cool-select
+          class="sizeCool"
           v-model="selected"
-          :items="responsavel"
+          :items="items"
           placeholder="Responsável da Escola"
           />
           <div class="input-group-prepend">
@@ -34,14 +35,14 @@
           </div>
         </div >
       </form>
-      <b-container >
+      <container >
         <button type="button" class="btn btn-primary">Salvar</button>
         <button type="button" class="btn btn-link" v-on:click="resetFields()" >Limpar</button>
       
-      </b-container>
+      </container>
     </div>
     <!-- PopUp -->
-    <modal name="hello-world" height="auto"	>
+    <modal name="responsavelModal" height="auto"	>
       <br>
       <div class="input-group mb-3 space_up">
         <div class="input-group-prepend">
@@ -98,10 +99,10 @@ export default {
     show () {
       (this.novoResponsavel.rg = ""),
       (this.novoResponsavel.nome = ""),
-      this.$modal.show('hello-world');
+      this.$modal.show('responsavelModal');
     },
     hide () {
-      this.$modal.hide('hello-world');
+      this.$modal.hide('responsavelModal');
     },
 
     close () {
@@ -167,5 +168,8 @@ export default {
 }
 .fullLine{
   width: 250px,
+}
+.sizeCool{
+  width: 250px
 }
 </style>
