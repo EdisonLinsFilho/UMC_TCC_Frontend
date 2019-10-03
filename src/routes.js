@@ -11,11 +11,13 @@ import NewUser from './components/pages/users/NewUser.vue'
 import SingleUser from './components/pages/users/SingleUser.vue'
 import SingleUserLogged from './components/pages/users/SingleUserLogged.vue'
 
+//Telas referentes a Atividade
 import Agenda from './components/pages/agenda/Agenda.vue'
 import NovaAgenda from './components/pages/agenda/NovaAgenda.vue'
 import ConsultaAgenda from './components/pages/agenda/ConsultaAgenda.vue'
 
 export default [
+
     { path: '/login', name: 'loginGeneral', component: Login },
 
     { path: '/home', name: 'homePage', component: Home },
@@ -34,7 +36,9 @@ export default [
     { path: '/user/:id', name: 'userid', component: SingleUser },
     { path: '*', component: Home },
 
+    //Telas referentes a Atividade
     { path: '/agenda', name: 'agenda', component: Agenda},
     { path: '/agenda/nova', name: 'novaAgenda', component: NovaAgenda},
     { path: '/agenda/consulta', name: 'consultaAgenda', component: ConsultaAgenda},
+
 ]
