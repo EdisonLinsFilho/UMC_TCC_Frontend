@@ -2,38 +2,101 @@
  <div>
     <div class="container">
       <form> 
-        <div class="input-group mb-3">
-          <input type="text" v-model="agenda.escola" class="form-control" placeholder="Digite o nome da Escola"  />
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="campo1">Descrição da Atividade </label>
+           <input type="text" v-model="agenda.descricao" class="form-control" placeholder="Digite uma descrição da Atividade"  />
+          </div>  
         </div>
-        <div class="input-group mb-3">
-          <input type="text" v-model="agenda.coordenador" class="form-control" placeholder="Digite o nome do Coordenador responsável"  />
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="campo1">Nome da Escola </label>
+            <input type="text" v-model="agenda.escola" class="form-control" placeholder="Digite o nome da Escola"/>
+          </div>   
         </div>
-        <div class="input-group mb-3">
-          <input type="text" v-model="agenda.professor" class="form-control" placeholder="Digite o nome do Professor responsável"  />
-        </div >
-        <div class="input-group mb-3">
-          <input type="text" v-model="agenda.descricao" class="form-control" placeholder="Digite uma descrição da Atividade"/>
-        </div >
-        <div class="input-group mb-3">
-          <input type="text" v-model="agenda.ensino" class="form-control" placeholder="Digite o Ensino Exemplo: Ensino Fundamental"/>
-        </div >
-        <div class="input-group mb-3">
-          <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control" placeholder="Digite o numero de crianças"/>
-        </div >
-        <div class="input-group mb-3">
-          <input type="text" v-model="agenda.monitor" class="form-control" placeholder="Digite o nome do Monitor"/>
-        </div >
-        <div class="input-group mb-3">
-          <cool-select
-          class="sizeCool"
-          v-model="selected"
-          :items="items"
-          placeholder="Responsável da Escola"
-          />
-          <div class="input-group-prepend">
+        <div class="row">
+          <div class="form-group col-md-2">
+            <label for="campo1">Numero de Crianças </label>
+            <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control" placeholder="Ex: 20"/>
+          </div>  
+          <div class="form-group col-md-10">
+            <label for="campo1">Tipo de Ensino </label>
+            <input type="text" v-model="agenda.ensino" class="form-control" placeholder="Digite o Ensino Exemplo: Ensino Fundamental"/>
+          </div>    
+        </div>
+        <div class="input-group mb-4">
+            <span class="subTitulo">Nome do Coordenador:</span>
+            <cool-select
+              class="camposDropDown"
+              v-model="selectedCoordenador"
+              :items="items"
+              placeholder="Pesquisa o Nome do Coordenador"
+            />
             <button type="button" class="plus_someone" @click="show()">+</button>
-          </div>
-        </div >
+        </div>
+        <div class="input-group mb-4">
+            <span class="subTitulo">Nome do Professor:</span>
+            <cool-select
+              class="camposDropDown"
+              v-model="selectedProfessor"
+              :items="items"
+              placeholder="Pesquise o Nome do Professor"
+            />
+            <button type="button" class="plus_someone" @click="show()">+</button>
+        </div>  
+        <div class="input-group mb-4">
+            <span class="subTitulo">Nome do Monitor:</span>
+            <cool-select
+              class="camposDropDown"
+              v-model="selectedMonitor"
+              :items="items"
+              placeholder="Pesquise o Nome do Monitor"
+            />
+            <button type="button" class="plus_someone" @click="show()">+</button>
+        </div>    
+       
+
+       <div class="col-8 ">
+        <label for="langTable">Responsável da Escola</label>
+          <table class="table table-hover sour-tar">
+              <thead>
+                <tr>
+                  <th>Responsável</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(responsavel, i) in novoResponsaveis" :key="i">
+                  <td>{{responsavel}}</td>
+                  <td>
+                    <span class="trash" @click="remResponsavel(novoResponsaveis.indexOf(responsavel))">
+                      <span></span>
+                      <i></i>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr class="add-new-p">
+                  <th>
+                    <div class="form-group">
+                      <select class="form-control form-align" id="source" v-model="responsavelSelect">
+                        <option v-for="(responsavel, i) in responsaveis" :key="i">{{responsavel}}</option>
+                      </select>
+                    </div>
+                  </th>
+                  <th></th>
+                  <th class="icon-align">
+                    <button class="add-button" @click.prevent="addResponsavel()">
+                      <i class="material-icons add-icon">add_circle</i>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+        </div>
+
+        
       </form>
       <container >
         <button type="button" class="btn btn-primary">Salvar</button>
@@ -43,23 +106,19 @@
     </div>
     <!-- PopUp -->
     <modal name="responsavelModal" height="auto"	>
-      <br>
-      <div class="input-group mb-3 space_up">
-        <div class="input-group-prepend">
-          <span class="input-group-text">RG</span>
-        </div>
-        <input type="text" class="form-control" v-mask="'##.###.###-N'" @keypress="onKeydown" placeholder="Digite apenas numeros" v-model="novoResponsavel.rg"/>
-      </div >
-      <div class="input-group mb-3 space_up">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Nome</span>
-        </div>
-        <input type="text" class="form-control" placeholder="Digite o nome do Responsável" v-model="novoResponsavel.nome" />
-      </div >
-      <div align="center">
-        <button type="button" class="btn btn-link fullLine"  @click="clearModal()">Limpar</button>
-        <button type="button" class="btn btn-primary fullLine" @click="saveOne()">Salvar</button>
-      </div>  
+      <div class="borda" >
+        <br>
+        <div class="input-group mb-3 space_up">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Nome</span>
+          </div>
+          <input type="text" class="form-control" placeholder="Digite o Nome" v-model="novoResponsavel.nome" />
+        </div >
+        <div align="center">
+          <button type="button" class="btn btn-link fullLine"  @click="clearModal()">Limpar</button>
+          <button type="button" class="btn btn-primary fullLine" @click="saveOne()">Salvar</button>
+        </div> 
+      </div> 
     </modal>
     <!-- PopUp -->
   </div>
@@ -73,6 +132,19 @@ import { Datetime } from "vue-datetime";
 export default {
    
   methods: {
+    remResponsavel(index) {
+      this.novoResponsaveis.splice(index, 1);
+    },
+    addResponsavel() {
+      if(this.novoResponsaveis == null || this.novoResponsaveis.length <= 2 ){
+        this.novoResponsaveis.push(
+          this.responsavelSelect
+        );
+        this.responsavelSelect = "";
+      } else {
+        alert('Poderá haver no máximo 3 Responsávies por atividade')
+      }
+    },
     onKeydown (event) {
       const char = String.fromCharCode(event.keyCode)
       if(this.responsavel.rg.length != 12){
@@ -117,7 +189,11 @@ export default {
       (this.agenda.ensino = ""),
       (this.agenda.criancas = ""),
       (this.agenda.escola = ""),
-      (this.selected = "")
+      (this.selectedMonitor = ""),
+      (this.selectedCoordenador = ""),
+      (this.selectedProfessor = ""),
+      (this.novoResponsaveis = []) ,
+      (this.responsavelSelect = "")
     }
   },
 
@@ -129,10 +205,16 @@ export default {
   },
   data() {
     return {
+      responsaveis: ['Roberto', 'Ricardo', 'Rivaldo', 'Emily', 'Isabella ', 'Breno', 'Leonor', 'Carolina ', 'Rivaldo', 'Roberto', 'Carla ', 'Beatrice ', 'Giovana ', 'Lavinia ', 'Alex ', 'Carlos ', 'Clara ', 'Eduarda '],
+      novoResponsaveis: [],
+      listNull: [],
+      responsavelSelect: "",
       // simple example of items
       items: ['Roberto', 'Ricardo', 'Rivaldo', 'Emily', 'Isabella ', 'Breno', 'Leonor', 'Carolina ', 'Rivaldo', 'Roberto', 'Carla ', 'Beatrice ', 'Giovana ', 'Lavinia ', 'Alex ', 'Carlos ', 'Clara ', 'Eduarda '],
       // there will be a selected item
-      selected: null,
+      selectedMonitor: null,
+      selectedCoordenador: null,
+      selectedProfessor: null,
       novoResponsavel: {
         nome: "",
         rg: ""
@@ -164,12 +246,24 @@ export default {
 
 <style scoped>
 .plus_someone{
-  height: 30px,
+  height: 34px;
 }
 .fullLine{
-  width: 250px,
+  width: 250px
 }
 .sizeCool{
   width: 250px
 }
+.subTitulo{
+  padding-top: 5px;
+  width: 190px
+}
+.camposDropDown{
+  width:  834px;
+}
+.borda{
+  border: 1px
+  solid black;
+}
+
 </style>
