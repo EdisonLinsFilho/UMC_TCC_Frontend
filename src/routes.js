@@ -6,8 +6,11 @@ import SingleMaterial from './components/pages/schedules/SingleSchedule.vue'
 import Schedule from './components/pages/schedules/Schedule.vue'
 import NewSchedule from './components/pages/schedules/NewSchedule.vue'
 import SingleSchedule from './components/pages/schedules/SingleSchedule.vue'
-import Users from './components/pages/users/Users.vue'
-import NewUser from './components/pages/users/NewUser.vue'
+
+//Telas referentes a Usuarios
+import Usuarios from './components/pages/usuario/Usuarios.vue'
+import NovoUsuario from './components/pages/usuario/NovoUsuario.vue'
+import ConsultaUsuario from './components/pages/usuario/ConsultaUsuario.vue'
 import SingleUser from './components/pages/users/SingleUser.vue'
 import SingleUserLogged from './components/pages/users/SingleUserLogged.vue'
 
@@ -30,8 +33,10 @@ export default [
     { path: '/schedule/new', name: 'newschedule', component: NewSchedule },
     { path: '/schedule/:id', name: 'scheduleId', component: SingleSchedule },
 
-    { path: '/users', name: 'users', component: Users },
-    { path: '/users/new', name: 'newUser', component: NewUser },
+    //Telas referente a Usuarios
+    { path: '/usuario', name: 'usuario', component: Usuarios },
+    { path: '/usuario/novo', name: 'novoUsuario', component: NovoUsuario },
+    { path: '/usuario/consulta', name: 'consultaUsuario', component: ConsultaUsuario },
     { path: '/userme/:id', name: 'meUser', component: SingleUserLogged },
     { path: '/user/:id', name: 'userid', component: SingleUser },
     { path: '*', component: Home },

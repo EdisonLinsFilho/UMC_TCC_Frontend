@@ -2,10 +2,10 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
-        <input type="text" v-model="data" placeholder="Digite a data"  />
+        <input type="text" class="form-control" v-model="data" placeholder="Digite a data"  />
       </div>
       <div class="col-8" >
-        <input type="text" v-model="professor" class="fullLineProf" placeholder="Digite o nome do professor"  />
+        <input type="text" v-model="professor" class="form-control fullLineProf" placeholder="Digite o nome do professor"  />
       </div>
       <div class="col">
         <button type="button" class="btn btn-primary" @click="procurarAgenda()" >Pesquisar</button>
@@ -95,34 +95,34 @@
           <div class="borda">
             <br/>
             <div class="input-group mb-3">
-              <input type="text" v-model="descricao" class="form-control"  />
+              <input type="text" v-model="descricao" class="form-control" placeholder="Descrição da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="material" class="form-control" />
+              <input type="text" v-model="material" class="form-control" placeholder="Material da Atividade"/>
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="escola" class="form-control" />
+              <input type="text" v-model="escola" class="form-control" placeholder="Escola da Atividade" />
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="ensino" class="form-control"  />
+              <input type="text" v-model="ensino" class="form-control" placeholder="Ensino da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-mask="'##'" v-model="criancas" class="form-control"  />
+              <input type="text" v-mask="'##'" v-model="criancas" class="form-control" placeholder="Numero de crianças da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="responsavel" class="form-control"  />
+              <input type="text" v-model="responsavel" class="form-control" placeholder="Responsavel da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="coordenador" class="form-control"  />
+              <input type="text" v-model="coordenador" class="form-control" placeholder="Coordenador da Atividade" />
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="professor" class="form-control"  />
+              <input type="text" v-model="professor" class="form-control" placeholder="Professor da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="monitor" class="form-control"  />
+              <input type="text" v-model="monitor" class="form-control" placeholder="Monitor da Atividade" />
             </div >
             <div class="input-group mb-3">
-             <input type="text" v-model="data" class="form-control"  />
+             <input type="text" v-model="data" class="form-control" placeholder="Data da Atividade" />
             </div >
             <div align="center">
               <button type="button" class="btn btn-link fullLine"  @click="clearModalEdit()">Limpar</button>
