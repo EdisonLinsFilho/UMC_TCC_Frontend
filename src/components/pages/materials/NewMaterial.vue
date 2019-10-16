@@ -111,6 +111,7 @@
             class="form-control"
             v-model="cadastro.dataLancamento"
             id="data.lancamento"
+            
           />
         </div>
       </div>
