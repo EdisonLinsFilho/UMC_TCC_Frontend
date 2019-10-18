@@ -17,9 +17,9 @@
         <div class="row">
           <div class="form-group col-md-2">
             <label for="campo1">Numero de Crianças </label>
-            <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control" placeholder="Ex: 20"/>
+            <input type="text" v-mask="'###'" v-model="agenda.criancas" class="form-control" placeholder="Ex: 20"/>
           </div>  
-          <div class="form-group col-md-10">
+          <div class="form-group col-md litleSpace">
             <label for="campo1">Tipo de Ensino </label>
             <input type="text" v-model="agenda.ensino" class="form-control" placeholder="Digite o Ensino Exemplo: Ensino Fundamental"/>
           </div>    
@@ -79,10 +79,11 @@
               <thead>
                 <tr class="add-new-p">
                   <th>
-                    <div class="form-group">
-                      <select class="form-control form-align" id="source" v-model="responsavelSelect">
+                    <div class="input-group">
+                      <select class="form-control form-align " id="source" v-model="responsavelSelect">
                         <option v-for="(responsavel, i) in responsaveis" :key="i">{{responsavel}}</option>
                       </select>
+                      <button type="button" class="plus_someone selectSize" @click="show()">+</button>
                     </div>
                   </th>
                   <th></th>
@@ -132,6 +133,15 @@ import { Datetime } from "vue-datetime";
 export default {
    
   methods: {
+    salvarAgenda(){
+      this.$http
+        .post("http://localhost:8080/api//project", this.project)
+        .then(function() {
+          alert("New project registred");
+          this.resetFields();
+          console.log(this.project);
+        });
+    },
     remResponsavel(index) {
       this.novoResponsaveis.splice(index, 1);
     },
@@ -158,9 +168,7 @@ export default {
       (this.novoResponsavel.nome = "")
     },
     saveOne(){
-      if(this.novoResponsavel.rg == "" || this.novoResponsavel.rg.length < 12){ 
-        alert('O RG é obrigatório.');
-      } else if(this.responsavel.nome == "") {
+      if(this.responsavel.nome == "") {
         alert('O nome é obrigatório');
       } else{
         this.responsavel.push({nome: this.novoResponsavel.nome })
@@ -265,5 +273,10 @@ export default {
   border: 1px
   solid black;
 }
-
+.litleSpace{
+  padding-left: 25px;
+}
+.selectSize {
+  height: 38px;
+}
 </style>

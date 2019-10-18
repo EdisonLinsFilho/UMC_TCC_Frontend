@@ -4,21 +4,21 @@
       <!-- Pilss -->
       <ul class="nav nav-pills" role="tablist">
         <li class="nav-item">
-          <a class="nav-link item-mod" data-toggle="pill" href="#nova-agenda">Nova Atividade</a>
+          <a class="nav-link item-mod active" data-toggle="pill" href="#consulta-agenda">Consulta Atividade</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link item-mod" data-toggle="pill" href="#consulta-agenda">Consulta Atividade</a>
-        </li>
+          <a class="nav-link item-mod" data-toggle="pill" href="#nova-agenda">Nova Atividade</a>
+        </li> 
       </ul>
       <!-- conteudo dos pills -->
       <div class="tab-content">
+        <div id="consulta-agenda" class="container tab-pane active">
+          <br>
+            <minha-consulta-agenda></minha-consulta-agenda>
+        </div>
         <div id="nova-agenda" class="container tab-pane fade">
           <br>
             <minha-nova-agenda></minha-nova-agenda>
-        </div>
-        <div id="consulta-agenda" class="container tab-pane fade">
-          <br>
-            <minha-consulta-agenda></minha-consulta-agenda>
         </div>
       </div>
     </div>

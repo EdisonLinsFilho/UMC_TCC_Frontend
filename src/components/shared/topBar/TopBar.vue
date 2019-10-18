@@ -44,7 +44,7 @@
           <router-link to="/agenda">
             <button class="btn btn-light btn-mennu">Agenda</button>
           </router-link>
-          <router-link to="/users">
+          <router-link to="/usuario">
             <button class="btn btn-light btn-mennu">Usuarios</button>
           </router-link>
           <router-link to="/materials">
