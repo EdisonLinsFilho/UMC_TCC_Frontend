@@ -11,8 +11,8 @@ import SingleSchedule from './components/pages/schedules/SingleSchedule.vue'
 import Usuarios from './components/pages/usuario/Usuarios.vue'
 import NovoUsuario from './components/pages/usuario/NovoUsuario.vue'
 import ConsultaUsuario from './components/pages/usuario/ConsultaUsuario.vue'
-import SingleUser from './components/pages/users/SingleUser.vue'
-import SingleUserLogged from './components/pages/users/SingleUserLogged.vue'
+import SingleUser from './components/pages/usuario/SingleUser.vue'
+import SingleUserLogged from './components/pages/usuario/SingleUserLogged.vue'
 
 //Telas referentes a Atividade
 import Agenda from './components/pages/agenda/Agenda.vue'
