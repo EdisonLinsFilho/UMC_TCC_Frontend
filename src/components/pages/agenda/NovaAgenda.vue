@@ -241,7 +241,7 @@ export default {
           nome: "",
         },
         material: "",
-        data: "",
+        data: "1571778742000",
         descricao: "",
       }
     } 
