@@ -2,10 +2,10 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
-        <input type="text" class="form-control" v-model="data" placeholder="Digite a data"  />
+        <input type="text" class="form-control" v-mask="'##/##/#### ##:##'" v-model="dataToSearch" placeholder="Digite a data"  />
       </div>
       <div class="col-8" >
-        <input type="text" v-model="professor" class="form-control fullLineProf" placeholder="Digite o nome do professor"  />
+        <input type="text" v-model="professorToSearch" class="form-control fullLineProf" placeholder="Digite o nome do professor"  />
       </div>
       <div class="col">
         <button type="button" class="btn btn-primary" @click="procurarAgenda()" >Pesquisar</button>
@@ -58,34 +58,34 @@
           <div class="borda">
             <br/>
            <div class="input-group mb-3">
-              <input type="text" v-model="descricao" class="form-control" disabled/>
+              <input type="text" v-model="agenda.descricao" class="form-control" disabled/>
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="material" class="form-control" disabled/>
+              <input type="text" v-model="agenda.material" class="form-control" disabled/>
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="escola" class="form-control" disabled/>
+              <input type="text" v-model="agenda.escola" class="form-control" disabled/>
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="ensino" class="form-control"  disabled/>
+              <input type="text" v-model="agenda.tipoEnsino" class="form-control"  disabled/>
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-mask="'##'" v-model="criancas" class="form-control"  disabled/>
+              <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control"  disabled/>
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="responsavel" class="form-control" disabled/>
+              <input type="text" v-model="agenda.responsavel" class="form-control" disabled/>
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="coordenador" class="form-control" disabled/>
+              <input type="text" v-model="agenda.coordenator" class="form-control" disabled/>
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="professor" class="form-control" disabled/>
+              <input type="text" v-model="agenda.professor" class="form-control" disabled/>
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="monitor" class="form-control" disabled/>
+              <input type="text" v-model="agenda.monitor" class="form-control" disabled/>
             </div >
             <div class="input-group mb-3">
-             <input type="text" v-model="data" class="form-control" disabled/>
+             <input type="text" v-model="agenda.data" class="form-control" disabled/>
             </div >
             
           </div>
@@ -95,34 +95,34 @@
           <div class="borda">
             <br/>
             <div class="input-group mb-3">
-              <input type="text" v-model="descricao" class="form-control" placeholder="Descrição da Atividade" />
+              <input type="text" v-model="agenda.descricao" class="form-control" placeholder="Descrição da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="material" class="form-control" placeholder="Material da Atividade"/>
+              <input type="text" v-model="agenda.material" class="form-control" placeholder="Material da Atividade"/>
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="escola" class="form-control" placeholder="Escola da Atividade" />
+              <input type="text" v-model="agenda.escola" class="form-control" placeholder="Escola da Atividade" />
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="ensino" class="form-control" placeholder="Ensino da Atividade" />
+              <input type="text" v-model="agenda.tipoEnsino" class="form-control" placeholder="Ensino da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-mask="'##'" v-model="criancas" class="form-control" placeholder="Numero de crianças da Atividade" />
+              <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control" placeholder="Numero de crianças da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="responsavel" class="form-control" placeholder="Responsavel da Atividade" />
+              <input type="text" v-model="agenda.responsavel" class="form-control" placeholder="Responsavel da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="coordenador" class="form-control" placeholder="Coordenador da Atividade" />
+              <input type="text" v-model="agenda.coordenator" class="form-control" placeholder="Coordenador da Atividade" />
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="professor" class="form-control" placeholder="Professor da Atividade" />
+              <input type="text" v-model="agenda.professor" class="form-control" placeholder="Professor da Atividade" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="monitor" class="form-control" placeholder="Monitor da Atividade" />
+              <input type="text" v-model="agenda.monitor" class="form-control" placeholder="Monitor da Atividade" />
             </div >
             <div class="input-group mb-3">
-             <input type="text" v-model="data" class="form-control" placeholder="Data da Atividade" />
+             <input type="text" v-model="agenda.data" class="form-control" placeholder="Data da Atividade" />
             </div >
             <div align="center">
               <button type="button" class="btn btn-link fullLine"  @click="clearModalEdit()">Limpar</button>
@@ -155,7 +155,17 @@ export default {
       agenda: [],
       id: "",
       data: "",
-      professor: ""
+      professor: "",
+      descricao: "",
+      material: "",
+      escola: "",
+      coordenator: "",
+      tipoEnsino: "",
+      criancas: "",
+      monitor: "",
+      responsavel: "",
+      professorToSearch: "",
+      dataToSearch: "",
     };
   },
   methods: {
@@ -165,15 +175,21 @@ export default {
       this.material = "";
       this.professor = "";
       this.escola = "";
-      this.coordenador = "";
-      this.ensino = "";
+      this.coordenator = "";
+      this.tipoEnsino = "";
       this.criancas = "";
       this.monitor = "";
       this.responsavel = "";
     },
     procurarAgenda(){
       //Procurar Agenda atraves dos campos não obrigatorios
-      
+      if((this.professorToSearch == null && this.dataToSearch == null) || (this.professorToSearch == "" && this.dataToSearch == "")){
+        //Search All
+      this.$http.get("http://localhost:8080/api/v1/agenda/getAll")
+      .then(function(data) {
+        this.agenda = data.body;
+      });
+      }
 
     },
     hideDelete(){

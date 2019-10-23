@@ -21,7 +21,7 @@
           </div>  
           <div class="form-group col-md litleSpace">
             <label for="campo1">Tipo de Ensino </label>
-            <input type="text" v-model="agenda.ensino" class="form-control" placeholder="Digite o Ensino Exemplo: Ensino Fundamental"/>
+            <input type="text" v-model="agenda.tipoEnsino" class="form-control" placeholder="Digite o Ensino Exemplo: Ensino Fundamental"/>
           </div>    
         </div>
         <div class="input-group mb-4">
@@ -100,7 +100,7 @@
         
       </form>
       <container >
-        <button type="button" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-primary" @click="salvarAgenda()">Salvar</button>
         <button type="button" class="btn btn-link" v-on:click="resetFields()" >Limpar</button>
       
       </container>
@@ -134,8 +134,11 @@ export default {
    
   methods: {
     salvarAgenda(){
+      this.agenda.coordenator = this.selectedCoordenador;
+      this.agenda.responsavel = this.responsavelSelect;
+
       this.$http
-        .post("http://localhost:8080/api//project", this.project)
+        .post("http://localhost:8080/api/v1/agenda", this.agenda)
         .then(function() {
           alert("New project registred");
           this.resetFields();
@@ -192,9 +195,9 @@ export default {
       (this.agenda.monitor = ""),
       (this.agenda.descricao = ""),
       (this.agenda.professor = ""),
-      (this.agenda.coordenador = ""),
+      (this.agenda.coordenator = ""),
       (this.agenda.escola = ""),
-      (this.agenda.ensino = ""),
+      (this.agenda.tipoEnsino = ""),
       (this.agenda.criancas = ""),
       (this.agenda.escola = ""),
       (this.selectedMonitor = ""),
@@ -213,13 +216,11 @@ export default {
   },
   data() {
     return {
+      items: ['Roberto', 'Ricardo', 'Rivaldo', 'Emily', 'Isabella ', 'Breno', 'Leonor', 'Carolina ', 'Rivaldo', 'Roberto', 'Carla ', 'Beatrice ', 'Giovana ', 'Lavinia ', 'Alex ', 'Carlos ', 'Clara ', 'Eduarda '],
       responsaveis: ['Roberto', 'Ricardo', 'Rivaldo', 'Emily', 'Isabella ', 'Breno', 'Leonor', 'Carolina ', 'Rivaldo', 'Roberto', 'Carla ', 'Beatrice ', 'Giovana ', 'Lavinia ', 'Alex ', 'Carlos ', 'Clara ', 'Eduarda '],
       novoResponsaveis: [],
       listNull: [],
       responsavelSelect: "",
-      // simple example of items
-      items: ['Roberto', 'Ricardo', 'Rivaldo', 'Emily', 'Isabella ', 'Breno', 'Leonor', 'Carolina ', 'Rivaldo', 'Roberto', 'Carla ', 'Beatrice ', 'Giovana ', 'Lavinia ', 'Alex ', 'Carlos ', 'Clara ', 'Eduarda '],
-      // there will be a selected item
       selectedMonitor: null,
       selectedCoordenador: null,
       selectedProfessor: null,
@@ -230,20 +231,18 @@ export default {
       responsavel: [
       ],
       agenda: {
+        coordenator: "",
         monitor: "",
-        descricao: "",
         professor: "",
-        coordenador: "",
         escola: "",
-        ensino: "",
         criancas: "",
+        tipoEnsino: "",
         responsável: {
           nome: "",
-          rg: "",
         },
         material: "",
-        data: "",
-
+        data: "1571778742000",
+        descricao: "",
       }
     } 
   }
