@@ -79,8 +79,9 @@
           <option value="ou">Outros</option>
         </select>
       </div>
-      <div class="row">
-        <div class="form-group col-md-3">
+      </div>
+        <div class = "row">
+        <div class="form-group col-md-2">
           <label for="quantidade">Quantidade</label>
           <font color="red">*</font>
           <input
@@ -91,7 +92,7 @@
             placeholder="Ex: 20"
           />
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           <label for="quantidadeMinima">Quantidade Minima</label>
           <font color="red">*</font>
           <input
@@ -102,7 +103,7 @@
             placeholder="Ex: 20"
           />
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           <label for="data.lancamento">Data Lançamento</label>
           <input
             type="text"
@@ -114,9 +115,8 @@
           />
         </div>
       </div>
-    </div>
+    
     <hr />
-
     <div id="actions" class="row">
       <div class="col-md-4">
         <button type="submit" @click="checkForm()" class="btn btn-primary">Salvar</button>
