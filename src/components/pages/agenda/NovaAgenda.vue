@@ -17,11 +17,11 @@
         <div class="row">
           <div class="form-group col-md-2">
             <label for="campo1">Numero de Crianças </label>
-            <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control" placeholder="Ex: 20"/>
+            <input type="text" v-mask="'###'" v-model="agenda.criancas" class="form-control" placeholder="Ex: 20"/>
           </div>  
-          <div class="form-group col-md-10">
+          <div class="form-group col-md litleSpace">
             <label for="campo1">Tipo de Ensino </label>
-            <input type="text" v-model="agenda.ensino" class="form-control" placeholder="Digite o Ensino Exemplo: Ensino Fundamental"/>
+            <input type="text" v-model="agenda.tipoEnsino" class="form-control" placeholder="Digite o Ensino Exemplo: Ensino Fundamental"/>
           </div>    
         </div>
         <div class="input-group mb-4">
@@ -79,10 +79,11 @@
               <thead>
                 <tr class="add-new-p">
                   <th>
-                    <div class="form-group">
-                      <select class="form-control form-align" id="source" v-model="responsavelSelect">
+                    <div class="input-group">
+                      <select class="form-control form-align " id="source" v-model="responsavelSelect">
                         <option v-for="(responsavel, i) in responsaveis" :key="i">{{responsavel}}</option>
                       </select>
+                      <button type="button" class="plus_someone selectSize" @click="show()">+</button>
                     </div>
                   </th>
                   <th></th>
@@ -99,7 +100,7 @@
         
       </form>
       <container >
-        <button type="button" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-primary" @click="salvarAgenda()">Salvar</button>
         <button type="button" class="btn btn-link" v-on:click="resetFields()" >Limpar</button>
       
       </container>
@@ -132,6 +133,18 @@ import { Datetime } from "vue-datetime";
 export default {
    
   methods: {
+    salvarAgenda(){
+      this.agenda.coordenator = this.selectedCoordenador;
+      this.agenda.responsavel = this.responsavelSelect;
+
+      this.$http
+        .post("http://localhost:8080/api/v1/agenda", this.agenda)
+        .then(function() {
+          alert("New project registred");
+          this.resetFields();
+          console.log(this.project);
+        });
+    },
     remResponsavel(index) {
       this.novoResponsaveis.splice(index, 1);
     },
@@ -158,9 +171,7 @@ export default {
       (this.novoResponsavel.nome = "")
     },
     saveOne(){
-      if(this.novoResponsavel.rg == "" || this.novoResponsavel.rg.length < 12){ 
-        alert('O RG é obrigatório.');
-      } else if(this.responsavel.nome == "") {
+      if(this.responsavel.nome == "") {
         alert('O nome é obrigatório');
       } else{
         this.responsavel.push({nome: this.novoResponsavel.nome })
@@ -184,9 +195,9 @@ export default {
       (this.agenda.monitor = ""),
       (this.agenda.descricao = ""),
       (this.agenda.professor = ""),
-      (this.agenda.coordenador = ""),
+      (this.agenda.coordenator = ""),
       (this.agenda.escola = ""),
-      (this.agenda.ensino = ""),
+      (this.agenda.tipoEnsino = ""),
       (this.agenda.criancas = ""),
       (this.agenda.escola = ""),
       (this.selectedMonitor = ""),
@@ -205,13 +216,11 @@ export default {
   },
   data() {
     return {
+      items: ['Roberto', 'Ricardo', 'Rivaldo', 'Emily', 'Isabella ', 'Breno', 'Leonor', 'Carolina ', 'Rivaldo', 'Roberto', 'Carla ', 'Beatrice ', 'Giovana ', 'Lavinia ', 'Alex ', 'Carlos ', 'Clara ', 'Eduarda '],
       responsaveis: ['Roberto', 'Ricardo', 'Rivaldo', 'Emily', 'Isabella ', 'Breno', 'Leonor', 'Carolina ', 'Rivaldo', 'Roberto', 'Carla ', 'Beatrice ', 'Giovana ', 'Lavinia ', 'Alex ', 'Carlos ', 'Clara ', 'Eduarda '],
       novoResponsaveis: [],
       listNull: [],
       responsavelSelect: "",
-      // simple example of items
-      items: ['Roberto', 'Ricardo', 'Rivaldo', 'Emily', 'Isabella ', 'Breno', 'Leonor', 'Carolina ', 'Rivaldo', 'Roberto', 'Carla ', 'Beatrice ', 'Giovana ', 'Lavinia ', 'Alex ', 'Carlos ', 'Clara ', 'Eduarda '],
-      // there will be a selected item
       selectedMonitor: null,
       selectedCoordenador: null,
       selectedProfessor: null,
@@ -222,20 +231,18 @@ export default {
       responsavel: [
       ],
       agenda: {
+        coordenator: "",
         monitor: "",
-        descricao: "",
         professor: "",
-        coordenador: "",
         escola: "",
-        ensino: "",
         criancas: "",
+        tipoEnsino: "",
         responsável: {
           nome: "",
-          rg: "",
         },
         material: "",
-        data: "",
-
+        data: "1571778742000",
+        descricao: "",
       }
     } 
   }
@@ -265,5 +272,10 @@ export default {
   border: 1px
   solid black;
 }
-
+.litleSpace{
+  padding-left: 25px;
+}
+.selectSize {
+  height: 38px;
+}
 </style>
