@@ -27,8 +27,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Teste Nome 1</td>
+          <tr v-for="(usuario ,i) in filtrarPorUsuario" :key="i">
+            <td></td>
             <td>Teste Cargo 1</td>
             <td width="10%" align="right">
               <button type="button" class="btnTable open" @click="show()" ></button>
@@ -36,6 +36,10 @@
               <button type="button" class="btnTable delete" @click="confirmDelete()" ></button>
             </td>
           </tr>
+
+
+    
+
         </tbody>
       </table>
     </div>
@@ -136,22 +140,27 @@ export default {
     };
   },
   computed: {
-    filteredUsers() {
+    filtrarPorUsuario() {
       return this.users.filter(user => {
-        return user.name.match(this.uName);
+        return user.rgm.match(this.rgm);
       });
     }
   },
-  mounted() {
-    this.$http.get("http://localhost:8080/miniworks/users")
-      .then(function(data) {
-        this.users = data.body;
-      });
-  },
+  
   components: {  
       CoolSelect,  
   },
   methods: {
+     mounted()  {
+      this.$http.get("http://localhost:8080/api/v1/usuario/getAll").then(function(data) {
+        this.users = data.body;
+      },
+        error => {
+          alert("Usuario não encontrado ao carregar a pagina");
+          console.error(error.data);
+        }
+      );
+    },
     show () {
       this.isEdit = "true";
       this.$modal.show('allPageDisbled');
@@ -172,7 +181,7 @@ export default {
       this.$modal.hide('confirmDelete');
     },
     clearModalEdit(){
-      (this.user.nome = ""),
+      (this.user.status = ""),
       (this.user.email = ""),
       (this.user.cargo = ""),
       (this.user.senha = ""),
@@ -201,6 +210,17 @@ export default {
           return
         }
       } 
+    },
+    searchUser(){
+       this.$http.get("http://localhost:8080/api/v1/umc/user/getAll").then
+        (function(data) {
+          alert("Usuario Pesquisado");
+          this.users = data.body;
+        },
+        error => {
+          alert("Usuario não procurado");
+          console.error(error.data);
+        });
     }
   }
 };
