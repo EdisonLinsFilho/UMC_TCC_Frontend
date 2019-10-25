@@ -120,7 +120,7 @@
     <hr />
     <div id="actions" class="row">
       <div class="col-md-4">
-        <button type="submit" @click="checkForm()" class="btn btn-primary">Salvar</button>
+        <button type="submit" @click="validaCampos()" class="btn btn-primary">Salvar</button>
         <button type="button" class="btn btn-link" @click="resetFields()">Limpar</button>
       </div>
     </div>
@@ -137,8 +137,37 @@ export default {
         (this.cadastro.categoriaMaterial = ""),
         (this.cadastro.embalagemMaterial = ""),
         (this.cadastro.quantidade = ""),
+        (this.cadastro.quantidadeMinima = ""),
         (this.cadastro.dataLancamento = "");
-    }
+    },
+    validaCampos(){
+      if(this.cadastro.material == ""){
+        alert("Preenchimento do Material é obrigatorio");
+      
+      }
+      if(this.cadastro.classeMaterial == ""){
+         alert("Preenchimento da Classe é obrigatorio");
+       }
+        if(this.cadastro.categoriaMaterial == ""){
+         alert("Preenchimento da Categoria é obrigatorio")
+       }
+       if(this.cadastro.embalagemMaterial == ""){
+         alert("Preenchimento da Embalagem é obrigatorio")
+
+       }
+       if(this.cadastro.quantidade == ""){
+         alert("Preenchimento da Quantidade é obrigatorio");
+
+       }
+       if(this.cadastro.quantidadeMinima == ""){
+         alert("Preenchimento da Quantidade Minima é obrigatorio")
+         
+       }
+       if(this.cadastro.quantidadeMinima > this.cadastro.quantidade){
+           alert("Quantidade Minima Incorreta")
+
+         }
+  }
   },
   data() {
     return {
@@ -149,6 +178,7 @@ export default {
         categoriaMaterial: "",
         embalagemMaterial: "",
         quantidade: "",
+        quantidadeMinima: "",
         dataLancamento: ""
       }
     };
