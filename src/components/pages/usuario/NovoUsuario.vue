@@ -65,11 +65,11 @@ export default {
       confirmaSenha: "",
       reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
       user: {
-        status: "",
-        email: "",
         acesso: "",
-        senha: "",
+        email: "",
         rgm: "",
+        senha: "",
+        status: "",
       }
     };
   },
@@ -89,7 +89,7 @@ export default {
             alert('Email invalido !');
             return
           }else{
-            this.$http.post("http://localhost:8080/api/v1/umc/user", this.user).then(
+            this.$http.post("http://localhost:8080/api/v1/usuario", this.user).then(
               () => {
                 alert("Novo usuario Registrado");
                 this.resetFields();

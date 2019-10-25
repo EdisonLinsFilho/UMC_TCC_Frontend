@@ -21,15 +21,15 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Cargo</th>
+            <th>RGM</th>
+            <th>Email</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(usuario ,i) in filtrarPorUsuario" :key="i">
-            <td></td>
-            <td>Teste Cargo 1</td>
+          <tr v-for="(user ,i) in users" :key="i">
+            <td>{{user.rgm}}</td>
+            <td>{{user.email}}</td>
             <td width="10%" align="right">
               <button type="button" class="btnTable open" @click="show()" ></button>
               <button type="button" class="btnTable edit" @click="showEdit()" ></button>
@@ -48,7 +48,7 @@
           <div class="borda">
             <br/>
            <div class="input-group mb-3">
-              <input type="text" v-model="user.nome" class="form-control" disabled/>
+              <input type="text" v-model="user.status" class="form-control" disabled/>
             </div >
             <div class="input-group mb-3">
               <input type="text" v-model="user.email" class="form-control" disabled/>
@@ -59,9 +59,6 @@
             <div class="input-group mb-3">
               <input type="text" v-model="user.rgm" class="form-control"  disabled/>
             </div >
-            <div class="input-group mb-3">
-              <input type="text" v-model="user.numeroTelefone" v-mask="'(##) #####-####'" class="form-control" disabled/>
-            </div >
           </div>
         </modal>
 
@@ -69,7 +66,7 @@
           <div class="borda">
             <br/>
             <div class="input-group mb-3">
-              <input type="text" v-model="user.nome" class="form-control"  placeholder="Nome do Usuario" />
+              <input type="text" v-model="user.status" class="form-control"  placeholder="Nome do Usuario" />
             </div >
             <div class="input-group mb-3">
               <input type="text" v-model="user.email" class="form-control" placeholder="Email do Usuario" />
@@ -84,9 +81,6 @@
             </div>
             <div class="input-group mb-3">
               <input type="text" v-mask="'###########'" v-model="user.rgm" class="form-control" placeholder="RGM do Usuario" />
-            </div >
-            <div class="input-group mb-3">
-              <input type="text" v-model="user.numeroTelefone" v-mask="'(##) #####-####'" class="form-control" placeholder="Numero de Contato do Usuario" />
             </div >
             <div class="input-group mb-3">
               <input type="password" v-model="user.senha" class="form-control" placeholder="Senha do Usuario" />
@@ -130,37 +124,28 @@ export default {
       ],
       confirmaSenha: "",
       user: {
-        nome: "Teste Nome",
-        email: "TesteEmail@gmail.com",
-        cargo: "Professor",
-        senha: "Teste@123",
-        rgm: "12345678901",
-        numeroTelefone: "11999999999"
+        acesso: "",
+        status: "",
+        email: "",
+        senha: "",
+        rgm: "",
+      },
+      userNull: {
+        acesso: "",
+        status: "",
+        email: "",
+        senha: "",
+        rgm: "",
       }
     };
-  },
-  computed: {
-    filtrarPorUsuario() {
-      return this.users.filter(user => {
-        return user.rgm.match(this.rgm);
-      });
-    }
   },
   
   components: {  
       CoolSelect,  
   },
+
   methods: {
-     mounted()  {
-      this.$http.get("http://localhost:8080/api/v1/usuario/getAll").then(function(data) {
-        this.users = data.body;
-      },
-        error => {
-          alert("Usuario não encontrado ao carregar a pagina");
-          console.error(error.data);
-        }
-      );
-    },
+
     show () {
       this.isEdit = "true";
       this.$modal.show('allPageDisbled');
@@ -212,7 +197,7 @@ export default {
       } 
     },
     searchUser(){
-       this.$http.get("http://localhost:8080/api/v1/umc/user/getAll").then
+       this.$http.get("http://localhost:8080/api/v1/usuario/getAll").then
         (function(data) {
           alert("Usuario Pesquisado");
           this.users = data.body;
@@ -222,7 +207,8 @@ export default {
           console.error(error.data);
         });
     }
-  }
+  },
+  
 };
 </script>
 
