@@ -2,27 +2,21 @@
     <div class="container">
       <form>
         <div class="row">
-          <div class="form-group col-md-6">
-            <label for="campo1">Status </label>
+          <div class="form-group col-md-12">
+            <label for="campo1">Nome </label>
+            <input type="text" class="form-control" v-model="user.nome" placeholder="Digite o Nome do Usuario"  />
+          </div>
+          <div class="form-group col-md-12">
+            <label for="campo1">Cargo </label>
             <select
-              type="text"
-              class="form-control"
-              v-model="user.status"
-              aria-selected="Selecione uma opção..."
+              class="custom-select my-1 mr-sm-2"
+              v-model="user.acesso"
             >
               <option disabled selected>Selecione uma opção...</option>
-              <option value="ACTIVE">Ativo</option>
-              <option value="INACTIVE">Inativo</option>
-             
+              <option value="COORDENADOR">Coordenador</option>
+              <option value="PROFESSOR">Professor</option>
+              <option value="MONITOR">Monitor</option>
             </select>
-          </div> 
-          <div class="form-group col-md-6">
-            <label for="campo1">Cargo </label>
-            <cool-select
-              v-model="user.acesso"
-              :items="entidade"
-              placeholder="Pesquise o Cargo do Usuario"
-            /> 
           </div>
           <div class="form-group col-md-12">
             <label for="campo1">E-mail </label>
@@ -65,11 +59,12 @@ export default {
       confirmaSenha: "",
       reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
       user: {
+        nome: "",
         acesso: "",
         email: "",
         rgm: "",
         senha: "",
-        status: "",
+        status: "ACTIVE",
       }
     };
   },
@@ -89,13 +84,11 @@ export default {
             alert('Email invalido !');
             return
           }else{
-            this.$http.post("http://localhost:8080/api/v1/usuario", this.user).then(
+            this.$http.post("http://localhost:8080/api/v1/usuario/saveOrUpdate", this.user).then(
               () => {
-                alert("Novo usuario Registrado");
                 this.resetFields();
               },
               error => {
-                alert("Usuario não foi salvo");
                 console.error(error.data);
               }
             );
@@ -107,7 +100,7 @@ export default {
       }
     },
     resetFields() {
-      (this.user.status = ""),
+      (this.user.nome = ""),
       (this.user.email = ""),
       (this.user.acesso = ""),
       (this.user.senha = ""),
