@@ -11,14 +11,10 @@
         />
       </div>
       <div class="form-group col-md-5">
-        <cool-select
-          v-model="cargoParaPesuisa"
-          :items="entidade"
-          placeholder="Pesquise o Cargo do Usuario"
-        />
+       <input type="text" class="form-control" v-mask="'###########'" v-model="rgmParaPesuisa" placeholder="Digite o RGM do Novo Usuario"  />
       </div>
       <div class="form-group col-md-2">
-        <button type="button" class="btn btn-primary" v-on:click="searchUser()">Pesquisar</button>
+        <button type="button" class="btn btn-primary" v-on:click="searchUserByNameOrRGM()">Pesquisar</button>
       </div>
     </div>
     <!-- Template Output da busca -->
@@ -26,21 +22,26 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th>RGM</th>
-            <th>Email</th>
+            <th>Nome</th>
+            <th>Cargo</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(user ,i) in users" :key="i">
-            <td>{{user.rgm}}</td>
-            <td>{{user.email}}</td>
-            <td width="10%" align="right">
-              <button type="button" class="btnTable open" @click="show(user.id)">
+            <td>{{user.nome}}</td>
+            <td>{{user.acesso}}</td>
+            <td width="14%" align="right">
+              <button type="button"  class="openn" @click="show(user.id)">
                 <i class="material-icons">search</i>
               </button>
-              <button type="button" class="btnTable edit" @click="showEdit(user.id)">Editar</button>
-              <button type="button" class="btnTable delete" @click="confirmDelete(user.id)">Deletar</button>
+              <button type="button" class="editt" @click="showEdit(user.id)">
+                <i class="material-icons">edit</i>
+                </button>
+              <span class="trash" @click="confirmDelete(user.id)">
+                 <span></span>
+                  <i></i>
+              </span>
             </td>
           </tr>
         </tbody>
@@ -134,7 +135,7 @@
         <p class="size" align="center">Deseja realmente excluir ?</p>
         <div align="center">
           <button type="button" class="btn btn-link fullLine" @click="hideDelete()">Cancelar</button>
-          <button type="button" class="btn btn-primary fullLine" @click="saveDelete(usuario.id)">Sim</button>
+          <button type="button" class="btn btn-primary fullLine" @click="saveDelete()">Sim</button>
         </div>
       </div>
     </modal>
@@ -145,26 +146,24 @@
 <script>
 import { CoolSelect } from "vue-cool-select";
 export default {
+  
   data() {
     return {
       nomeParaPesquisa: "",
-      cargoParaPesuisa: "",
-      entidade: ["Professor", "Coordenador", "Monitor"],
+      rgmParaPesuisa: "",
       reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
       uName: "",
       confirmaSenha: "",
       users: [],
-      usuario: [
-        {
-          nome: "",
-          acesso: "",
-          status: "",
-          email: "",
-          senha: "",
-          rgm: ""
+      usuario: [{
+        nome: "",
+        acesso: "",
+        status: "",
+        email: "",
+        senha: "",
+        rgm: ""
         }
       ],
-
       userNull: {
         nome: "",
         acesso: "",
@@ -172,7 +171,6 @@ export default {
         email: "",
         senha: "",
         rgm: "",
-        cargo: ""
       }
     };
   },
@@ -213,8 +211,9 @@ export default {
       //Recebendo os campos do BE
     },
     confirmDelete(userBD) {
-      // Provavel erro
-      this.$http.get("http://localhost:8080/api/v1/usuario/" + userBD).then(
+      this.$http
+      .get("http://localhost:8080/api/v1/usuario/" + userBD)
+      .then(
         function(data) {
           this.usuario = data.body;
         },
@@ -223,19 +222,16 @@ export default {
         }
       );
       this.$modal.show("confirmDelete");
-      this.id = id;
-      this.usuario = userBD;
     },
     hideDelete() {
       this.$modal.hide("confirmDelete");
     },
     clearModalEdit() {
-      (this.user.nome = ""),
-        (this.user.email = ""),
-        (this.user.cargo = ""),
-        (this.user.senha = ""),
-        (this.user.rgm = ""),
-        (this.user.numeroTelefone = ""),
+      (this.usuario.nome = ""),
+        (this.usuario.email = ""),
+        (this.usuario.acesso = ""),
+        (this.usuario.senha = ""),
+        (this.usuario.rgm = ""),
         (this.confirmaSenha = "");
     },
     saveEdit() {
@@ -266,8 +262,8 @@ export default {
               )
               .then(
                 () => {
-                  alert("Salvado");
                   this.$modal.hide("allPageEdit");
+                  this.searchUser();
                 },
                 error => {
                   console.error(error.data);
@@ -288,22 +284,47 @@ export default {
           this.users = data.body;
         },
         error => {
-          alert("Usuario não procurado");
           console.error(error.data);
         }
       );
     },
     saveDelete() {
       this.$http
-        .post("http://localhost:8080/api/v1/usuario/delete", usuario)
+        .post("http://localhost:8080/api/v1/usuario/delete", this.usuario)
         .then(
           () => {
-            alert("Passou");
+            this.hideDelete();
+            this.searchUser();
           },
           error => {
             console.error(error.data);
           }
         );
+    },
+    searchUserByNameOrRGM(){
+      if((this.nomeParaPesquisa != "") && (this.rgmParaPesuisa == "")){
+        this.$http.get("http://localhost:8080/api/v1/usuario/getByName/" + this.nomeParaPesquisa).then(
+          function(data) {
+          this.users = data.body;
+        },
+        error => {
+          console.error(error.data);
+        });
+      }
+      else {
+        if((this.rgmParaPesuisa != "") && (this.nomeParaPesquisa == "")){
+          this.$http.get("http://localhost:8080/api/v1/usuario/getByRgm/" + this.rgmParaPesuisa,toString).then(
+            function(data) {
+            this.users = data.body;
+          },
+          error => {
+            console.error(error.data);
+          });
+        }
+        else{
+          alert("Digite algo em um dos campos para pesquisar");
+        }
+      }
     }
   }
 };
@@ -322,20 +343,20 @@ export default {
 .spaceUp {
   padding-top: 20px;
 }
-.open {
-  background-color: greenyellow;
+.openn {
+  background-color: transparent;
+  border-radius: 0px;
+  padding: 0;
+  border: none;
+}
+.editt {
+  background-color: transparent;
   border-radius: 2px;
   padding: 0;
   border: none;
 }
-.edit {
-  background-color: blue;
-  border-radius: 2px;
-  padding: 0;
-  border: none;
-}
-.delete {
-  background-color: red;
+.deletee {
+  background-color: transparent;
   border-radius: 2px;
   padding: 0;
   border: none;
