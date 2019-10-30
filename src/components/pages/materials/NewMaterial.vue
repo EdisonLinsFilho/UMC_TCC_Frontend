@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="form-group col-md-6">
-        <label for="material">Material</label>
+        <label >Material</label>
         <font color="red">*</font>
         <input
           type="text"
@@ -15,7 +15,7 @@
       </div>
 
       <div class="form-group col-md-4">
-        <label for="classe.material">Classe Material</label>
+        <label >Classe Material</label>
         <font color="red">*</font>
         <select
           type="text"
@@ -37,7 +37,7 @@
       </div>
 
       <div class="form-group col-md-10">
-        <label for="descricao.material">Descrição do Material</label>
+        <label >Descrição do Material</label>
         <textarea
           class="form-control"
           id="descricao.material"
@@ -49,7 +49,7 @@
 
     <div class="row">
       <div class="form-group col-md-3">
-        <label for="categoria.material">Categoria Material</label>
+        <label >Categoria Material</label>
         <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
@@ -64,7 +64,7 @@
         </select>
       </div>
       <div class="form-group col-md-3">
-        <label for="embalagem.material">Embalagem Material</label>
+        <label >Embalagem Material</label>
         <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
@@ -92,7 +92,7 @@
           />
         </div>
         <div class="form-group col-md-4">
-          <label for="quantidadeMinima">Quantidade Minima</label>
+          <label >Quantidade Minima</label>
           <font color="red">*</font>
           <input
             type="text"
@@ -103,7 +103,7 @@
           />
         </div>
         <div class="form-group col-md-4">
-          <label for="data.lancamento">Data Lançamento</label>
+          <label >Data Lançamento</label>
           <input
             type="text"
             v-mask="'##/##/####'"
