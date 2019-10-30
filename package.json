@@ -1,8 +1,8 @@
 {
-  "name": "biro-2.0",
+  "name": "UMC_TCC_FRONTEND",
   "description": "A Vue.js project",
   "version": "1.0.0",
-  "author": "Guilherme Bottion Quittó <guilherme.quitto@bureautranslations.com>",
+  "author": "Edison Lins Filho <edison.slins@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
