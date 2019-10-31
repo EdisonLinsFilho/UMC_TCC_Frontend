@@ -3,7 +3,7 @@
     <!-- Search bar -->
  <div class="row">
       <div class="form-group col-md-2">
-         <label for="material">Codigo Material</label>
+         <label >Codigo Material</label>
         <input type="text"
           v-model="material"
           required="required"
@@ -12,7 +12,7 @@
           id="material" />
       </div>
       <div class="form-group col-md-6" >
-         <label for="material">Nome Material</label>
+         <label >Nome Material</label>
         <input type="text"
           v-model="material"
           required="required"
@@ -22,7 +22,7 @@
           
       </div>
     <div class="form-group col-md-4" >
-       <label for="material">
+       <label >
          <br/>
        </label>
       <br/>
@@ -30,7 +30,7 @@
  </div>
  </div>
     <br/>
-    <table class="table" selectable :select-mode="selectMode">
+    <table class="table" >
       <thead>
         <tr>
           <th scope="col">
@@ -68,15 +68,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(agenda ,i) in filtrandoAgenda" :key="i">
-          <td>{{agenda.data}}</td>
-          <td>{{agenda.descricao}}</td>
-          <td>{{agenda.material}}</td>
-          <td>{{agenda.professor}}</td>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
           <td width="9%" align="right">
-            <button type="button" class="btnTable open" @click="show(agenda.id)" ></button>
+            <!-- <button type="button" class="btnTable open" @click="show(agenda.id)" ></button>
             <button type="button" class="btnTable edit" @click="showEdit(agenda.id)" ></button>
-            <button type="button" class="btnTable delete" @click="confirmDelete(agenda.id)" ></button>
+            <button type="button" class="btnTable delete" @click="confirmDelete(agenda.id)" ></button> -->
           </td>
         </tr>
       </tbody>
@@ -98,7 +98,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      material: "",
+    };
   },
   computed: {},
 

@@ -4,11 +4,10 @@
 </template>
 
 <script>
-// import ProjectsSchedule from "../schedules/ScheduleHome.vue";
 
 export default {
   components: {
-    // "my-schedule-home": ScheduleHome
+    
   }
 };
 </script>
