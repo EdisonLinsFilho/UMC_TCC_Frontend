@@ -1,15 +1,116 @@
 <template>
-  <div class="row">
+  <div class="container-fluid">
+    <div align="center">
+      <h3>Agendas: Laboratório De Pedagogia</h3>
+    </div>
+    <table class="table" selectable :select-mode="selectMode">
+      <thead>
+        <tr>
+          <th scope="col">
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Data Do Agendamento</a>
+          </th>
+          <th scope="col">
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Escola</a>
+          </th>
+          <th scope="col">
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Disciplina</a>
+          </th>
+          <th scope="col">
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Professor</a>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>10/10/1010 10:10</td>
+          <td>Universidade Mogi</td>
+          <td>Matematica</td>
+          <td>Gilmar Souza</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- PopUp -->
+
+    <!-- PopUp -->
   </div>
 </template>
 
 <script>
-
 export default {
+  data() {
+    return {
+      agenda: [],
+      id: "",
+      data: "",
+      professor: "",
+      descricao: "",
+      material: "",
+      escola: "",
+      coordenator: "",
+      tipoEnsino: "",
+      criancas: "",
+      monitor: "",
+      responsavel: "",
+      professorToSearch: "",
+      dataToSearch: ""
+    };
+  },
+  methods: {
+    procurarAgenda() {
+      if (
+        (this.professorToSearch == null && this.dataToSearch == null) ||
+        (this.professorToSearch == "" && this.dataToSearch == "")
+      ) {
+        //Search All
+        this.$http
+          .get("http://localhost:8080/api/v1/agenda/getAll")
+          .then(function(data) {
+            this.agenda = data.body;
+          });
+      }
+    },
+    saveEdit() {
+      this.$modal.hide("allPageEdit");
+    }
+  },
+  computed: {},
+  
+};
+
+/*export default {
   components: {
     
   }
-};
+};*/
 </script>
 <style scoped>
 .check-mod {

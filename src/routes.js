@@ -15,6 +15,9 @@ import Agenda from './components/pages/agenda/Agenda.vue'
 import NovaAgenda from './components/pages/agenda/NovaAgenda.vue'
 import ConsultaAgenda from './components/pages/agenda/ConsultaAgenda.vue'
 
+//Tela referentes a Relatórios
+import Relatorio from './components/pages/relatorio/Relatorio.vue'
+
 export default [
 
     { path: '/login', name: 'loginGeneral', component: Login },
@@ -36,5 +39,8 @@ export default [
     { path: '/agenda', name: 'agenda', component: Agenda},
     { path: '/agenda/nova', name: 'novaAgenda', component: NovaAgenda},
     { path: '/agenda/consulta', name: 'consultaAgenda', component: ConsultaAgenda},
+
+    //Tela referentes a Relatórios
+    { path: '/relatorio', name: 'relatorio', component: Relatorio},
 
 ]

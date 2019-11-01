@@ -6,7 +6,7 @@
         <font color="red">*</font>
         <input
           type="text"
-          v-model="cadastro.material"
+          v-model="cadastro.nome"
           required="required"
           class="form-control"
           placeholder="Digite o nome do Material"
@@ -20,19 +20,18 @@
         <select
           type="text"
           class="form-control"
-          v-model="cadastro.classeMaterial"
+          v-model="cadastro.classe"
           id="classe.material"
         >
           <option disabled selected>Selecione uma opção...</option>
-          <option value="ci">Ciência</option>
-          <option value="co">Consumo</option>
-          <option value="ds">Desenvolvimento Cognitivo</option>
-          <option value="ed">Educação Especial</option>
-          <option value="ef">Educação Física</option>
-          <option value="lp">Língua Portuguesa</option>
-          <option value="ma">Matemática</option>
-          <option value="ns">Natureza e Sociedade</option>
-          <option value="ou">Outros</option>
+          <option value="CIENCIA">Ciência</option>
+          <option value="CONSUMO">Consumo</option>
+          <option value="DESENVOLVIMENTO_COGNITIVO">Desenvolvimento Cognitivo</option>
+          <option value="EDUCACAO_FISICA">Educação Física</option>
+          <option value="LINGUA_PORTUGUESA">Língua Portuguesa</option>
+          <option value="MATEMATICA">Matemática</option>
+          <option value="NATUREZA_E_SOCIEDADE">Natureza e Sociedade</option>
+          <option value="OUTROS">Outros</option>
         </select>
       </div>
 
@@ -41,7 +40,7 @@
         <textarea
           class="form-control"
           id="descricao.material"
-          v-model="cadastro.descricaoMaterial"
+          v-model="cadastro.descricao"
           rows="3"
         ></textarea>
       </div>
@@ -53,14 +52,14 @@
         <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
-          v-model="cadastro.categoriaMaterial"
+          v-model="cadastro.categoria"
           id="categoria.material"
         >
           <option disabled selected>Selecione uma opção...</option>
-          <option value="co">Consumíveis</option>
-          <option value="du">Duráveis</option>
-          <option value="do">Dourado</option>
-          <option value="ou">Outros</option>
+          <option value="CONSUMIVEL">Consumíveis</option>
+          <option value="DURAVEL">Duráveis</option>
+          <option value="DOURADO">Dourado</option>
+          <option value="OUTROS">Outros</option>
         </select>
       </div>
       <div class="form-group col-md-3">
@@ -68,19 +67,20 @@
         <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
-          v-model="cadastro.embalagemMaterial"
+          v-model="cadastro.embalagem"
           id="embalagem.material"
         >
           <option disabled selected>Selecione uma opção...</option>
-          <option value="ca">Caixa</option>
-          <option value="me">Metro</option>
-          <option value="pa">Pacote</option>
-          <option value="un">Unidade</option>
-          <option value="ou">Outros</option>
+          <option value="CAIXA">Caixa</option>
+          <option value="METRO">Metro</option>
+          <option value="PACOTE">Pacote</option>
+          <option value="UNIDADE">Unidade</option>
+          <option value="OUTROS">Outros</option>
         </select>
       </div>
-      <div class="row">
-        <div class="form-group col-md-3">
+      </div>
+        <div class = "row">
+        <div class="form-group col-md-2">
           <label for="quantidade">Quantidade</label>
           <font color="red">*</font>
           <input
@@ -91,8 +91,8 @@
             placeholder="Ex: 20"
           />
         </div>
-        <div class="form-group col-md-4">
-          <label >Quantidade Minima</label>
+        <div class="form-group col-md-2">
+          <label for="quantidadeMinima">Quantidade Minima</label>
           <font color="red">*</font>
           <input
             type="text"
@@ -102,8 +102,8 @@
             placeholder="Ex: 20"
           />
         </div>
-        <div class="form-group col-md-4">
-          <label >Data Lançamento</label>
+        <div class="form-group col-md-2">
+          <label for="data.lancamento">Data Lançamento</label>
           <input
             type="text"
             v-mask="'##/##/####'"
@@ -115,12 +115,11 @@
           />
         </div>
       </div>
-    </div>
+    
     <hr />
-
     <div id="actions" class="row">
       <div class="col-md-4">
-        <button type="submit" @click="checkForm()" class="btn btn-primary">Salvar</button>
+        <button type="submit" @click="validaCampos()" class="btn btn-primary">Salvar</button>
         <button type="button" class="btn btn-link" @click="resetFields()">Limpar</button>
       </div>
     </div>
@@ -131,25 +130,66 @@
 export default {
   methods: {
     resetFields() {
-      (this.cadastro.material = ""),
-        (this.cadastro.classeMaterial = ""),
-        (this.cadastro.descricaoMaterial = ""),
-        (this.cadastro.categoriaMaterial = ""),
-        (this.cadastro.embalagemMaterial = ""),
+      (this.cadastro.nome = ""),
+        (this.cadastro.classe = ""),
+        (this.cadastro.descricao = ""),
+        (this.cadastro.categoria = ""),
+        (this.cadastro.embalagem = ""),
         (this.cadastro.quantidade = ""),
+        (this.cadastro.quantidadeMinima = ""),
         (this.cadastro.dataLancamento = "");
-    }
+    },
+    validaCampos(){
+      if(this.cadastro.nome == ""){
+        alert("Preenchimento do Material é obrigatorio");
+        return
+      }
+      if(this.cadastro.classe == ""){
+         alert("Preenchimento da Classe é obrigatorio");
+         return
+       }
+        if(this.cadastro.categoria == ""){
+         alert("Preenchimento da Categoria é obrigatorio");
+         return
+       }
+       if(this.cadastro.embalagem == ""){
+         alert("Preenchimento da Embalagem é obrigatorio");
+         return
+
+       }
+       if(this.cadastro.quantidade == ""){
+        alert("Preenchimento da Quantidade é obrigatorio");
+        return
+       }
+       if(this.cadastro.quantidadeMinima == ""){
+        alert("Preenchimento da Quantidade Minima é obrigatorio")
+        return 
+       }
+       
+      this.$http.post("http://localhost:8080/api/v1/material", this.cadastro)
+      .then(function(data) {
+       this.resetFields();
+        alert("Material salvo !");
+        this.agenda = data.body;
+      },
+      error =>{
+        alert("Material não salvo !");
+        console.log(error.data);
+      });
+
+  }
   },
   data() {
     return {
       cadastro: {
-        material: "",
-        classeMaterial: "",
-        descricaoMaterial: "",
-        categoriaMaterial: "",
-        embalagemMaterial: "",
+        nome: "",
+        descricao: "",
         quantidade: "",
-        dataLancamento: ""
+        quantidadeMinima: "",
+        dataLancamento: "1577313307",
+        classe: "",
+        categoria: "",
+        embalagem: "",
       }
     };
   }

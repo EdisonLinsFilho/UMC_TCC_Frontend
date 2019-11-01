@@ -53,14 +53,10 @@
           <div class="dropdown">
             <button class="btn btn-light btn-mennu dropdown-toggle" data-toggle="dropdown">Mais</button>
             <div class="dropdown-menu">
-              <button class="btn btn-light btn-mennu dropdown-item">Exemple 1</button>
-              
-              <button class="btn btn-light btn-mennu dropdown-item">Exemple 2</button>
-              
-              <button class="btn btn-light btn-mennu dropdown-item">Exemple 3</button>
-              
-              <button class="btn btn-light btn-mennu dropdown-item">Exemple 4</button>
-            </div>
+              <router-link to="/relatorio">
+              <button class="btn btn-light btn-mennu dropdown-item">Relatório </button>
+              </router-link>
+                 </div>
           </div>
         </div>
       </div>
