@@ -3,7 +3,7 @@
     <!-- Search bar -->
  <div class="row">
       <div class="form-group col-md-2">
-         <label for="material">Codigo Material</label>
+         <label >Codigo Material</label>
         <input type="text"
           v-model="material"
           required="required"
@@ -12,7 +12,7 @@
           id="material" />
       </div>
       <div class="form-group col-md-6" >
-         <label for="material">Nome Material</label>
+         <label >Nome Material</label>
         <input type="text"
           v-model="material"
           required="required"
@@ -22,7 +22,7 @@
           
       </div>
     <div class="form-group col-md-4" >
-       <label for="material">
+       <label >
          <br/>
        </label>
       <br/>
@@ -30,7 +30,7 @@
  </div>
  </div>
     <br/>
-    <table class="table" selectable :select-mode="selectMode">
+    <table class="table" >
       <thead>
         <tr>
           <th scope="col">
@@ -172,7 +172,6 @@ export default {
         quantidade: "10",
         dataLancamento: "10/10/10 10:10"
       
-
     };
   },
   computed: {},

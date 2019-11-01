@@ -2,10 +2,6 @@ import Login from './components/pages/login/LoginPage.vue'
 import Home from './components/pages/home/Home.vue'
 import Materials from './components/pages/materials/Materials.vue'
 import NewMaterial from './components/pages/materials/NewMaterial.vue'
-import SingleMaterial from './components/pages/schedules/SingleSchedule.vue'
-import Schedule from './components/pages/schedules/Schedule.vue'
-import NewSchedule from './components/pages/schedules/NewSchedule.vue'
-import SingleSchedule from './components/pages/schedules/SingleSchedule.vue'
 
 //Telas referentes a Usuarios
 import Usuarios from './components/pages/usuario/Usuarios.vue'
@@ -30,11 +26,6 @@ export default [
 
     { path: '/materials', name: 'materials', component: Materials },
     { path: '/materials/new', name: 'newMaterial', component: NewMaterial },
-    { path: '/materials/:id', name: 'materialId', component: SingleMaterial },
-
-    { path: '/schedule', name: 'schedule', component: Schedule },
-    { path: '/schedule/new', name: 'newschedule', component: NewSchedule },
-    { path: '/schedule/:id', name: 'scheduleId', component: SingleSchedule },
 
     //Telas referente a Usuarios
     { path: '/usuario', name: 'usuario', component: Usuarios },
