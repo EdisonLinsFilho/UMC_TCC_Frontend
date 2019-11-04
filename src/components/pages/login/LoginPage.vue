@@ -6,40 +6,43 @@
     </div>
     <hr>
     <form>
-      <h5>Welcome! Please log-in!</h5>
+      <h5>Bem Vindo!</h5>
       <div class="form-group">
         <label>E-mail:</label>
         <input
+          required
           class="form-control"
-          type="email"
+          type="text"
           name="user-mail"
           v-model="inputMail"
-          placeholder="email@provider.com"
+          placeholder="usuario@email.com"
         >
       </div>
       <div class="form-group">
-        <label>Password:</label>
+        <label>Senha:</label>
         <input
+          required
           class="form-control"
           type="password"
           name="user-pass"
-          v-model="inputPass"
-          placeholder="Password"
+          v-model="inputSenha"
+          placeholder="Senha"
         >
       </div>
 
       <div class="row">
-        <div class="col left">
-          <button class="btn blue-button" @click.prevent="login()">Send</button>
-          <div class="form-group remempass">
-            <input type="checkbox" name="rememberPass" id="remPass">
-            <label for="checkbox">Remember password?</label>
-          </div>
-        </div>
-        <div class="col right">
-          <div class="form-group">
-            <button class="btn blue-button" @click.prevent="alertForgot()">Forgot my password</button>
-          </div>
+        <div class="col">
+          <button class="btn blue-button" @click.prevent="login()">
+            <template v-if="loading">
+              Entrando...
+            </template>
+            <template v-else>
+              Enviar
+              <i class="material-icons">input</i>  
+            </template>
+          </button>
+
+
         </div>
       </div>
     </form>
@@ -53,44 +56,41 @@ export default {
   },
   data() {
     return {
+      loading: false,
       inputMail: "",
-      inputPass: "",
-
-      users: [],
+      inputSenha: "",
+      user: [],
     };
   },
 
   methods: {
     login() {
-      for (let i = 0; i < this.users.length; i++) {
-        if (
-          this.inputMail == this.users[i].email &&
-          this.inputPass == this.users[i].password
-        ) {
-          this.logon = 1;
-          this.$emit("logIn", this.logon);
-          this.$emit("logInid", this.users[i].id);
-          this.$emit("loggedAccess", this.users[i].access);
-        }
-      }
-      if (this.logon == 0) {
-        alert("Invalid mail or password");
-      }
-    },
-    alertForgot() {
-      alert("Please contact an adm at vendors@bureautranslations.com");
-    },
+      this.loading = true;
 
-    
+      if(this.inputSenha != "" && this.inputMail != "" ){
+        
+        this.$http.get("http://localhost:8080/api/v1/usuario/authenticate"+ this.inputMail + this.inputSenha,toString ).then(
+          function(data) {
+            if(data.body == null){
+              alert("Usuario não encontrado !");
+            } else {
+              this.user = data.body;
+            }
+          },
+          error => {
+            console.error(error.data);
+          }
+        );
+
+      } else {
+        alert("Todos os campos são obrigatórios.");
+      }
+
+      this.loading = false;
+
+    },
   },
-  created() {
-    this.$http
-      .get("http://localhost:8080/miniworks/users")
-      .then(function(data) {
-        this.users = data.body;
-        console.log(data);
-      });
-  }
+  
 };
 </script>
 
