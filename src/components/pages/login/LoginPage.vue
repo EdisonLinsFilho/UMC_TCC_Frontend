@@ -68,13 +68,20 @@ export default {
       this.loading = true;
 
       if(this.inputSenha != "" && this.inputMail != "" ){
-        
-        this.$http.get("http://localhost:8080/api/v1/usuario/authenticate"+ this.inputMail + this.inputSenha,toString ).then(
+
+        let login = {
+          email : this.inputMail,
+          senha : this.inputSenha
+        }
+
+        this.$http.post("http://localhost:8080/api/v1/usuario/authenticate", login).then(
           function(data) {
             if(data.body == null){
               alert("Usuario não encontrado !");
             } else {
               this.user = data.body;
+              console.log(this.user);
+              
             }
           },
           error => {
