@@ -129,7 +129,7 @@
               <input type="text" v-mask="'#####'" v-model="material.quantidade" class="form-control"  />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="realeseDate" class="form-control" />
+              <input type="text" v-mask="'##/##/####'" v-model="realeseDate" class="form-control" />
             </div>
             <div align="center">
               <button type="button" class="btn btn-link fullLine"  @click="clearModalEdit()">Limpar</button>
@@ -178,11 +178,11 @@ export default {
   mounted() {},
 
   created(){
-    this.seachMaterial();
+    this.searchMaterial();
   },
 
   methods: {
-    seachMaterial(){
+    searchMaterial(){
       this.$http.get("http://localhost:8080/api/v1/material/getAll").then(
         function(data) {
           this.allMaterials = data.body;
@@ -211,6 +211,23 @@ export default {
         }
       );
       this.$modal.show('confirmDelete');
+    },
+    saveEdit(){
+      if(this.realeseDate != ""){
+        var myDate = this.realeseDate.split("/");
+        console.log(this.realeseDate);
+        var newDate = myDate[1] + "," + myDate[0] + "," + myDate[2];
+        this.material.dataLancamento = new Date(newDate).getTime();
+      }
+      this.$http.post("http://localhost:8080/api/v1/material", this.material).then(
+        () => {
+          this.$modal.hide("allPageEdit");
+          this.searchMaterial();
+        },
+        error => {
+          console.error(error.data);
+        }
+      );
     },
     show (materialID) {
       this.$http.get("http://localhost:8080/api/v1/material/" + materialID).then(
