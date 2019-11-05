@@ -5,7 +5,7 @@
       <div class="form-group col-md-2">
          <label >Codigo Material</label>
         <input type="text"
-          v-model="material"
+          v-model="codigoMaterial"
           required="required"
           class="form-control"
           placeholder="Digitando........."
@@ -14,7 +14,7 @@
       <div class="form-group col-md-6" >
          <label >Nome Material</label>
         <input type="text"
-          v-model="material"
+          v-model="nomeMaterial"
           required="required"
           class="form-control"
           placeholder="Digite  Material"
@@ -26,18 +26,13 @@
          <br/>
        </label>
       <br/>
-        <button type="button" class="btn btn-primary md-4" @click="procurarmaterial()">Pesquisar</button>
+        <button type="button" class="btn btn-primary md-4" @click="searchMaterialByNameOrCode()">Pesquisar</button>
  </div>
  </div>
     <br/>
     <table class="table" >
       <thead>
         <tr>
-          <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Data/Hora
-            </a>
-          </th>
           <th scope="col">
             <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
               Nome Material
@@ -68,16 +63,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>10/10/1010 10:10</td>
-          <td>Material 1</td>
-          <td>Matematica</td>
-          <td>Duradouro</td>
-          <td>10</td>
-          <td width="9%" align="right">
-            <button type="button" class="btnTable open" @click="show()" ></button>
-            <button type="button" class="btnTable edit" @click="showEdit()" ></button>
-            <button type="button" class="btnTable delete" @click="confirmDelete()" ></button>
+        <tr v-for="(mat ,i) in allMaterials" :key="i">
+          <td>{{mat.nome}}</td>
+          <td>{{mat.classe}}</td>
+          <td>{{mat.categoria}}</td>
+          <td>{{mat.quantidade}}</td>
+          <td width="15%" align="right">
+            <button type="button" class="btnTable open" @click="show(mat.id)" ></button>
+            <button type="button" class="btnTable edit" @click="showEdit(mat.id)" ></button>
+            <button type="button" class="btnTable delete" @click="confirmDelete(mat.id)" ></button>
           </td>
         </tr>
       </tbody>
@@ -96,22 +90,22 @@
           <div class="borda">
             <br/>
            <div class="input-group mb-3">
-              <input type="text" v-model="descricaoMaterial" class="form-control" disabled/>
+              <input type="text" v-model="material.descricao" class="form-control" disabled/>
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="classeMaterial" class="form-control" disabled/>
+              <input type="text" v-model="material.classe" class="form-control" disabled/>
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="categoriaMaterial" class="form-control" disabled/>
+              <input type="text" v-model="material.categoria" class="form-control" disabled/>
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="embalagemMaterial" class="form-control"  disabled/>
+              <input type="text" v-model="material.embalagem" class="form-control"  disabled/>
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-mask="'#####'" v-model="quantidade" class="form-control"  disabled/>
+              <input type="text" v-mask="'#####'" v-model="material.quantidade" class="form-control"  disabled/>
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="dataLancamento" class="form-control" disabled/>
+              <input type="text" v-model="realeseDate" class="form-control" disabled/>
             </div>    
           </div>
         </modal>
@@ -120,22 +114,22 @@
           <div class="borda">
             <br/>
            <div class="input-group mb-3">
-              <input type="text" v-model="descricaoMaterial" class="form-control" />
+              <input type="text" v-model="material.descricao" class="form-control" />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="classeMaterial" class="form-control" />
+              <input type="text" v-model="material.classe" class="form-control" />
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="categoriaMaterial" class="form-control" />
+              <input type="text" v-model="material.categoria" class="form-control" />
             </div>
             <div class="input-group mb-3">
-              <input type="text" v-model="embalagemMaterial" class="form-control"  />
+              <input type="text" v-model="material.embalagem" class="form-control"  />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-mask="'#####'" v-model="quantidade" class="form-control"  />
+              <input type="text" v-mask="'#####'" v-model="material.quantidade" class="form-control"  />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="dataLancamento" class="form-control" />
+              <input type="text" v-model="realeseDate" class="form-control" />
             </div>
             <div align="center">
               <button type="button" class="btn btn-link fullLine"  @click="clearModalEdit()">Limpar</button>
@@ -165,20 +159,39 @@
 export default {
   data() {
     return {
-        descricaoMaterial: "Material 1",
-        classeMaterial: "Matematica",
-        categoriaMaterial: "Duradouro",
-        embalagemMaterial: "Embalagem 1",
-        quantidade: "10",
-        dataLancamento: "10/10/10 10:10"
-      
+      realeseDate: "",
+      nomeMaterial: "",
+      codigoMaterial: "",
+      allMaterials: [],
+      material: {
+        descricao: "",
+        classe: "",
+        categoria: "",
+        embalagem: "",
+        quantidade: "",
+        dataLancamento: "",
+      }
     };
   },
   computed: {},
 
   mounted() {},
 
+  created(){
+    this.seachMaterial();
+  },
+
   methods: {
+    seachMaterial(){
+      this.$http.get("http://localhost:8080/api/v1/material/getAll").then(
+        function(data) {
+          this.allMaterials = data.body;
+        },
+        error => {
+          console.error(error.data);
+        }
+      )
+    },
     hideDelete(){
       this.$modal.hide('confirmDelete');
     },
@@ -186,22 +199,67 @@ export default {
       //Enviar ID para BE para salvar
 
     },
-    confirmDelete() {
+    confirmDelete(materialID) {
+      this.$http
+      .get("http://localhost:8080/api/v1/material/" + materialID)
+      .then(
+        function(data) {
+          this.material = data.body;
+        },
+        error => {
+          console.error(error.data);
+        }
+      );
       this.$modal.show('confirmDelete');
-      this.id = id;
     },
-    show () {
-      this.isEdit = "true";
+    show (materialID) {
+      this.$http.get("http://localhost:8080/api/v1/material/" + materialID).then(
+        function(data) {
+          this.material = data.body;
+          this.convertToDate(this.material.dataLancamento);
+        },
+        error => {
+          console.error(error.data);
+        }
+      );
       this.$modal.show('allPageDisbled');
     },
-    showEdit () {
-      this.isEdit = "false";
+    showEdit (materialID) {
+      this.$http
+      .get("http://localhost:8080/api/v1/material/" + materialID)
+      .then(
+        function(data) {
+          this.material = data.body;
+          this.convertToDate(this.material.dataLancamento);
+        },
+        error => {
+          console.error(error.data);
+        }
+      );
       this.$modal.show('allPageEdit');
-
     //Recebendo os campos do BE
+    },
+    convertToDate(date){
+      date = date / 1000;
+      var newDate = new Date(date*1000); // converte para data
+      this.realeseDate = newDate.toLocaleDateString("pt-BR");
+    },
+    searchMaterialByNameOrCode(){
+      if((this.nomeMaterial != "") && (this.codigoMaterial == "")){
+        this.$http.get("http://localhost:8080/api/v1/material/getByName/" + this.nomeMaterial).then(
+          function(data) {
+            this.material = data.body;
+          },
+          error => {
+            console.error(error.data);
+          }
+        )
+      }else if ((this.nomeMaterial == "") && (this.codigoMaterial != "")){
+        //Segundo campo de persquisa de material
+      }else{
+        alert("Digite em algum campo para pesquisar!");
+      }
     }
-
-
   }
 };
 </script>

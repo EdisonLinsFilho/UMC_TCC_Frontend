@@ -36,7 +36,8 @@ export default {
     'meu-novo-usuario' : NovoUsuario,
     'meu-consulta-usuairo' : ConsultaUsuario,
   }
-};
+}
+
 </script>
 
 <style>

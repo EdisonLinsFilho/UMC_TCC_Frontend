@@ -109,7 +109,7 @@
             v-mask="'##/##/####'"
             placeholder
             class="form-control"
-            v-model="cadastro.dataLancamento"
+            v-model="releaseDate"
             id="data.lancamento"
             
           />
@@ -137,7 +137,8 @@ export default {
         (this.cadastro.embalagem = ""),
         (this.cadastro.quantidade = ""),
         (this.cadastro.quantidadeMinima = ""),
-        (this.cadastro.dataLancamento = "");
+        (this.cadastro.dataLancamento = ""),
+        (this.releaseDate = "");
     },
     validaCampos(){
       if(this.cadastro.nome == ""){
@@ -165,12 +166,16 @@ export default {
         alert("Preenchimento da Quantidade Minima é obrigatorio")
         return 
        }
+       if(this.releaseDate != ""){
+        var myDate = this.releaseDate.split("/");
+        var newDate = myDate[1] + "," + myDate[0] + "," + myDate[2];
+        this.cadastro.dataLancamento = new Date(newDate).getTime();
+       }
        
       this.$http.post("http://localhost:8080/api/v1/material", this.cadastro)
       .then(function(data) {
        this.resetFields();
         alert("Material salvo !");
-        this.agenda = data.body;
       },
       error =>{
         alert("Material não salvo !");
@@ -181,19 +186,20 @@ export default {
   },
   data() {
     return {
+      releaseDate: "",
       cadastro: {
         nome: "",
-        descricao: "",
-        quantidade: "",
-        quantidadeMinima: "",
-        dataLancamento: "1577313307",
         classe: "",
+        descricao: "",
         categoria: "",
         embalagem: "",
+        quantidade: "",
+        quantidadeMinima: "",
+        dataLancamento: "",
       }
     };
-  }
-};
+  },
+}
 </script>
 <style>
 .sour-tar {
