@@ -45,7 +45,7 @@
             <button class="btn btn-light btn-mennu">Agenda</button>
           </router-link>
           <router-link to="/usuario">
-            <button class="btn btn-light btn-mennu">Usuarios</button>
+            <button v-if="this.isCoordenador == true" class="btn btn-light btn-mennu">Usuarios</button>
           </router-link>
           <router-link to="/materials">
             <button class="btn btn-light btn-mennu">Material</button>
@@ -72,6 +72,9 @@ export default {
   data(){
     return{
       loggedoff: this.logoff,
+      isProfessor: "",
+      isMonitor: "",
+      isCoordenador: ""
     }
   },
 
@@ -79,8 +82,27 @@ export default {
     logoff() {
       this.loggedoff = 0;
       this.$emit("logOff", this.loggedoff);
+
+      localStorage.clear();
     }
   },
+  created() {
+    const acesso = localStorage.getItem('loggedAccess')
+
+    if(acesso == 'COORDENADOR'){
+      this.isCoordenador = true;
+      this.isMonitor = false;
+      this.isProfessor = false;
+    } else if(acesso == 'MONITOR') {
+      this.isCoordenador = false;
+      this.isMonitor = true;
+      this.isProfessor = false;
+    } else {
+      this.isCoordenador = false;
+      this.isMonitor = false;
+      this.isProfessor = true;
+    }
+  }
 };
 </script>
 

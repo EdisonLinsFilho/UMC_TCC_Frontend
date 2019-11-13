@@ -6,7 +6,7 @@
         <a class="nav-link active" data-toggle="pill" href="#search-material">Procurar Material</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#new-material">Cadastrar Material</a>
+        <a v-if="this.isProfessor == false" class="nav-link" data-toggle="pill" href="#new-material">Cadastrar Material</a>
       </li>
     </ul>
     <!-- Panels -->
@@ -29,12 +29,27 @@ import SearchMaterial from "./SearchMaterial.vue"
 export default {
   data() {
     return {
-     
+      isProfessor: "",
+      isMonitor: "",
     };
   },
   components: {
      "new-material": NewMaterial,
      "search-material": SearchMaterial
+  },
+  created() {
+    const acesso = localStorage.getItem('loggedAccess')
+
+    if(acesso == 'COORDENADOR'){
+      this.isMonitor = false;
+      this.isProfessor = false;
+    } else if(acesso == 'MONITOR') {
+      this.isMonitor = true;
+      this.isProfessor = false;
+    } else {
+      this.isMonitor = false;
+      this.isProfessor = true;
+    }
   }
 };
 </script>
