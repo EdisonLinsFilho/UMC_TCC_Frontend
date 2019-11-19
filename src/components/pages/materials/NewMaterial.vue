@@ -15,6 +15,7 @@
       </div>
 
       <div class="form-group col-md-4">
+
         <label>Classe Material</label>
         <font color="red">*</font>
         <select type="text" class="form-control" v-model="cadastro.classe" id="classe.material">
@@ -58,7 +59,8 @@
         </select>
       </div>
       <div class="form-group col-md-3">
-        <label>Embalagem Material</label>
+
+        <label >Embalagem Material</label>
         <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
@@ -109,7 +111,6 @@
         />
       </div>
     </div>
-
     <hr />
     <div id="actions" class="row">
       <div class="col-md-4">
@@ -131,7 +132,8 @@ export default {
         (this.cadastro.embalagem = ""),
         (this.cadastro.quantidade = ""),
         (this.cadastro.quantidadeMinima = ""),
-        (this.cadastro.dataLancamento = "");
+        (this.cadastro.dataLancamento = ""),
+        (this.releaseDate = "");
     },
     validaCampos() {
       if (this.cadastro.nome == "") {
@@ -158,7 +160,6 @@ export default {
         alert("Preenchimento da Quantidade Minima é obrigatorio");
         return;
       }
-
       this.$http
         .post("http://localhost:8080/api/v1/material", this.cadastro)
         .then(
@@ -176,19 +177,17 @@ export default {
   },
   data() {
     return {
+      releaseDate: "",
       cadastro: {
         nome: "",
-        descricao: "",
-        quantidade: "",
-        quantidadeMinima: "",
-        dataLancamento: "1577313307",
         classe: "",
+        descricao: "",
         categoria: "",
         embalagem: ""
       }
     };
-  }
-};
+  },
+}
 </script>
 <style>
 .sour-tar {

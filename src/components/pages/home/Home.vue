@@ -65,8 +65,6 @@
 </template>
 
 <script>
-
-
 export default {
   data() {
     return {
@@ -110,7 +108,7 @@ export default {
 
 /*export default {
   components: {
-    // "my-schedule-home": ScheduleHome
+    
   }
 };*/
 </script>

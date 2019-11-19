@@ -7,6 +7,7 @@
         <input
           type="text"
           v-model="material"
+
           required="required"
           class="form-control"
           placeholder="Digite  Material"
@@ -123,6 +124,7 @@
               <span></span>
               <i></i>
             </div>
+
           </td>
         </tr>
       </tbody>
@@ -308,6 +310,10 @@ export default {
   computed: {},
 
   mounted() {},
+
+  created(){
+    this.seachMaterial();
+  },
 
   methods: {
     hideDelete() {
