@@ -2,18 +2,7 @@
   <div class="container-fluid">
     <!-- Search bar -->
     <div class="row">
-      <div class="form-group col-md-2">
-        <label>Codigo Material</label>
-        <input
-          type="text"
-          v-model="material"
-          required="required"
-          class="form-control"
-          placeholder="Digitando...."
-          id="material"
-        />
-      </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-8">
         <label>Nome Material</label>
         <input
           type="text"
@@ -192,11 +181,11 @@
     </modal>
 
     <modal name="allPageEdit" height="auto">
+      <br />
       <hr />
       <h4 class="modal-title">Editar material</h4>
+      <hr />
       <div class="modal-fade">
-        <hr />
-        <br />
         <div class="form-group col-md-12">
           <label>
             <h5>Nome</h5>
@@ -241,11 +230,10 @@
     </modal>
 
     <modal name="confirmDelete" height="auto">
-      <hr />
       <br />
-      <p class="size" align="center">Deseja realmente excluir ?</p>
+      <h4 class="modal-title">Deseja realmente excluir ?</h4>
       <div align="center">
-        <hr />
+        <br />
         <button type="button" class="btn btn-link fullLine" @click="hideDelete()">Cancelar</button>
         <button type="button" class="btn btn-primary fullLine" @click="saveDelete()">Sim</button>
       </div>
@@ -256,21 +244,38 @@
       <h4 class="modal-title">Baixa Material</h4>
       <hr />
       <br />
-      <div class="form-group col-md-6">
-        <input type="text" v-model="descricaoMaterial" class="form-control" disabled />
+      <div class="row spaceLeft">
+        <div class="form-group col-md-12">
+          <label>
+            <h5>Nome do material</h5>
+          </label>
+          <input type="text" v-model="descricaoMaterial" class="form-control" disabled />
+        </div>
       </div>
-      <div class="form-group col-md-6">
-        <label>
-          <h5>Quantidade em estoque</h5>
-        </label>
-        <input type="text" v-mask="'#####'" v-model="quantidade" class="form-control" />
+      <div class="row spaceLeft">
+        <div class="form-group col-md-5">
+          <label>
+            <h5>Quantidade em estoque</h5>
+          </label>
+         <input type="text" v-mask="'#####'" v-model="quantidade" class="form-control" disabled />
+        </div>
+        <div class="form-group col-md-7">
+          <label>
+            <h5>Entrada / Saida</h5>
+          </label>
+          <select type="text" class="form-control" v-model="solicitacao">
+            <option value="ENTRADA" selected>Entrada</option>
+            <option value="SAIDA">Saida</option>
+          </select>
+        </div>
       </div>
-      <br />
-      <div class="form-group col-md-6">
-        <label>
-          <h5>Quantidade utilizada</h5>
-        </label>
-        <input type="text" v-model="quantidadeUtilizada" class="form-control" />
+      <div class="row spaceLeft">
+        <div class="form-group col-md-12">
+          <label>
+            <h5>Quantidade utilizada</h5>
+          </label>
+          <input type="text" v-model="quantidadeUtilizada" class="form-control" />
+        </div>
       </div>
       <br />
       <div align="center">
@@ -293,9 +298,10 @@ export default {
       categoriaMaterial: "Duradouro",
       embalagemMaterial: "Embalagem 1",
       quantidade: "10",
-      quantidadeUtilizada: "",
+      quantidadeUtilizada: "0",
       dataLancamento: "10/10/10 10:10",
-      id: ""
+      id: "",
+      solicitacao: ""
     };
   },
 
@@ -327,12 +333,23 @@ export default {
       this.$modal.show("confirmBaixa");
     },
     baixaMaterial() {
-      if (this.quantidadeUtilizada != "") {
+      if (this.solicitacao == "") {
+        alert("Entrada / Saida é obrigatório !");
+      } else if (
+        this.solicitacao == "ENTRADA" &&
+        this.quantidadeUtilizada != ""
+      ) {
+        var quantfinal =
+          parseInt(this.quantidade) + parseInt(this.quantidadeUtilizada);
+        this.quantidade = quantfinal;
+        this.quantidadeUtilizada = "0";
+      } else if (
+        parseInt(this.quantidade) < parseInt(this.quantidadeUtilizada)
+      ) {
+        alert("Quantidade utilizada maior que quantidade do estoque");
+      } else {
         this.quantidade -= this.quantidadeUtilizada;
-
-        if (this.quantidadeUtilizada > this.quantidade) {
-          alert("Quantidade utilizada maior que quantidade do estoque");
-        }
+        this.quantidadeUtilizada = "0";
       }
     },
 
@@ -387,5 +404,9 @@ i:hover {
 }
 h4.modal-title {
   text-align: center;
+}
+.spaceLeft{
+  padding-left: 15px;
+  padding-right: 15px;
 }
 </style>
