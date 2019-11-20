@@ -84,12 +84,7 @@ export default {
             alert('Email invalido !');
             return
           }else{
-            console.log(user.nome);
-            console.log(user.email);
-            console.log(user.status);
-            console.log(user.rgm);
-            console.log(user.senha);
-            console.log(user.acesso);
+           
             this.$http.post("http://localhost:8080/api/v1/usuario/saveOrUpdate", this.user).then(
               () => {
                 this.resetFields();
