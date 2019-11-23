@@ -84,12 +84,6 @@ export default {
             alert('Email invalido !');
             return
           }else{
-            console.log(user.nome);
-            console.log(user.email);
-            console.log(user.status);
-            console.log(user.rgm);
-            console.log(user.senha);
-            console.log(user.acesso);
             this.$http.post("http://localhost:8080/api/v1/usuario/saveOrUpdate", this.user).then(
               () => {
                 this.resetFields();
@@ -103,7 +97,8 @@ export default {
           alert('Sua senha deve conter pelo menos: \n - Um Caracter Maiusculo \n - Um Caracter Minusculo \n - Um Caracter Especial Ex: @ \n - Um Numero \n - Maior que 8 digitos ');
           return
         }
-      }
+      } 
+
     },
     resetFields() {
       (this.user.nome = ""),
