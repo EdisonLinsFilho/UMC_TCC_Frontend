@@ -1,52 +1,137 @@
 <template>
   <div class="container-fluid">
     <!-- Search bar -->
+    <div align="center">
+      <h3>Relatórios: Laboratório De Pedagogia</h3>
+    </div>
+    <br />
     <div class="row">
-      <div class="form-group col-md-2">
-        <label for="campoUm">Campo Um</label>
-        <input
-          type="text"
-          v-model="campoUm"
-          required="required"
-          class="form-control"
-          placeholder="Digitando********"
-          id="campos"
-        />
+      <div class="input-field col-md-3">
+        <label class="spaceTitle" for="datainicial">Data Inicial</label>
+        <font color="red">*</font>
+        <div class="input-group date">
+          <input
+            type="date"
+            v-model="dataInicial"
+            @change="verificaDataInicial()"
+            class="form-control"
+            id="dateInicial"
+          />
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-th"></span>
+          </div>
+        </div>
       </div>
-      <div class="form-group col-md-2">
-        <label for="campoDois">Campo Dois</label>
-        <input
-          type="text"
-          v-model="campoDois"
-          required="required"
-          class="form-control"
-          placeholder="Digite........"
-          id="campos"
-        />
+      <div class="form-group col-md-3">
+        <label class="spaceTitle" for>Data Final</label>
+        <font color="red">*</font>
+        <div class="input-group date">
+          <input
+            type="date"
+            id="dateFinal"
+            class="form-control"
+            v-model="dataFinal"
+            @change="verificaDataFinal()"
+          />
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-th"></span>
+          </div>
+        </div>
       </div>
+
       <div class="form-group col-md-4">
-        <label for="campoTres">Campo Três</label>
-        <input
-          type="text"
-          v-model="campoTres"
-          required="required"
-          class="form-control"
-          placeholder="Digitando........"
-          id="campos"
-        />
+        <label for="tiporelatorio">Tipo do Relatório</label>
+        <font color="red">*</font>
+        <select class="custom-select my-1 mr-sm-2" v-model="tiporelatorio" id="tiporelatorio">
+          <option disabled selected>Selecione uma opção...</option>
+          <option value="material">Material</option>
+          <option value="usuario">Usuário</option>
+          <option value="agenda">Agenda</option>
+        </select>
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-2">
         <label for="campos">
           <br />
         </label>
         <br />
-        <button type="button" class="btn btn-primary md-4" @click="procurarRelatorio()">Pesquisar</button>
+        <button type="submit" class="btn btn-success btn-xs" @click="procurarRelatorio()">Exportar</button>
       </div>
     </div>
   </div>
 </template>
 
+
+
+
 <script>
+$(document).ready(function() {
+  $(".datepicker").pickadate({
+    selectMonths: true,
+    selectYears: 15
+  });
+});
+</script>
+
+<script>
+export default {
+  methods: {
+    verificaDataFinal() {
+      console.log("Data Final: " + this.dataFinal);
+      if (
+        this.dataInicial != null &&
+        this.dataInicial != "" &&
+        this.dataFinal != ""
+      ) {
+        if (this.dataFinal < this.dataInicial) {
+          alert("Data Final deve ser maior ou igual a data inicial");
+          document.getElementById("dateFinal").value = "";
+          this.dataFinal = "";
+          return;
+        }
+      }
+    },
+    verificaDataInicial() {
+      if (
+        this.dataFinal != null &&
+        this.dataFinal != "" &&
+        this.dataInicial != ""
+      ) {
+        if (
+          document.getElementById("dateInicial").value >
+          document.getElementById("dateFinal").value
+        ) {
+          alert("Data Inicial deve ser menor ou igual a data final");
+          document.getElementById("dateInicial").value = "";
+          this.dataInicial = "";
+          return;
+        }
+      }
+    },
+    procurarRelatorio() {
+      if (
+        this.dataInicial == "" ||
+        this.dataFinal == "" ||
+        this.dataInicial == null ||
+        this.dataFinal == null
+      ) {
+        alert("Preenchimento das datas é obrigatorio");
+        return;
+      }
+
+      if (this.tiporelatorio == null) {
+        alert("Preenchimento do relatório é obrigatorio");
+        return;
+      }
+    }
+  },
+  data() {
+    return () => {
+      dataInicial: "";
+      dataFinal: "";
+      tiporelatorio: "";
+    };
+  }
+};
 </script>
 
 <style scoped>
@@ -81,5 +166,8 @@ i:hover {
 .fullLine {
   align-self: center;
   width: 297px;
+}
+.spaceTitle {
+  padding-bottom: 5px;
 }
 </style>
