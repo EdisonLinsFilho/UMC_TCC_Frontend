@@ -7,7 +7,7 @@
           <a class="nav-link item-mod active" data-toggle="pill" href="#consulta-usuario">Consulta Usuario</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link item-mod" data-toggle="pill" href="#novo-usuario">Novo Usuario</a>
+          <a class="nav-link item-mod" data-toggle="pill" href="#novo-usuario">Cadastrar Usuario</a>
         </li>
       </ul>
       <!-- conteudo dos pills -->
