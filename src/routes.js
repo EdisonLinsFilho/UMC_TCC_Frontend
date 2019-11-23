@@ -7,7 +7,6 @@ import NewMaterial from './components/pages/materials/NewMaterial.vue'
 import Usuarios from './components/pages/usuario/Usuarios.vue'
 import NovoUsuario from './components/pages/usuario/NovoUsuario.vue'
 import ConsultaUsuario from './components/pages/usuario/ConsultaUsuario.vue'
-import SingleUser from './components/pages/usuario/SingleUser.vue'
 import SingleUserLogged from './components/pages/usuario/SingleUserLogged.vue'
 
 //Telas referentes a Atividade
@@ -41,6 +40,7 @@ export default [
             next()
         }
     } },
+
     { path: '/usuario/novo', name: 'novoUsuario', component: NovoUsuario, beforeEnter: (to, from, next) => {
         if(localStorage.getItem('loggedAccess') == 'PROFESSOR' || localStorage.getItem('loggedAccess') == 'MONITOR') {
             next({name: 'homePage'})
@@ -55,6 +55,7 @@ export default [
             next()
         }
     } },
+
     { path: '/userme/:id', name: 'meUser', component: SingleUserLogged, beforeEnter: (to, from, next) => {
         if(localStorage.getItem('loggedAccess') == 'PROFESSOR' || localStorage.getItem('loggedAccess') == 'MONITOR') {
             next({name: 'homePage'})
@@ -62,13 +63,6 @@ export default [
             next()
         }
     }  },
-    { path: '/user/:id', name: 'userid', component: SingleUser, beforeEnter: (to, from, next) => {
-        if(localStorage.getItem('loggedAccess') == 'PROFESSOR' || localStorage.getItem('loggedAccess') == 'MONITOR') {
-            next({name: 'homePage'})
-        } else {
-            next()
-        }
-    } },
     { path: '*', component: Home },
 
     //Telas referentes a Atividade
