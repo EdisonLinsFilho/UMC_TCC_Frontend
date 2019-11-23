@@ -13,11 +13,6 @@
         </div>
 
         <div class="navbar navi-right" style="padding: 0 10px 0 0;">
-          <div class="searchbar-top">
-            <i class="material-icons">search</i>
-            <input type="text" class="my-input" placeholder="Search">
-          </div>
-
           <div class="user-icon dropdown dropleft">
             <button class="btn mylogo icon-img" data-toggle="dropdown">
               <img class="user-img" src="../../../assets/my-account.png">
