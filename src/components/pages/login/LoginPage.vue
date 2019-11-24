@@ -32,7 +32,7 @@
 
       <div class="row">
         <div class="col">
-          <button class="btn blue-button" @click.prevent="login()">
+          <button class="btn blue-button" @click="login()">
             <template v-if="loading">
               Entrando...
             </template>
@@ -88,6 +88,7 @@ export default {
               localStorage.setItem('loggedAccess', this.user.acesso);
               
               this.$emit('logIn', 1)
+
 
             }
 
