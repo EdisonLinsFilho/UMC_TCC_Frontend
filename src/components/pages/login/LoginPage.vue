@@ -76,24 +76,17 @@ export default {
 
         this.$http.post("http://localhost:8080/api/v1/usuario/authenticate", login).then(
           function(data) {
-            if(data.body == null){
-              alert('Usuario não encontrado !');
-            } else {
-              alert('Usuario logado !');
-              this.user = data.body;
-              
-              localStorage.setItem('logIn', 1);
-              localStorage.setItem('logInid', this.user.rgm);
-              localStorage.setItem('loggedAccess', this.user.acesso);
-              
-              this.$router.push({name: 'homePage'});
-
-            }
-
-           
+            this.user = data.body;
+            
+            localStorage.setItem('logIn', 1);
+            localStorage.setItem('logInid', this.user.rgm);
+            localStorage.setItem('loggedAccess', this.user.acesso);
+            
+            this.$emit('logIn', 1);
           },
           error => {
             console.error(error.data);
+            alert('Usuário Inválido !');
           }
         ); 
 
