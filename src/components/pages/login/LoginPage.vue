@@ -32,7 +32,7 @@
 
       <div class="row">
         <div class="col">
-          <button class="btn blue-button" @click="login()">
+          <button class="btn blue-button" @click.prevent="login()">
             <template v-if="loading">
               Entrando...
             </template>
@@ -77,22 +77,14 @@ export default {
 
         this.$http.post("http://localhost:8080/api/v1/usuario/authenticate", login).then(
           function(data) {
-            if(data.body == null){
-              alert('Usuario não encontrado !');
-            } else {
-              alert('Usuario logado !');
-              this.user = data.body;
-              
-              localStorage.setItem('logIn', 1);
-              localStorage.setItem('logInid', this.user.rgm);
-              localStorage.setItem('loggedAccess', this.user.acesso);
-              
-              this.$emit('logIn', 1)
+            this.user = data.body;
+            
+            localStorage.setItem('logIn', 1);
+            localStorage.setItem('logInid', this.user.rgm);
+            localStorage.setItem('loggedAccess', this.user.acesso);
+            
+            this.$emit('logIn', 1);
 
-
-            }
-
-           
           },
           error => {
             console.error(error.data);
