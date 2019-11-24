@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="form-group col-md-6">
-        <label >Material</label>
+        <label>Material</label>
         <font color="red">*</font>
         <input
           type="text"
@@ -15,14 +15,10 @@
       </div>
 
       <div class="form-group col-md-4">
-        <label >Classe Material</label>
+
+        <label>Classe Material</label>
         <font color="red">*</font>
-        <select
-          type="text"
-          class="form-control"
-          v-model="cadastro.classe"
-          id="classe.material"
-        >
+        <select type="text" class="form-control" v-model="cadastro.classe" id="classe.material">
           <option disabled selected>Selecione uma opção...</option>
           <option value="CIENCIA">Ciência</option>
           <option value="CONSUMO">Consumo</option>
@@ -36,7 +32,7 @@
       </div>
 
       <div class="form-group col-md-10">
-        <label >Descrição do Material</label>
+        <label>Descrição do Material</label>
         <textarea
           class="form-control"
           id="descricao.material"
@@ -48,7 +44,7 @@
 
     <div class="row">
       <div class="form-group col-md-3">
-        <label >Categoria Material</label>
+        <label>Categoria Material</label>
         <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
@@ -63,6 +59,7 @@
         </select>
       </div>
       <div class="form-group col-md-3">
+
         <label >Embalagem Material</label>
         <font color="red">*</font>
         <select
@@ -78,44 +75,42 @@
           <option value="OUTROS">Outros</option>
         </select>
       </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-2">
+        <label for="quantidade">Quantidade</label>
+        <font color="red">*</font>
+        <input
+          type="text"
+          v-mask="'#####'"
+          v-model="cadastro.quantidade"
+          class="form-control"
+          placeholder="Ex: 20"
+        />
       </div>
-        <div class = "row">
-        <div class="form-group col-md-2">
-          <label for="quantidade">Quantidade</label>
-          <font color="red">*</font>
-          <input
-            type="text"
-            v-mask="'#####'"
-            v-model="cadastro.quantidade"
-            class="form-control"
-            placeholder="Ex: 20"
-          />
-        </div>
-        <div class="form-group col-md-2">
-          <label for="quantidadeMinima">Quantidade Minima</label>
-          <font color="red">*</font>
-          <input
-            type="text"
-            v-mask="'#####'"
-            v-model="cadastro.quantidadeMinima"
-            class="form-control"
-            placeholder="Ex: 20"
-          />
-        </div>
-        <div class="form-group col-md-2">
-          <label for="data.lancamento">Data Lançamento</label>
-          <input
-            type="text"
-            v-mask="'##/##/####'"
-            placeholder
-            class="form-control"
-            v-model="releaseDate"
-            id="data.lancamento"
-            
-          />
-        </div>
+      <div class="form-group col-md-2">
+        <label for="quantidadeMinima">Quantidade Minima</label>
+        <font color="red">*</font>
+        <input
+          type="text"
+          v-mask="'#####'"
+          v-model="cadastro.quantidadeMinima"
+          class="form-control"
+          placeholder="Ex: 20"
+        />
       </div>
-    
+      <div class="form-group col-md-2">
+        <label for="data.lancamento">Data Lançamento</label>
+        <input
+          type="text"
+          v-mask="'##/##/####'"
+          placeholder
+          class="form-control"
+          v-model="cadastro.dataLancamento"
+          id="data.lancamento"
+        />
+      </div>
+    </div>
     <hr />
     <div id="actions" class="row">
       <div class="col-md-4">
@@ -140,49 +135,45 @@ export default {
         (this.cadastro.dataLancamento = ""),
         (this.releaseDate = "");
     },
-    validaCampos(){
-      if(this.cadastro.nome == ""){
+    validaCampos() {
+      if (this.cadastro.nome == "") {
         alert("Preenchimento do Material é obrigatorio");
-        return
+        return;
       }
-      if(this.cadastro.classe == ""){
-         alert("Preenchimento da Classe é obrigatorio");
-         return
-       }
-        if(this.cadastro.categoria == ""){
-         alert("Preenchimento da Categoria é obrigatorio");
-         return
-       }
-       if(this.cadastro.embalagem == ""){
-         alert("Preenchimento da Embalagem é obrigatorio");
-         return
-
-       }
-       if(this.cadastro.quantidade == ""){
+      if (this.cadastro.classe == "") {
+        alert("Preenchimento da Classe é obrigatorio");
+        return;
+      }
+      if (this.cadastro.categoria == "") {
+        alert("Preenchimento da Categoria é obrigatorio");
+        return;
+      }
+      if (this.cadastro.embalagem == "") {
+        alert("Preenchimento da Embalagem é obrigatorio");
+        return;
+      }
+      if (this.cadastro.quantidade == "") {
         alert("Preenchimento da Quantidade é obrigatorio");
-        return
-       }
-       if(this.cadastro.quantidadeMinima == ""){
-        alert("Preenchimento da Quantidade Minima é obrigatorio")
-        return 
-       }
-       if(this.releaseDate != ""){
-        var myDate = this.releaseDate.split("/");
-        var newDate = myDate[1] + "," + myDate[0] + "," + myDate[2];
-        this.cadastro.dataLancamento = new Date(newDate).getTime();
-       }
-       
-      this.$http.post("http://localhost:8080/api/v1/material", this.cadastro)
-      .then(function(data) {
-       this.resetFields();
-        alert("Material salvo !");
-      },
-      error =>{
-        alert("Material não salvo !");
-        console.log(error.data);
-      });
-
-  }
+        return;
+      }
+      if (this.cadastro.quantidadeMinima == "") {
+        alert("Preenchimento da Quantidade Minima é obrigatorio");
+        return;
+      }
+      this.$http
+        .post("http://localhost:8080/api/v1/material", this.cadastro)
+        .then(
+          function(data) {
+            this.resetFields();
+            alert("Material salvo !");
+            this.agenda = data.body;
+          },
+          error => {
+            alert("Material não salvo !");
+            console.log(error.data);
+          }
+        );
+    }
   },
   data() {
     return {
@@ -192,10 +183,7 @@ export default {
         classe: "",
         descricao: "",
         categoria: "",
-        embalagem: "",
-        quantidade: "",
-        quantidadeMinima: "",
-        dataLancamento: "",
+        embalagem: ""
       }
     };
   },
