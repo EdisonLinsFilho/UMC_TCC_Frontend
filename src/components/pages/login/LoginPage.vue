@@ -56,6 +56,7 @@ export default {
   },
   data() {
     return {
+      interval: null,
       loading: false,
       inputMail: "",
       inputSenha: "",
@@ -86,7 +87,8 @@ export default {
               localStorage.setItem('logInid', this.user.rgm);
               localStorage.setItem('loggedAccess', this.user.acesso);
               
-              this.$router.push({name: 'homePage'});
+              this.$emit('logIn', 1)
+
 
             }
 
@@ -94,6 +96,7 @@ export default {
           },
           error => {
             console.error(error.data);
+            alert('Usuário Inválido !');
           }
         ); 
 
@@ -104,7 +107,14 @@ export default {
       this.loading = false;
 
     },
+
   },
+  created(){
+    //this.verificarLogin();
+  },
+  beforeDestroy(){
+    //clearInterval(this.interval)
+  }
   
 };
 </script>
