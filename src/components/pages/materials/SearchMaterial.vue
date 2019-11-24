@@ -2,27 +2,14 @@
   <div class="container-fluid">
     <!-- Search bar -->
     <div class="row">
-      <div class="form-group col-md-5">
+      <div class="form-group col-md-10">
         <input
           type="text"
-          v-on:keydown="procuraMaterialFiltro()"
           v-model="nomeParaPesquisa"
+          v-on:keyup="procuraMaterialFiltro()"
           class="form-control"
           placeholder="Digite o Nome do Material"
         />
-      </div>
-      <div class="form-group col-md-5">
-        <select type="text" class="form-control" @change="procuraMaterialFiltro()" v-model="classeParaPesquisa">
-          <option value="">Nenhuma</option>
-          <option value="CIENCIA">Ciência</option>
-          <option value="CONSUMO">Consumo</option>
-          <option value="DESENVOLVIMENTO_COGNITIVO">Desenvolvimento Cognitivo</option>
-          <option value="EDUCACAO_FISICA">Educação Física</option>
-          <option value="LINGUA_PORTUGUESA">Língua Portuguesa</option>
-          <option value="MATEMATICA">Matemática</option>
-          <option value="NATUREZA_E_SOCIEDADE">Natureza e Sociedade</option>
-          <option value="OUTROS">Outros</option>
-        </select>
       </div>
       <div class="form-group col-md-2">
         <button type="button" class="btn btn-primary md-4" @click="procurarMaterial()">Limpar</button>
@@ -296,7 +283,7 @@ export default {
       quantidadeUtilizada: "0",
       id: "",
       solicitacao: "SAIDA",
-      interval: ""
+      interval: "",
     };
   },
   beforeDestroy(){
@@ -321,28 +308,8 @@ export default {
       if(this.nomeParaPesquisa.length < 2 && this.classeParaPesquisa == ""){
         this.procurarMaterial();
       } else {
-        
-        if(this.nomeParaPesquisa.length > 2){
-          this.procurarMaterialporNome(this.nomeParaPesquisa);
-        }
-        
-        if(this.classeParaPesquisa != ""){
-          this.procurarMaterialporClasse(this.classeParaPesquisa)
-          console.log('Entrei por Classe');
-        }
-
-      if(this.materiaisPorNome == []){
-        this.allMaterials = this.materiaisPorClasse
-        return;
-      } else if(this.materiaisPorClasse == []){
-        this.allMaterials = this.materiaisPorNome
-        return;
-      } else {
-        this.materiaisPorClasse.forEach(this.verificaMesmoObjeto1());
+        this.procurarMaterialporNome(this.nomeParaPesquisa);
       }
-
-      }
-      
     },
     verificarNovoMaterial(){
       this.interval = setInterval(function () {
@@ -359,33 +326,28 @@ export default {
       this.material.id = idMaterial;
     },
     procurarMaterialporNome(nome){
-      this.$http.get("http://localhost:8080/api/v1/material/" + nome).then(
+      this.$http.get("http://localhost:8080/api/v1/material/getByName/" + nome).then(
         function(data) {
-          console.log('Chamei por Nome');
-          
-
           this.materiaisPorNome = data.body;
+          this.allMaterials = data.body;
         },
         error => {
-          console.error(error.data);
+          this.materiaisPorNome = [];
         }
       )
     },
     procurarMaterialporClasse(classe){
-      this.$http.get("http://localhost:8080/api/v1/material/" + classe).then(
+      this.$http.get("http://localhost:8080/api/v1/material/getByClasse/" + classe).then(
         function(data) {
-          console.log('Chamei por Classe');
-          
           this.materiaisPorClasse = data.body;
+         
         },
         error => {
-          console.error(error.data);
+          this.materiaisPorClasse = [];
         }
       )
     },
     procurarMaterial(){
-      this.nomeParaPesquisa = "";
-      this.classeParaPesquisa = "";
       this.$http.get("http://localhost:8080/api/v1/material/getAll").then(
         function(data) {
           this.allMaterials = data.body;
