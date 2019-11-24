@@ -1,144 +1,71 @@
 <template>
-  <div class="main">
+  <div class="main"> 
     <div class="row">
-      <div class="col-10 col-align">
-        <h1>{{ user.name }}</h1>
+      <div class="form-group col-md-6">
+        <label for="user-Skype">Nome</label>
+        <input
+        type="text"
+        class="form-control"
+        placeholder="Digite seu nome"
+        v-model="user.nome ">
       </div>
+      <div class="form-group col-md-6">
+        <label for="user-cell">RGM</label>
+        <input
+          v-model="user.rgm"
+          type="txt"
+          class="form-control item"
+          v-mask="'###########'"
+          id="user-rgm"
+          placeholder="Digite seu Registro de matricula"> 
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="user-password">Senha</label>
+        <input 
+          v-model="user.senha" 
+          type="password" 
+          class="form-control" 
+          id="user-password"
+          placeholder="Digite sua senha">
+      </div>
+      <div class="form-group col-md-6">
+        <label >Confirmar senha</label>
+        <input 
+          v-model="confirmaSenha"
+          class="form-control"
+          type="password"
+          placeholder="Digite sua senha novamente"> 
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="user-email">Email</label>
+        <input
+          v-model="user.email"
+          type="text"
+          class="form-control"
+          placeholder="nome@exemplo.com"
+          >
+      </div>
+      <div class="form-group col-md-6">
+        <label for="user-slack">Cargo</label>
+        <select class="custom-select my-1 mr-sm-2" disabled v-model="user.acesso">
+            <option value="COORDENADOR">Coordenador</option>
+            <option value="PROFESSOR">Professor</option>
+            <option value="MONITOR">Monitor</option>
+          </select>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-2">
         <button class="btn blue-button" @click.prevent="saveEdits()">
-          Save
+          Salvar
           <i class="material-icons">done</i>
         </button>
       </div>
     </div>
-
-    <hr>
-    <div class="row">
-      <div class="col-5">
-        <div class="form-group">
-          <label for="user-email">Email address:</label>
-          <input
-            v-model="user.email"
-            type="email"
-            class="form-control"
-            id="user-email"
-            placeholder="name@example.com"
-          >
-        </div>
-      </div>
-      <div class="col-5">
-        <div class="form-group">
-          <label for="user-password">Password</label>
-          <input v-model="user.password" type="password" class="form-control" id="user-password">
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-5">
-        <div class="form-group">
-          <label for="user-cell">Phone:</label>
-          <input
-            v-model="user.phone_number"
-            type="text"
-            class="form-control item"
-            id="phone-number"
-            placeholder="Numbers only, exemple: +1 305 555-1234"
-          >
-        </div>
-      </div>
-
-      <div class="col-5">
-        <div class="form-group col-md-3">
-          <label for="user-currency" class="coin">Currency</label>
-          <select
-            id="inputState"
-            class="form-control coin"
-            v-model="user.currency"
-            placeholder="Currency"
-          >
-            <option>BRL</option>
-            <option>EUR</option>
-            <option>DOLL</option>
-            <option>LIB</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-5">
-        <div class="user-slack">
-          <label for="user-slack">Slack Handle</label>-
-          <input
-            type="text"
-            class="form-control"
-            id="user-slack"
-            v-model="user.slack_id "
-            placeholder="Slack name"
-          >
-        </div>
-        <div class="user-skype">
-          <label for="user-Skype">Skype Id</label>
-          <input
-            type="text"
-            class="form-control"
-            id="user-Skype"
-            placeholder="Skype account"
-            v-model="user.skype_id "
-          >
-        </div>
-      </div>
-      <div class="col-5">
-        <label for="langTable">Languages table</label>
-        <table class="table table-hover sour-tar">
-          <thead>
-            <tr>
-              <th>Source</th>
-              <th></th>
-              <th>Target</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(pair, i) in user.language_pairs" :key="i">
-              <td>{{pair.source}}</td>
-              <td>></td>
-              <td>{{pair.target}}</td>
-              <td>
-                <span class="trash" @click="remLangPair(user.language_pairs.indexOf(pair))">
-                  <span></span>
-                  <i></i>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-          <thead>
-            <tr class="add-new-p">
-              <th>
-                <div class="form-group">
-                  <select class="form-control" id="source" v-model="sourLang">
-                    <option v-for="language in languages" :key="language">{{language}}</option>
-                  </select>
-                </div>
-              </th>
-              <th></th>
-              <th>
-                <div class="form-group">
-                  <select class="form-control" id="target" v-model="tarLang">
-                    <option v-for="lang2 in languages" :key="lang2">{{lang2}}</option>
-                  </select>
-                </div>
-              </th>
-              <th class="align-icon">
-                <button class="add-button" @click="addLangPair()">
-                  <i class="material-icons add-icon">add_circle</i>
-                </button>
-              </th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </div>
-
 
   </div>
 </template>
@@ -147,14 +74,51 @@
 export default {
   data() {
     return {
+      confirmaSenha: "",
       id: this.$route.params.id,
       sourLang: "",
       tarLang: "",
-      user: {},
-      languages: ["PT-BR", "ENG-US", "ESP", "RUSS", "GER", "JP", "KOR"]
+      user: {
+        nome: "",
+        acesso: "",
+        status: "ACTIVE",
+        email: "",
+        senha: "",
+        rgm: ""
+        },
+      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
     };
   },
   methods: {
+    saveEdits() {
+      if(this.user.senha != this.confirmaSenha){
+        alert('Confirmação de Senha Invalida ! \n A senha nos dois campos devem ser iguais !');
+        return
+      } else {
+        // Validar Senha
+        var lowerCaseLetters = /[a-z]/g;
+        var upperCaseLetters = /[A-Z]/g;
+        var numbers = /[0-9]/g;
+        if(this.user.senha.match(lowerCaseLetters) && this.user.senha.match(upperCaseLetters) && this.user.senha.match(numbers) && this.user.senha.length >= 8) {   
+          if(this.reg.test(this.user.email) == false){
+            alert('Email invalido !');
+            return
+          }else{
+           
+            this.$http.post("http://localhost:8080/api/v1/usuario/saveOrUpdate",this.user).then( () => {
+              alert('Usuario Atualizado !');
+            },
+              error => {
+                console.error(error.data);
+              }
+            );
+          }
+        } else {
+          alert('Sua senha deve conter pelo menos: \n - Um Caracter Maiusculo \n - Um Caracter Minusculo \n - Um Caracter Especial Ex: @ \n - Um Numero \n - Maior que 8 digitos ');
+          return
+        }
+      }
+    },
    
     addLangPair() {
       this.user.language_pairs.push({
@@ -167,21 +131,17 @@ export default {
     remLangPair(index) {
       this.user.language_pairs.splice(index, 1);
     },
-    saveEdits() {
-      this.$http
-        .put("http://localhost:8080/miniworks/user", this.user)
-        .then(function() {
-          alert("Changes were saved");
-        });
-    }
   },
 
   mounted() {
-    this.$http
-      .get("http://localhost:8080/miniworks/user/" + this.id)
-      .then(function(data) {
-        this.user = data.body;
-      });
+    this.user.rgm = localStorage.getItem('logInid');
+    this.user.acesso = localStorage.getItem('loggedAccess');
+    this.user.nome = localStorage.getItem('usuarioNome');
+    this.user.email = localStorage.getItem('usuarioEmail');
+    this.user.id = localStorage.getItem('usuarioId');
+    this.user.senha = localStorage.getItem('usuarioSenha');
+    this.confirmaSenha = this.user.senha;
+
   }
 };
 </script>

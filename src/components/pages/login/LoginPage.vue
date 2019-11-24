@@ -56,10 +56,11 @@ export default {
   },
   data() {
     return {
+      interval: null,
       loading: false,
       inputMail: "",
       inputSenha: "",
-      user: [],
+      user: {},
     };
   },
 
@@ -81,8 +82,12 @@ export default {
             localStorage.setItem('logIn', 1);
             localStorage.setItem('logInid', this.user.rgm);
             localStorage.setItem('loggedAccess', this.user.acesso);
-            
+            localStorage.setItem('usuarioNome', this.user.nome);
+            localStorage.setItem('usuarioEmail', this.inputMail);
+            localStorage.setItem('usuarioId', this.user.id);
+            localStorage.setItem('usuarioSenha', this.inputSenha);
             this.$emit('logIn', 1);
+
           },
           error => {
             console.error(error.data);
@@ -97,7 +102,14 @@ export default {
       this.loading = false;
 
     },
+
   },
+  created(){
+    //this.verificarLogin();
+  },
+  beforeDestroy(){
+    //clearInterval(this.interval)
+  }
   
 };
 </script>

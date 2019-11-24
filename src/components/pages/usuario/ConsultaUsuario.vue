@@ -17,7 +17,7 @@
     </div>
     <!-- Template Output da busca -->
     <div class="container">
-      <table class="table table-hover">
+      <table class="table table-hover" >
         <thead>
           <tr>
             <th>Nome</th>
@@ -139,6 +139,7 @@ export default {
   
   data() {
     return {
+      interval: null,
       nomeParaPesquisa: "",
       rgmParaPesuisa: "",
       reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
@@ -173,7 +174,7 @@ export default {
   methods: {
     clearAll(){
       this.nomeParaPesquisa = "";
-      this.users = [];
+      this.searchUser();
     },
     show(userBD) {
       this.$http.get("http://localhost:8080/api/v1/usuario/" + userBD).then(
@@ -278,9 +279,25 @@ export default {
           console.error(error.data);
         });
       } else {
-        this.users = [];
+        this.searchUser();
       }
+    },
+    verificarNovoUsuario(){
+      this.interval = setInterval(function () {
+        var check = localStorage.getItem('usuarioNovo');
+        if(check == 1){
+          this.searchUser();
+          localStorage.setItem('usuarioNovo', 0);
+        }
+      }.bind(this), 1500); 
     }
+  },
+  created(){
+    this.searchUser();
+    this.verificarNovoUsuario()
+  },
+  beforeDestroy(){
+    clearInterval(this.interval)
   }
 };
 </script>
