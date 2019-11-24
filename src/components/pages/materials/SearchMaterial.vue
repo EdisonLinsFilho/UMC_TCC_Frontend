@@ -182,54 +182,33 @@
       </div>
     </modal>
 
-    <modal name="allPageEdit" height="auto">
-      <br />
-      <hr />
-      <h4 class="modal-title">Editar material</h4>
-      <hr />
-      <div class="modal-fade">
-        <div class="form-group col-md-12">
-          <label>
-            <h5>Nome</h5>
-          </label>
-          <input type="text" v-model="descricaoMaterial" class="form-control" />
-        </div>
-        <div class="form-group col-md-12">
-          <label>
-            <h5>Classe</h5>
-          </label>
-          <input type="text" v-model="classeMaterial" class="form-control" />
-        </div>
-        <div class="form-group col-md-12">
-          <label>
-            <h5>Categoria</h5>
-          </label>
-          <input type="text" v-model="categoriaMaterial" class="form-control" />
-        </div>
-        <div class="form-group col-md-12">
-          <label>
-            <h5>Embalagem</h5>
-          </label>
-          <input type="text" v-model="embalagemMaterial" class="form-control" />
-        </div>
-        <div class="form-group col-md-12">
-          <label>
-            <h5>Quantidade</h5>
-          </label>
-          <input type="text" v-mask="'#####'" v-model="quantidade" class="form-control" />
-        </div>
-        <div class="form-group col-md-12">
-          <label>
-            <h5>Data</h5>
-          </label>
-          <input type="text" v-model="dataLancamento" class="form-control" />
-        </div>
-        <div align="center">
-          <button type="button" class="btn btn-link fullLine" @click="clearModalEdit()">Limpar</button>
-          <button type="button" class="btn btn-primary fullLine" @click="saveEdit()">Salvar</button>
-        </div>
-      </div>
-    </modal>
+        <modal name="allPageEdit" height="auto"	>
+          <div class="borda">
+            <br/>
+           <div class="input-group mb-3">
+              <input type="text" v-model="material.descricao" class="form-control" />
+            </div >
+            <div class="input-group mb-3">
+              <input type="text" v-model="material.classe" class="form-control" />
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" v-model="material.categoria" class="form-control" />
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" v-model="material.embalagem" class="form-control"  />
+            </div >
+            <div class="input-group mb-3">
+              <input type="text" v-mask="'#####'" v-model="material.quantidade" class="form-control"  />
+            </div >
+            <div class="input-group mb-3">
+              <input type="text" v-mask="'##/##/####'" v-model="realeseDate" class="form-control" />
+            </div>
+            <div align="center">
+              <button type="button" class="btn btn-link fullLine"  @click="clearModalEdit()">Limpar</button>
+              <button type="button" class="btn btn-primary fullLine" @click="saveEdit()">Salvar</button>
+            </div>    
+          </div>
+        </modal>
 
     <modal name="confirmDelete" height="auto">
       <br />
@@ -312,12 +291,23 @@ export default {
   mounted() {},
 
   created(){
-    this.seachMaterial();
+    this.searchMaterial();
   },
 
   methods: {
-    hideDelete() {
-      this.$modal.hide("confirmDelete");
+    searchMaterial(){
+      this.$http.get("http://localhost:8080/api/v1/material/getAll").then(
+        function(data) {
+          this.allMaterials = data.body;
+        },
+        error => {
+          console.error(error.data);
+        }
+      )
+    },
+    hideDelete(){
+      this.$modal.hide('confirmDelete');
+
     },
     saveDelete() {
       //Enviar ID para BE para salvar
@@ -325,9 +315,34 @@ export default {
     confirmDelete() {
       this.$modal.show("confirmDelete");
     },
-    show() {
-      this.isEdit = "true";
-      this.$modal.show("allPageDisbled");
+    saveEdit(){
+      if(this.realeseDate != ""){
+        var myDate = this.realeseDate.split("/");
+        console.log(this.realeseDate);
+        var newDate = myDate[1] + "," + myDate[0] + "," + myDate[2];
+        this.material.dataLancamento = new Date(newDate).getTime();
+      }
+      this.$http.post("http://localhost:8080/api/v1/material", this.material).then(
+        () => {
+          this.$modal.hide("allPageEdit");
+          this.searchMaterial();
+        },
+        error => {
+          console.error(error.data);
+        }
+      );
+    },
+    show (materialID) {
+      this.$http.get("http://localhost:8080/api/v1/material/" + materialID).then(
+        function(data) {
+          this.material = data.body;
+          this.convertToDate(this.material.dataLancamento);
+        },
+        error => {
+          console.error(error.data);
+        }
+      );
+      this.$modal.show('allPageDisbled');
     },
     showEdit() {
       this.isEdit = "false";
