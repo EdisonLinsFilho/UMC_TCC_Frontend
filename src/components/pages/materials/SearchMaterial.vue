@@ -1,77 +1,130 @@
 <template>
   <div class="container-fluid">
     <!-- Search bar -->
- <div class="row">
-      <div class="form-group col-md-2">
-         <label >Codigo Material</label>
-        <input type="text"
-          v-model="codigoMaterial"
-          required="required"
-          class="form-control"
-          placeholder="Digitando........."
-          id="material" />
-      </div>
-      <div class="form-group col-md-6" >
-         <label >Nome Material</label>
-        <input type="text"
-          v-model="nomeMaterial"
+    <div class="row">
+      <div class="form-group col-md-8">
+        <label>Nome Material</label>
+        <input
+          type="text"
+          v-model="material"
+
           required="required"
           class="form-control"
           placeholder="Digite  Material"
-          id="material"  />
-          
+          id="material"
+        />
       </div>
-    <div class="form-group col-md-4" >
-       <label >
-         <br/>
-       </label>
-      <br/>
-        <button type="button" class="btn btn-primary md-4" @click="searchMaterialByNameOrCode()">Pesquisar</button>
- </div>
- </div>
-    <br/>
-    <table class="table" >
+      <div class="form-group col-md-4">
+        <label>
+          <br />
+        </label>
+        <br />
+        <button type="button" class="btn btn-primary md-4" @click="procurarmaterial()">Pesquisar</button>
+      </div>
+    </div>
+    <br />
+    <table class="table">
       <thead>
         <tr>
           <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Nome Material
-            </a>
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Nome Material</a>
           </th>
           <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Classe Material
-            </a>
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Classe Material</a>
           </th>
           <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Categoria Material
-            </a>
-          </th>
-    <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Quantidade Estoque
-            </a>
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Categoria Material</a>
           </th>
           <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              
-            </a>
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Quantidade Estoque</a>
           </th>
-          <th>
+          <th scope="col">
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >&emsp;Ações</a>
+          </th>
+          <th scope="col">
+            <a
+              style="color: black"
+              class="link-table"
+              data-toggle="collapse"
+              role="text"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >Baixa</a>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(mat ,i) in allMaterials" :key="i">
-          <td>{{mat.nome}}</td>
-          <td>{{mat.classe}}</td>
-          <td>{{mat.categoria}}</td>
-          <td>{{mat.quantidade}}</td>
-          <td width="15%" align="right">
-            <button type="button" class="btnTable open" @click="show(mat.id)" ></button>
-            <button type="button" class="btnTable edit" @click="showEdit(mat.id)" ></button>
-            <button type="button" class="btnTable delete" @click="confirmDelete(mat.id)" ></button>
+        <tr>
+          <td>Material 1</td>
+          <td>Matematica</td>
+          <td>Duradouro</td>
+          <td>10</td>
+          <td width="14%" align="Left">
+            <div class="material-icons" style="cursor: pointer" @click="show()">
+              search&ensp;
+              <span></span>
+              <i></i>
+            </div>
+
+            <div class="material-icons" style="cursor: pointer" @click="showEdit()">
+              edit&ensp;
+              <span></span>
+              <i></i>
+            </div>
+
+            <span class="trash" @click="confirmDelete()">
+              <span></span>
+              <i></i>
+            </span>
+          </td>
+          <td>
+            <div
+              class="material-icons"
+              style="cursor: pointer"
+              data-toggle="modal"
+              data-target=".bd-example-modal-lg"
+              @click="confirmBaixa()"
+            >
+              &ensp;import_export
+              <span></span>
+              <i></i>
+            </div>
+
           </td>
         </tr>
       </tbody>
@@ -85,30 +138,49 @@
         <tbody></tbody>
       </table>
     </div>
-<!-- PopUp -->
-        <modal name="allPageDisbled" height="auto"	>
-          <div class="borda">
-            <br/>
-           <div class="input-group mb-3">
-              <input type="text" v-model="material.descricao" class="form-control" disabled/>
-            </div >
-            <div class="input-group mb-3">
-              <input type="text" v-model="material.classe" class="form-control" disabled/>
-            </div>
-            <div class="input-group mb-3">
-              <input type="text" v-model="material.categoria" class="form-control" disabled/>
-            </div>
-            <div class="input-group mb-3">
-              <input type="text" v-model="material.embalagem" class="form-control"  disabled/>
-            </div >
-            <div class="input-group mb-3">
-              <input type="text" v-mask="'#####'" v-model="material.quantidade" class="form-control"  disabled/>
-            </div >
-            <div class="input-group mb-3">
-              <input type="text" v-model="realeseDate" class="form-control" disabled/>
-            </div>    
-          </div>
-        </modal>
+    <!-- PopUp -->
+    <modal name="allPageDisbled" height="auto">
+      <br />
+      <hr />
+      <h4 class="modal-title">Visualização de material</h4>
+      <hr />
+      <div class="form-group col-md-12">
+        <label>
+          <h5>Nome</h5>
+        </label>
+        <input type="text" v-model="descricaoMaterial" class="form-control" disabled />
+      </div>
+      <div class="form-group col-md-12">
+        <label>
+          <h5>Classe</h5>
+        </label>
+        <input type="text" v-model="classeMaterial" class="form-control" disabled />
+      </div>
+      <div class="form-group col-md-12">
+        <label>
+          <h5>Categoria</h5>
+        </label>
+        <input type="text" v-model="categoriaMaterial" class="form-control" disabled />
+      </div>
+      <div class="form-group col-md-12">
+        <label>
+          <h5>Embalagem</h5>
+        </label>
+        <input type="text" v-model="embalagemMaterial" class="form-control" disabled />
+      </div>
+      <div class="form-group col-md-12">
+        <label>
+          <h5>Quantidade</h5>
+        </label>
+        <input type="text" v-mask="'#####'" v-model="quantidade" class="form-control" disabled />
+      </div>
+      <div class="form-group col-md-12">
+        <label>
+          <h5>Data</h5>
+        </label>
+        <input type="text" v-model="dataLancamento" class="form-control" disabled />
+      </div>
+    </modal>
 
         <modal name="allPageEdit" height="auto"	>
           <div class="borda">
@@ -129,7 +201,7 @@
               <input type="text" v-mask="'#####'" v-model="material.quantidade" class="form-control"  />
             </div >
             <div class="input-group mb-3">
-              <input type="text" v-model="realeseDate" class="form-control" />
+              <input type="text" v-mask="'##/##/####'" v-model="realeseDate" class="form-control" />
             </div>
             <div align="center">
               <button type="button" class="btn btn-link fullLine"  @click="clearModalEdit()">Limpar</button>
@@ -138,51 +210,92 @@
           </div>
         </modal>
 
-        <modal name="confirmDelete" height="auto"	>
-          <div class="borda">
-            <br/>
-            <p class="size" align="center">Deseja realmente excluir ?</p>
-            <div align="center">
-              <button type="button" class="btn btn-link fullLine"  @click="hideDelete()">Cancelar</button>
-              <button type="button" class="btn btn-primary fullLine" @click="saveDelete()">Sim</button>
-            </div>  
-          </div>
-        </modal>
-        <!-- PopUp -->
+    <modal name="confirmDelete" height="auto">
+      <br />
+      <h4 class="modal-title">Deseja realmente excluir ?</h4>
+      <div align="center">
+        <br />
+        <button type="button" class="btn btn-link fullLine" @click="hideDelete()">Cancelar</button>
+        <button type="button" class="btn btn-primary fullLine" @click="saveDelete()">Sim</button>
+      </div>
+    </modal>
+    <!--aqui a modal de Baixa-->
+    <modal name="confirmBaixa" height="auto">
+      <hr />
+      <h4 class="modal-title">Baixa Material</h4>
+      <hr />
+      <br />
+      <div class="row spaceLeft">
+        <div class="form-group col-md-12">
+          <label>
+            <h5>Nome do material</h5>
+          </label>
+          <input type="text" v-model="descricaoMaterial" class="form-control" disabled />
+        </div>
+      </div>
+      <div class="row spaceLeft">
+        <div class="form-group col-md-5">
+          <label>
+            <h5>Quantidade em estoque</h5>
+          </label>
+         <input type="text" v-mask="'#####'" v-model="quantidade" class="form-control" disabled />
+        </div>
+        <div class="form-group col-md-7">
+          <label>
+            <h5>Entrada / Saida</h5>
+          </label>
+          <select type="text" class="form-control" v-model="solicitacao">
+            <option value="ENTRADA" selected>Entrada</option>
+            <option value="SAIDA">Saida</option>
+          </select>
+        </div>
+      </div>
+      <div class="row spaceLeft">
+        <div class="form-group col-md-12">
+          <label>
+            <h5>Quantidade utilizada</h5>
+          </label>
+          <input type="text" v-model="quantidadeUtilizada" class="form-control" />
+        </div>
+      </div>
+      <br />
+      <div align="center">
+        <button type="button" class="btn btn-success fullLine" @click="baixaMaterial()">Baixar</button>
+        <button type="button" class="btn btn-primary fullLine" @click="saveBaixa()">Salvar</button>
+      </div>
+    </modal>
 
+    <!-- PopUp -->
   </div>
-  
-
 </template>
+
 
 <script>
 export default {
   data() {
     return {
-      realeseDate: "",
-      nomeMaterial: "",
-      codigoMaterial: "",
-      allMaterials: [],
-      material: {
-        descricao: "",
-        classe: "",
-        categoria: "",
-        embalagem: "",
-        quantidade: "",
-        dataLancamento: "",
-      }
+      descricaoMaterial: "Material 1",
+      classeMaterial: "Matematica",
+      categoriaMaterial: "Duradouro",
+      embalagemMaterial: "Embalagem 1",
+      quantidade: "10",
+      quantidadeUtilizada: "0",
+      dataLancamento: "10/10/10 10:10",
+      id: "",
+      solicitacao: ""
     };
   },
+
   computed: {},
 
   mounted() {},
 
   created(){
-    this.seachMaterial();
+    this.searchMaterial();
   },
 
   methods: {
-    seachMaterial(){
+    searchMaterial(){
       this.$http.get("http://localhost:8080/api/v1/material/getAll").then(
         function(data) {
           this.allMaterials = data.body;
@@ -194,23 +307,30 @@ export default {
     },
     hideDelete(){
       this.$modal.hide('confirmDelete');
-    },
-    saveDelete(){
-      //Enviar ID para BE para salvar
 
     },
-    confirmDelete(materialID) {
-      this.$http
-      .get("http://localhost:8080/api/v1/material/" + materialID)
-      .then(
-        function(data) {
-          this.material = data.body;
+    saveDelete() {
+      //Enviar ID para BE para salvar
+    },
+    confirmDelete() {
+      this.$modal.show("confirmDelete");
+    },
+    saveEdit(){
+      if(this.realeseDate != ""){
+        var myDate = this.realeseDate.split("/");
+        console.log(this.realeseDate);
+        var newDate = myDate[1] + "," + myDate[0] + "," + myDate[2];
+        this.material.dataLancamento = new Date(newDate).getTime();
+      }
+      this.$http.post("http://localhost:8080/api/v1/material", this.material).then(
+        () => {
+          this.$modal.hide("allPageEdit");
+          this.searchMaterial();
         },
         error => {
           console.error(error.data);
         }
       );
-      this.$modal.show('confirmDelete');
     },
     show (materialID) {
       this.$http.get("http://localhost:8080/api/v1/material/" + materialID).then(
@@ -224,40 +344,39 @@ export default {
       );
       this.$modal.show('allPageDisbled');
     },
-    showEdit (materialID) {
-      this.$http
-      .get("http://localhost:8080/api/v1/material/" + materialID)
-      .then(
-        function(data) {
-          this.material = data.body;
-          this.convertToDate(this.material.dataLancamento);
-        },
-        error => {
-          console.error(error.data);
-        }
-      );
-      this.$modal.show('allPageEdit');
-    //Recebendo os campos do BE
+    showEdit() {
+      this.isEdit = "false";
+      this.$modal.show("allPageEdit");
+
+      //Recebendo os campos do BE
     },
-    convertToDate(date){
-      date = date / 1000;
-      var newDate = new Date(date*1000); // converte para data
-      this.realeseDate = newDate.toLocaleDateString("pt-BR");
+    confirmBaixa() {
+      this.$modal.show("confirmBaixa");
     },
-    searchMaterialByNameOrCode(){
-      if((this.nomeMaterial != "") && (this.codigoMaterial == "")){
-        this.$http.get("http://localhost:8080/api/v1/material/getByName/" + this.nomeMaterial).then(
-          function(data) {
-            this.material = data.body;
-          },
-          error => {
-            console.error(error.data);
-          }
-        )
-      }else if ((this.nomeMaterial == "") && (this.codigoMaterial != "")){
-        //Segundo campo de persquisa de material
-      }else{
-        alert("Digite em algum campo para pesquisar!");
+    baixaMaterial() {
+      if (this.solicitacao == "") {
+        alert("Entrada / Saida é obrigatório !");
+      } else if (
+        this.solicitacao == "ENTRADA" &&
+        this.quantidadeUtilizada != ""
+      ) {
+        var quantfinal =
+          parseInt(this.quantidade) + parseInt(this.quantidadeUtilizada);
+        this.quantidade = quantfinal;
+        this.quantidadeUtilizada = "0";
+      } else if (
+        parseInt(this.quantidade) < parseInt(this.quantidadeUtilizada)
+      ) {
+        alert("Quantidade utilizada maior que quantidade do estoque");
+      } else {
+        this.quantidade -= this.quantidadeUtilizada;
+        this.quantidadeUtilizada = "0";
+      }
+    },
+
+    saveBaixa() {
+      if (this.quantidade < 10) {
+        alert("Quantidade do material em estoque, está abaixo da média");
       }
     }
   }
@@ -271,30 +390,44 @@ i {
 i:hover {
   color: var(--birorange);
 }
-.open{
-  background-color:greenyellow;
+.open {
+  background-color: greenyellow;
   border-radius: 2px;
   padding: 0;
   border: none;
 }
-.edit{
+.edit {
   background-color: blue;
   border-radius: 2px;
   padding: 0;
   border: none;
 }
-.delete{
+.delete {
   background-color: red;
   border-radius: 2px;
   padding: 0;
   border: none;
 }
-.btnTable{
+
+.btnTable {
   height: 20px;
   width: 20px;
 }
-.fullLine{
+.fullLine {
   align-self: center;
-  width: 297px
+  width: 297px;
+}
+.show {
+  cursor: pointer;
+}
+.material-icons:hover {
+  color: red;
+}
+h4.modal-title {
+  text-align: center;
+}
+.spaceLeft{
+  padding-left: 15px;
+  padding-right: 15px;
 }
 </style>

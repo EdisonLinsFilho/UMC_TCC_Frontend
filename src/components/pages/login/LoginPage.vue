@@ -56,6 +56,7 @@ export default {
   },
   data() {
     return {
+      interval: null,
       loading: false,
       inputMail: "",
       inputSenha: "",
@@ -83,6 +84,7 @@ export default {
             localStorage.setItem('loggedAccess', this.user.acesso);
             
             this.$emit('logIn', 1);
+
           },
           error => {
             console.error(error.data);
@@ -97,7 +99,14 @@ export default {
       this.loading = false;
 
     },
+
   },
+  created(){
+    //this.verificarLogin();
+  },
+  beforeDestroy(){
+    //clearInterval(this.interval)
+  }
   
 };
 </script>
