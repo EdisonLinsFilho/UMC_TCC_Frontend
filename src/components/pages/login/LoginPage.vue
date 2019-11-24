@@ -56,6 +56,7 @@ export default {
   },
   data() {
     return {
+      interval: null,
       loading: false,
       inputMail: "",
       inputSenha: "",
@@ -77,17 +78,26 @@ export default {
         this.$http.post("http://localhost:8080/api/v1/usuario/authenticate", login).then(
           function(data) {
             if(data.body == null){
-              alert("Usuario não encontrado !");
+              alert('Usuario não encontrado !');
             } else {
+              alert('Usuario logado !');
               this.user = data.body;
-              console.log(this.user);
               
+              localStorage.setItem('logIn', 1);
+              localStorage.setItem('logInid', this.user.rgm);
+              localStorage.setItem('loggedAccess', this.user.acesso);
+              
+              this.$emit('logIn', 1)
+
             }
+
+           
           },
           error => {
             console.error(error.data);
+            alert('Usuário Inválido !');
           }
-        );
+        ); 
 
       } else {
         alert("Todos os campos são obrigatórios.");
@@ -96,7 +106,14 @@ export default {
       this.loading = false;
 
     },
+
   },
+  created(){
+    //this.verificarLogin();
+  },
+  beforeDestroy(){
+    //clearInterval(this.interval)
+  }
   
 };
 </script>
