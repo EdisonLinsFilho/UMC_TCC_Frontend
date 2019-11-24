@@ -32,7 +32,7 @@
 
       <div class="row">
         <div class="col">
-          <button class="btn blue-button" @click="login()">
+          <button class="btn blue-button" @click.prevent="login()">
             <template v-if="loading">
               Entrando...
             </template>
