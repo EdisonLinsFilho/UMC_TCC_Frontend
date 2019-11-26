@@ -35,7 +35,7 @@
           </div>    
         </div>
         <div class="row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label for="campo1">RGM </label>
             <input type="text" class="form-control" v-mask="'###########'" v-model="user.rgm" placeholder="Digite o RGM do Novo Usuario"  />
           </div>   

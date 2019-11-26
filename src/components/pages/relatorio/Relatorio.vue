@@ -6,7 +6,7 @@
     </div>
     <br />
     <div class="row">
-      <div class="input-field col-md-3">
+      <!-- <div class="input-field col-md-3">
         <label class="spaceTitle" for="datainicial">Data Inicial</label>
         <font color="red">*</font>
         <div class="input-group date">
@@ -37,7 +37,7 @@
             <span class="glyphicon glyphicon-th"></span>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="form-group col-md-4">
         <label for="tiporelatorio">Tipo do Relatório</label>
@@ -62,8 +62,10 @@
 
 
 
-
 <script>
+
+import { saveAs } from 'file-saver';
+
 $(document).ready(function() {
   $(".datepicker").pickadate({
     selectMonths: true,
@@ -108,7 +110,7 @@ export default {
       }
     },
     procurarRelatorio() {
-      if (
+      /* if (
         this.dataInicial == "" ||
         this.dataFinal == "" ||
         this.dataInicial == null ||
@@ -121,14 +123,56 @@ export default {
       if (this.tiporelatorio == null) {
         alert("Preenchimento do relatório é obrigatorio");
         return;
-      }
+      } */
+
+      console.log(this.dataInicial);
+      console.log(this.dataFinal);
+      console.log(this.tiporelatorio);
+      
+      var envio = new FormData(); 
+      envio.append('startDate', this.dataInicial);
+      envio.append('endDate', this.dataFinal);
+      envio.append('type', this.tiporelatorio);
+
+      this.$http.post("http://localhost:8080/api/v1/report", envio).then(
+          function(data) {
+            alert('Chamei !');
+            console.log(data.body);
+
+            const url = URL.createObjectURL(new Blob([data.body], {
+              type: 'application/vnd.ms-excel'
+            }))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'relatorio.xlsx')
+            document.body.appendChild(link)
+            link.click()
+
+
+            // Remove anchor from body
+            document.body.removeChild(a)
+
+
+
+
+
+
+
+          },
+          error => {
+            console.error(error.data);
+          }
+        ); 
+
+
+
     }
   },
   data() {
-    return () => {
-      dataInicial: "";
-      dataFinal: "";
-      tiporelatorio: "";
+    return {
+      dataInicial: 1574613868,
+      dataFinal: 1574700000,
+      tiporelatorio: "agenda",
     };
   }
 };

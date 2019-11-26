@@ -4,7 +4,7 @@
     <div class="row">
       <div class="form-group col-md-10">
         <input
-          v-on:keydown="searchUserByName()"
+          v-on:keyup="searchUserByName()"
           type="text"
           class="form-control"
           v-model="nomeParaPesquisa"
@@ -246,7 +246,6 @@ export default {
       }
     },
     searchUser() {
-      this.nomeParaPesquisa = "";
       this.$http.get("http://localhost:8080/api/v1/usuario/getAll").then(
         function(data) {
           this.users = data.body;
@@ -270,7 +269,7 @@ export default {
         );
     },
     searchUserByName(){
-      if(this.nomeParaPesquisa != "" && this.nomeParaPesquisa.length > 1){
+      if(this.nomeParaPesquisa != "" && this.nomeParaPesquisa.length > 2){
         this.$http.get("http://localhost:8080/api/v1/usuario/getByName/" + this.nomeParaPesquisa).then(
           function(data) {
           this.users = data.body;
@@ -285,7 +284,6 @@ export default {
     verificarNovoUsuario(){
       this.interval = setInterval(function () {
         var check = localStorage.getItem('usuarioNovo');
-        console.log('Usuario: ' + check);
         if(check == 1){
           this.searchUser();
           localStorage.setItem('usuarioNovo', 0);

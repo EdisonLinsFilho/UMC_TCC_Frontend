@@ -3,7 +3,6 @@
     <div class="row">
       <div class="form-group col-md-6">
         <label>Material</label>
-        <font color="red">*</font>
         <input
           type="text"
           v-model="cadastro.nome"
@@ -14,10 +13,9 @@
         />
       </div>
 
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-6">
 
         <label>Classe Material</label>
-        <font color="red">*</font>
         <select type="text" class="form-control" v-model="cadastro.classe" id="classe.material">
           <option disabled selected>Selecione uma opção...</option>
           <option value="CIENCIA">Ciência</option>
@@ -31,7 +29,7 @@
         </select>
       </div>
 
-      <div class="form-group col-md-10">
+      <div class="form-group col-md-12">
         <label>Descrição do Material</label>
         <textarea
           class="form-control"
@@ -43,9 +41,8 @@
     </div>
 
     <div class="row">
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-6">
         <label>Categoria Material</label>
-        <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
           v-model="cadastro.categoria"
@@ -58,10 +55,9 @@
           <option value="OUTROS">Outros</option>
         </select>
       </div>
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-6">
 
         <label >Embalagem Material</label>
-        <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
           v-model="cadastro.embalagem"
@@ -77,41 +73,27 @@
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-md-2">
+      <div class="form-group col-md-6">
         <label for="quantidade">Quantidade</label>
-        <font color="red">*</font>
         <input
           type="text"
-          v-mask="'#####'"
+          v-mask="'######'"
           v-model="cadastro.quantidade"
           class="form-control"
           placeholder="Ex: 20"
         />
       </div>
-      <div class="form-group col-md-2">
+      <div class="form-group col-md-6">
         <label for="quantidadeMinima">Quantidade Minima</label>
-        <font color="red">*</font>
         <input
           type="text"
-          v-mask="'#####'"
+          v-mask="'######'"
           v-model="cadastro.quantidadeMinima"
           class="form-control"
           placeholder="Ex: 20"
         />
       </div>
-      <div class="form-group col-md-2">
-        <label for="data.lancamento">Data Lançamento</label>
-        <input
-          type="text"
-          v-mask="'##/##/####'"
-          placeholder
-          class="form-control"
-          v-model="cadastro.dataLancamento"
-          id="data.lancamento"
-        />
-      </div>
     </div>
-    <hr />
     <div id="actions" class="row">
       <div class="col-md-4">
         <button type="submit" @click="validaCampos()" class="btn btn-primary">Salvar</button>
@@ -167,6 +149,7 @@ export default {
             this.resetFields();
             alert("Material salvo !");
             this.agenda = data.body;
+            localStorage.setItem('novoMaterial', 1);
           },
           error => {
             alert("Material não salvo !");
