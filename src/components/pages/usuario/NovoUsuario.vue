@@ -92,6 +92,8 @@ export default {
                 console.error(error.data);
               }
             );
+
+            localStorage.setItem('usuarioNovo', 1);
           }
         } else {
           alert('Sua senha deve conter pelo menos: \n - Um Caracter Maiusculo \n - Um Caracter Minusculo \n - Um Caracter Especial Ex: @ \n - Um Numero \n - Maior que 8 digitos ');
