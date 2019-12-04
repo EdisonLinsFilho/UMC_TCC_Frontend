@@ -1,60 +1,47 @@
 <template>
   <div class="container-fluid">
-    <div align="center">
-      <h3>Agendas: Laboratório De Pedagogia</h3>
-    </div>
-    <table class="table" selectable :select-mode="selectMode">
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Descrição Atividade</th>
+            <th>Numero de Alunos</th>
+            <th>Disciplina</th>
+            <th>Data</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tdSize"><i class="material-icons yellow" title="Proxima Atividade">error</i></td>
+            <td>Descrição Atividade</td>
+            <td>20</td>
+            <td>Matematica</td>
+            <td>01/01/2010 10:10</td>
+            <td><i class="material-icons">search</i></td>
+          </tr>
+        </tbody>
+      </table>
+    <br/>
+      <hr/>
+    <br/>
+    <table class="table">
       <thead>
         <tr>
-          <th scope="col">
-            <a
-              style="color: black"
-              class="link-table"
-              data-toggle="collapse"
-              role="text"
-              aria-expanded="false"
-              aria-controls="collapseExample"
-            >Data Do Agendamento</a>
-          </th>
-          <th scope="col">
-            <a
-              style="color: black"
-              class="link-table"
-              data-toggle="collapse"
-              role="text"
-              aria-expanded="false"
-              aria-controls="collapseExample"
-            >Escola</a>
-          </th>
-          <th scope="col">
-            <a
-              style="color: black"
-              class="link-table"
-              data-toggle="collapse"
-              role="text"
-              aria-expanded="false"
-              aria-controls="collapseExample"
-            >Disciplina</a>
-          </th>
-          <th scope="col">
-            <a
-              style="color: black"
-              class="link-table"
-              data-toggle="collapse"
-              role="text"
-              aria-expanded="false"
-              aria-controls="collapseExample"
-            >Professor</a>
-          </th>
           <th></th>
+          <th>Nome Material</th>
+          <th>Descrição Material</th>
+          <th>Quantidade</th>
+          <th>Quantidade Minima</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>10/10/1010 10:10</td>
-          <td>Universidade Mogi</td>
-          <td>Matematica</td>
-          <td>Gilmar Souza</td>
+        <tr v-for="(material ,i) in materiaisSeparados" :key="i">
+          <td class="tdSize"><i class="material-icons red" title="Material com Quantidade abaixo de Quantidade Minima">error</i></td>
+          <td>{{material.nome}}</td>
+          <td>{{material.descricao}}</td>
+          <td>{{material.quantidade}}</td>
+          <td>{{material.quantidadeMinima}}</td>
         </tr>
       </tbody>
     </table>
@@ -68,41 +55,37 @@
 export default {
   data() {
     return {
-      agenda: [],
-      id: "",
-      data: "",
-      professor: "",
-      descricao: "",
-      material: "",
-      escola: "",
-      coordenator: "",
-      tipoEnsino: "",
-      criancas: "",
-      monitor: "",
-      responsavel: "",
-      professorToSearch: "",
-      dataToSearch: ""
+      allMaterials: [],
+      materiaisSeparados: [],
+      materialParaVerificacao: [],
     };
   },
   methods: {
-    procurarAgenda() {
-      if (
-        (this.professorToSearch == null && this.dataToSearch == null) ||
-        (this.professorToSearch == "" && this.dataToSearch == "")
-      ) {
-        //Search All
-        this.$http
-          .get("http://localhost:8080/api/v1/agenda/getAll")
-          .then(function(data) {
-            this.agenda = data.body;
-          });
-      }
+    procurarMateriais(){
+      this.$http.get("http://localhost:8080/api/v1/material/getAll").then(
+        function(data) {
+          this.allMaterials = data.body;
+          this.separarMateriais();
+        },
+        error => {
+          console.error(error.data);
+        }
+      )
     },
-    saveEdit() {
-      this.$modal.hide("allPageEdit");
-    }
+    separarMateriais(){
+      for(var i = 0; i < this.allMaterials.length; i++){
+        this.materialParaVerificacao = this.allMaterials[i];
+        if(this.materialParaVerificacao.quantidade < this.materialParaVerificacao.quantidadeMinima){
+          this.materiaisSeparados.push(this.materialParaVerificacao);
+        }
+      }
+
+      
+    },
   },
-  computed: {},
+  mounted() {
+    this.procurarMateriais();
+  },
   
 };
 
@@ -170,5 +153,14 @@ export default {
   text-align: center;
   text-align-last: center;
   text-anchor: middle;
+}
+.yellow {
+  color: yellow
+}
+.red {
+  color: red
+}
+.tdSize {
+  width: 10px
 }
 </style>
