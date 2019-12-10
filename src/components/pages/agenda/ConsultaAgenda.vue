@@ -15,26 +15,10 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Data/Hora
-            </a>
-          </th>
-          <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Descricao
-            </a>
-          </th>
-          <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Material
-            </a>
-          </th>
-          <th scope="col">
-            <a style="color: black" class="link-table" data-toggle="collapse" role="text" aria-expanded="false" aria-controls="collapseExample">
-              Professor
-            </a>
-          </th>
+          <th scope="col">Data/Hora</th>
+          <th scope="col">Descricao</th>
+          <th scope="col">Material</th>
+          <th scope="col">Professor</th>
           <th>
           </th>
         </tr>
@@ -45,10 +29,21 @@
           <td></td>
           <td></td>
           <td></td>
-          <td width="9%" align="right">
-            <!-- <button type="button" class="btnTable open" @click="show(agenda.id)" ></button>
-            <button type="button" class="btnTable edit" @click="showEdit(agenda.id)" ></button>
-            <button type="button" class="btnTable delete" @click="confirmDelete(agenda.id)" ></button> -->
+          <td width="14%" align="right">
+            <div class="material-icons" style="cursor: pointer" @click="show(agenda)">
+              search&ensp;
+              <span></span>
+              <i></i>
+            </div>
+            <div class="material-icons" style="cursor: pointer" @click="showEdit(agenda)">
+              edit&ensp;
+              <span></span>
+              <i></i>
+            </div>
+            <span class="trash" @click="confirmDelete(agenda)">
+              <span></span>
+              <i></i>
+            </span>      
           </td>
         </tr>
       </tbody>
@@ -58,34 +53,44 @@
           <div class="borda">
             <br/>
            <div class="input-group mb-3">
+              <label>Descrição</label>
               <input type="text" v-model="agenda.descricao" class="form-control" disabled/>
             </div >
-            <div class="input-group mb-3">
+            <div class="form-group col-md-12">
+              <label>Material</label>
               <input type="text" v-model="agenda.material" class="form-control" disabled/>
             </div>
-            <div class="input-group mb-3">
+            <div class="form-group col-md-12">
+              <label>Escola</label>
               <input type="text" v-model="agenda.escola" class="form-control" disabled/>
             </div>
-            <div class="input-group mb-3">
+            <div class="form-group col-md-12">
+              <label>Tipo de Ensino</label>
               <input type="text" v-model="agenda.tipoEnsino" class="form-control"  disabled/>
             </div >
-            <div class="input-group mb-3">
+            <div class="form-group col-md-12">
+              <label>Numero de Crianças</label>
               <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control"  disabled/>
             </div >
-            <div class="input-group mb-3">
+            <div class="form-group col-md-12">
+              <label>Responsaveis</label>
               <input type="text" v-model="agenda.responsavel" class="form-control" disabled/>
             </div >
-            <div class="input-group mb-3">
+            <div class="form-group col-md-12">
+              <label>Coordenador</label>
               <input type="text" v-model="agenda.coordenator" class="form-control" disabled/>
             </div>
-            <div class="input-group mb-3">
+            <div class="form-group col-md-12">
+              <label>Professor</label>
               <input type="text" v-model="agenda.professor" class="form-control" disabled/>
             </div >
-            <div class="input-group mb-3">
+            <div class="form-group col-md-12">
+              <label>Monitor</label>
               <input type="text" v-model="agenda.monitor" class="form-control" disabled/>
             </div >
-            <div class="input-group mb-3">
-             <input type="text" v-model="agenda.data" class="form-control" disabled/>
+            <div class="form-group col-md-12">
+              <label>Data</label>
+              <input type="text" v-model="agenda.data" class="form-control" disabled/>
             </div >
             
           </div>
