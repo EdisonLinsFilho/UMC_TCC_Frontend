@@ -13,7 +13,6 @@
               class="date"
               type="datetime"
               v-model="agenda.data"
-              minute-step="15"
               :placeholder="'Selecione uma Data'"
             ></datetime>
           </div>  
@@ -276,7 +275,12 @@ export default {
           nome: "",
           rg: ""
         }],
-      }
+      },
+      materialDto: {
+        materialId: "",
+        quantidadeUtilizada: "",
+      },
+      quantidadeUtilizadaDto: [],
     } 
   }, 
   methods: {
@@ -285,6 +289,12 @@ export default {
         alert('A quantidade a ser utilizada deve ser menor que a disponível !');
       } else {
         this.materiaisParaAtividade.push(this.materialSelecionado);
+        this.agenda.material.push(this.materialSelecionado);
+
+        this.materialDto.materialId = this.materialSelecionado.id;
+        this.materialDto.quantidadeUtilizada = this.materialSelecionado.quantidade;
+
+        this.quantidadeUtilizadaDto.push(this.materialDto);
         this.hideMaterial();
       }
       
@@ -294,7 +304,7 @@ export default {
     salvarAgenda(){
 
       var date = Date.parse(this.agenda.data)
-      
+
       let agenda = {
         status: this.agendada,
         coordenator: this.agenda.coordenator,
@@ -306,6 +316,8 @@ export default {
         data: date,
         resposaveis: this.novosResponsaveis,
         materiais: this.materiaisParaAtividade,
+        quantidadeMaterialUtilizadoDto: this.quantidadeUtilizadaDto,
+        
       }
 
       this.$http
@@ -323,9 +335,13 @@ export default {
     },
     remMaterial(index){
       this.materiaisParaAtividade.splice(index, 1);
+      this.quantidadeUtilizadaDto.splice(index, 1);
+      this.agenda.material.splice(index, 1);
     },
     addResponsavel() {
       this.novosResponsaveis.push(this.responsavelSelect)
+      
+
       this.responsavelSelect = []
     },
     clearModal(){
