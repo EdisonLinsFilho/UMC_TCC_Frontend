@@ -21,6 +21,14 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import Routes from './routes.js'
 
+//AXIOS
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+// import {saveAs} from 'file-saver'
+ 
+Vue.use(axios, VueAxios)
+
 import './assets/css/styles.css'
 import VueResource from 'vue-resource';
 // Vue.http.options.root = 'http://localhost:8080/miniworks/';
