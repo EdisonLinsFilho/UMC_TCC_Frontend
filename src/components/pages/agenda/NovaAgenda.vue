@@ -166,11 +166,11 @@
         </div>
         <br/>
       </form>
-      <container >
+      <div>
         <button type="button" class="btn btn-primary" @click="salvarAgenda()">Salvar</button>
         <button type="button" class="btn btn-link" v-on:click="resetFields()" >Limpar</button>
       
-      </container>
+      </div>
     </div>
 
     <!-- MODALS -->

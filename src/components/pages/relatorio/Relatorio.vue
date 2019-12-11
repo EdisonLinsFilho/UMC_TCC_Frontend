@@ -142,8 +142,6 @@ export default {
           document.body.appendChild(link);
           link.click();
         });
-
-      // this.$http.post("http://localhost:8080/api/v1/report", envio).then
     }
   },
   data() {
