@@ -1,14 +1,31 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col">
-        <input type="text" class="form-control" v-mask="'##/##/#### ##:##'" v-model="dataToSearch" placeholder="Digite a data"  />
+      <div class="col-8" v-if="filtroPorData">
+        <datetime
+          class="date"
+          type="datetime"
+          v-model="dataToSearch"
+          :placeholder="'Selecione uma Data'"
+          :close="procurarAgendaPorData()"
+        ></datetime>
       </div>
-      <div class="col-8" >
-        <input type="text" v-model="professorToSearch" class="form-control fullLineProf" placeholder="Digite o nome do professor"  />
+      <div class="col-8" v-if="!filtroPorData">
+        <cool-select
+          @select="procurarAgendaPorProfessor()"
+          item-text="nome"
+          class="camposDropDown"
+          v-model="professorToSearch"
+          :items="professores"
+          placeholder="Pesquise o Nome do Professor"
+        />
       </div>
-      <div class="col">
-        <button type="button" class="btn btn-primary" @click="procurarAgenda()" >Pesquisar</button>
+      <div class="col-4">
+        <select type="text" class="btn bordaAzul" @change="changeFiltro()" v-model="filtro">
+          <option value="Data">Data</option>
+          <option value="Professor">Professor</option>
+        </select>
+        <button type="button" class="btn btn-primary" @click="limparFiltros()">Limpar</button>
       </div>
     </div>
     <br/>
@@ -17,18 +34,24 @@
         <tr>
           <th scope="col">Data/Hora</th>
           <th scope="col">Descricao</th>
-          <th scope="col">Material</th>
-          <th scope="col">Professor</th>
+          <th scope="col">Numero de Crianças</th>
+          <th scope="col">Materiais e Responsaveis</th>
           <th>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr v-for="(agenda ,i) in agendas" :key="i">
+          <td>{{agenda.data}}</td>
+          <td>{{agenda.descricao}}</td>
+          <td>{{agenda.criancas}}</td>
+          <td width="10%" class="alinhamento">
+            <div class="material-icons" style="cursor: pointer" @click="showMateriaisEResponsaveis(agenda)">
+              search&ensp;
+              <span></span>
+              <i></i>
+            </div>
+          </td>
           <td width="14%" align="right">
             <div class="material-icons" style="cursor: pointer" @click="show(agenda)">
               search&ensp;
@@ -49,32 +72,41 @@
       </tbody>
     </table>
        <!-- PopUp -->
-        <modal name="allPageDisbled" height="auto"	>
+       <modal name="materiaisEResponsaveis" height="auto">
+          <div class="borda">
+          <br/>
+            <div class="form-group col-md-12">
+              <label>Responsaveis</label>
+              <tr v-for="(responsavel, i) in agenda.resposaveis" :key="i">
+                <td class="spaceLeft">{{responsavel.nome}}</td>
+              </tr>
+            </div>
+          <hr>
+            <div class="form-group col-md-12">
+              <label>Materiais</label>
+              <tr v-for="(material, i) in agenda.materiais" :key="i">
+                <td class="spaceLeft">{{material.nome}}</td>
+              </tr>
+            </div>
+          </div>
+        </modal>
+
+        <modal name="allPageDisbled" height="auto">
           <div class="borda">
             <br/>
-           <div class="input-group mb-3">
-              <label>Descrição</label>
-              <input type="text" v-model="agenda.descricao" class="form-control" disabled/>
-            </div >
-            <div class="form-group col-md-12">
-              <label>Material</label>
-              <input type="text" v-model="agenda.material" class="form-control" disabled/>
-            </div>
             <div class="form-group col-md-12">
               <label>Escola</label>
               <input type="text" v-model="agenda.escola" class="form-control" disabled/>
             </div>
             <div class="form-group col-md-12">
               <label>Tipo de Ensino</label>
-              <input type="text" v-model="agenda.tipoEnsino" class="form-control"  disabled/>
-            </div >
-            <div class="form-group col-md-12">
-              <label>Numero de Crianças</label>
-              <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control"  disabled/>
-            </div >
-            <div class="form-group col-md-12">
-              <label>Responsaveis</label>
-              <input type="text" v-model="agenda.responsavel" class="form-control" disabled/>
+              <select
+                class="custom-select my-1 mr-sm-2"
+                v-model="agenda.tipoEnsino"
+                disabled >
+              <option value="FUNDAMENTAL">Fundamental</option>
+              <option value="PRIMARIO">Primário</option>
+            </select>
             </div >
             <div class="form-group col-md-12">
               <label>Coordenador</label>
@@ -88,46 +120,55 @@
               <label>Monitor</label>
               <input type="text" v-model="agenda.monitor" class="form-control" disabled/>
             </div >
-            <div class="form-group col-md-12">
-              <label>Data</label>
-              <input type="text" v-model="agenda.data" class="form-control" disabled/>
-            </div >
-            
           </div>
         </modal>
 
         <modal name="allPageEdit" height="auto"	>
           <div class="borda">
             <br/>
-            <div class="input-group mb-3">
-              <input type="text" v-model="agenda.descricao" class="form-control" placeholder="Descrição da Atividade" />
-            </div >
-            <div class="input-group mb-3">
-              <input type="text" v-model="agenda.material" class="form-control" placeholder="Material da Atividade"/>
+            <div class="form-group col-md-12">
+              <label>Escola</label>
+              <input type="text" v-model="agenda.escola" maxlength="50" class="form-control"/>
             </div>
-            <div class="input-group mb-3">
-              <input type="text" v-model="agenda.escola" class="form-control" placeholder="Escola da Atividade" />
+            <div class="form-group col-md-12">
+              <label>Tipo de Ensino</label>
+              <select
+                class="custom-select my-1 mr-sm-2"
+                v-model="agenda.tipoEnsino"
+              >
+                <option value="FUNDAMENTAL">Fundamental</option>
+                <option value="PRIMARIO">Primário</option>
+              </select>
+            </div >
+            <div class="form-group col-md-12">
+              <label>Coordenador</label>
+               <cool-select
+                item-text="nome"
+                class="camposDropDown"
+                v-model="agenda.coordenator"
+                :items="coordenadores"
+                placeholder="Pesquisa o Nome do Coordenador"
+              />
             </div>
-            <div class="input-group mb-3">
-              <input type="text" v-model="agenda.tipoEnsino" class="form-control" placeholder="Ensino da Atividade" />
+            <div class="form-group col-md-12">
+              <label>Professor</label>
+              <cool-select
+                item-text="nome"
+                class="camposDropDown"
+                v-model="agenda.professor"
+                :items="professores"
+                placeholder="Pesquise o Nome do Professor"
+              />
             </div >
-            <div class="input-group mb-3">
-              <input type="text" v-mask="'##'" v-model="agenda.criancas" class="form-control" placeholder="Numero de crianças da Atividade" />
-            </div >
-            <div class="input-group mb-3">
-              <input type="text" v-model="agenda.responsavel" class="form-control" placeholder="Responsavel da Atividade" />
-            </div >
-            <div class="input-group mb-3">
-              <input type="text" v-model="agenda.coordenator" class="form-control" placeholder="Coordenador da Atividade" />
-            </div>
-            <div class="input-group mb-3">
-              <input type="text" v-model="agenda.professor" class="form-control" placeholder="Professor da Atividade" />
-            </div >
-            <div class="input-group mb-3">
-              <input type="text" v-model="agenda.monitor" class="form-control" placeholder="Monitor da Atividade" />
-            </div >
-            <div class="input-group mb-3">
-             <input type="text" v-model="agenda.data" class="form-control" placeholder="Data da Atividade" />
+            <div class="form-group col-md-12">
+              <label>Monitor</label>
+               <cool-select
+                item-text="nome"
+                class="camposDropDown"
+                v-model="agenda.monitor"
+                :items="monitores"
+                placeholder="Pesquise o Nome do Monitor"
+              />
             </div >
             <div align="center">
               <button type="button" class="btn btn-link fullLine"  @click="clearModalEdit()">Limpar</button>
@@ -157,23 +198,107 @@ import { CoolSelect } from 'vue-cool-select'
 export default {
   data() {
     return {
+      filtroPorData: true,
+      filtro: [],
+      agendas: [],
       agenda: [],
-      id: "",
-      data: "",
-      professor: "",
-      descricao: "",
-      material: "",
-      escola: "",
-      coordenator: "",
-      tipoEnsino: "",
-      criancas: "",
-      monitor: "",
-      responsavel: "",
+      professores: [],
+      coordenadores: [],
+      monitores: [],
       professorToSearch: "",
       dataToSearch: "",
+      interval: "",
     };
   },
   methods: {
+    converterTodasDatas(element, index){
+      element.data = this.dataConvert(element.data)
+    },
+    dataConvert(data){
+      var a = new Date(data);
+      var months = ['Jan','Fev','Mar' ,'Abr','Mai' ,'Jun' ,'Jul' ,'Aug' ,'Set' ,'Out' ,'Nov' ,'Dez'];
+      var year = a.getFullYear();
+      var month = months[a.getMonth()];
+      var date = a.getDate();
+      var hour = a.getHours();
+      var min = a.getMinutes();
+      var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+      return time;
+    },
+    procurarAgendaPorData(){
+      if(!this.dataToSearch == ""){
+        var date = Date.parse(this.dataToSearch)
+
+      this.$http.get("http://localhost:8080/api/v1/agenda/getByData/" + date)
+      .then(function(data) {
+        this.agendas = data.body;
+        this.agendas.forEach(this.converterTodasDatas);
+      }, error => {
+        console.log(error.data);
+        alert(error.data.message);
+        this.limparFiltros();
+      });
+      }
+    },
+    procurarAgendaPorProfessor(){
+      this.$http.get("http://localhost:8080/api/v1/agenda/getByProfessor/" + this.professorToSearch.nome)
+      .then(function(data) {
+        this.agendas = data.body;
+        this.agendas.forEach(this.converterTodasDatas);
+      }, error => {
+        console.log(error.data);
+        alert(error.data.message);
+        this.limparFiltros();
+        
+      });
+    },
+    procurarTodasAgendas(){
+      this.$http.get("http://localhost:8080/api/v1/agenda/getAll")
+      .then(function(data) {
+        this.agendas = data.body;
+        this.agendas.forEach(this.converterTodasDatas);
+      }, error => {
+        console.log(error.data);
+      });
+    },
+    limparFiltros(){
+      this.professorToSearch = "",
+      this.dataToSearch = "",
+      this.procurarTodasAgendas();
+    },
+    procurarMonitores(){
+      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess?acesso=MONITOR")
+      .then(function(data) {
+        this.monitores = data.body;
+      },error => {
+        console.log(error.data);
+      });
+    },
+    procurarCoordenadores(){
+      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess?acesso=COORDENADOR")
+      .then(function(data) {
+        this.coordenadores = data.body;
+      },error => {
+        console.log(error.data);
+      });
+    },
+    procurarProfessores(){
+      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess?acesso=PROFESSOR")
+      .then(function(data) {
+        this.professores = data.body;
+      },error => {
+        console.log(error.data);
+      });
+    },
+    changeFiltro(){
+      if(this.filtro == "Data"){
+        this.filtroPorData = true 
+        this.professorToSearch = ""
+      } else {
+        this.filtroPorData = false
+        this.dataToSearch = ""
+      }
+    },
     clearModalEdit(){
       this.data = "";
       this.descricao = "";
@@ -186,46 +311,54 @@ export default {
       this.monitor = "";
       this.responsavel = "";
     },
-    procurarAgenda(){
-      //Procurar Agenda atraves dos campos não obrigatorios
-      if((this.professorToSearch == null && this.dataToSearch == null) || (this.professorToSearch == "" && this.dataToSearch == "")){
-        //Search All
-      this.$http.get("http://localhost:8080/api/v1/agenda/getAll")
-      .then(function(data) {
-        this.agenda = data.body;
-      });
-      }
-
-    },
     hideDelete(){
       this.$modal.hide('confirmDelete');
     },
     saveDelete(){
-      //Enviar ID para BE para salvar
+      
 
     },
-    confirmDelete(id) {
+    confirmDelete(agenda) {
       this.$modal.show('confirmDelete');
-      this.id = id;
+      this.agenda = agenda;
     },
-    show () {
-      this.isEdit = "true";
+    showMateriaisEResponsaveis (agenda) {
+      this.agenda = agenda
+      this.responsaveis = agenda.resposaveis
+      this.$modal.show('materiaisEResponsaveis');
+    },
+    show (agenda) {
+      this.agenda = agenda
+      
       this.$modal.show('allPageDisbled');
     },
-    showEdit (id) {
-      this.isEdit = "false";
+    showEdit (agenda) {
+      this.agenda = agenda
       this.$modal.show('allPageEdit');
-
-    //Recebendo os campos do BE
-      
-     
     },
     saveEdit(){
-      //Salvar no BE
-      //Buscar Lista Novamente do BE
-
       this.$modal.hide('allPageEdit');
-    }
+    },
+    verificaNovaAgenda(){
+      this.interval = setInterval(function () {  
+        var check = localStorage.getItem('novaAgenda');
+        if(check == 1){
+          this.procurarTodasAgendas();
+          localStorage.setItem('novaAgenda', 0);
+        }
+      }.bind(this), 1500); 
+    },
+  },
+  created(){
+    this.filtro = "Data"
+    this.procurarProfessores();
+    this.procurarMonitores();
+    this.procurarCoordenadores();
+    this.procurarTodasAgendas();
+    this.verificaNovaAgenda();
+  },
+  beforeDestroy(){
+    clearInterval(this.interval)
   },
   computed:{
     
@@ -282,5 +415,14 @@ color: black
 }
 .size{
    font-size: 25px;
+}
+.spaceLeft{
+  padding-left: 15px;
+}
+.alinhamento{
+  text-align: center;
+}
+.bordaAzul{
+  border-color: deepskyblue;
 }
 </style>
