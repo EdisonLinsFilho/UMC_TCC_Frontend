@@ -30,7 +30,7 @@ export default {
   name: "app",
   data() {
     return {
-      isLogged: 0,
+      isLogged: 1,
       loggedID: 0,
       loggedAccess0: "",
     };

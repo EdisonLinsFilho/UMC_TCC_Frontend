@@ -6,7 +6,8 @@
     </div>
     <hr>
     <form>
-      <h5>Bem Vindo!</h5>
+      <div align="center"><h5>Bem Vindo!</h5>
+    </div>
       <div class="form-group">
         <label>E-mail:</label>
         <input
