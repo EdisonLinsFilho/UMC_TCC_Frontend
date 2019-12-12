@@ -4,10 +4,12 @@
         <div class="row">
           <div class="form-group col-md-12">
             <label for="campo1">Nome </label>
-            <input type="text" class="form-control" v-model="user.nome" placeholder="Digite o Nome do Usuario"  />
+            <font color="red">*</font>
+            <input type="text" maxlength="30" class="form-control" v-model="user.nome" placeholder="Digite o Nome do Usuario"  />
           </div>
           <div class="form-group col-md-12">
             <label for="campo1">Cargo </label>
+            <font color="red">*</font>
             <select
               class="custom-select my-1 mr-sm-2"
               v-model="user.acesso"
@@ -20,24 +22,28 @@
           </div>
           <div class="form-group col-md-12">
             <label for="campo1">E-mail </label>
-            <input type="text" class="form-control" v-model="user.email" placeholder="Digite o E-mail do Usuario"  />
+            <font color="red">*</font>
+            <input type="text" maxlength="30" class="form-control" v-model="user.email" placeholder="Digite o E-mail do Usuario"  />
           </div>
         </div>
         <div class="row">
           <div class="form-group col-md-6">
             <label for="campo1">Senha </label>
-            <input type="password" class="form-control" v-model="user.senha" placeholder="A senha deve Conter: Caracteres Especiais, Maiusculos e numeros "  />
+            <font color="red">*</font>
+            <input type="password" maxlength="20" class="form-control" v-model="user.senha" placeholder="A senha deve Conter: Caracteres Especiais, Maiusculos e numeros "  />
           </div>
         
           <div class="form-group col-md-6">
             <label for="campo1">Repetir Senha </label>
-            <input type="password" class="form-control" v-model="confirmaSenha" placeholder="Digite a senha digitada anteriormente"  />
+            <font color="red">*</font>
+            <input type="password" maxlength="20" class="form-control" v-model="confirmaSenha" placeholder="Digite a senha digitada anteriormente"  />
           </div>    
         </div>
         <div class="row">
           <div class="form-group col-md-12">
             <label for="campo1">RGM </label>
-            <input type="text" class="form-control" v-mask="'###########'" v-model="user.rgm" placeholder="Digite o RGM do Novo Usuario"  />
+            <font color="red">*</font>
+            <input type="text" maxlength="11" class="form-control" v-mask="'###########'" v-model="user.rgm" placeholder="Digite o RGM do Novo Usuario"  />
           </div>   
         </div>
       </form>
@@ -71,6 +77,14 @@ export default {
   methods: {
     
     saveUser() {
+      if (this.user.nome == "") {
+        alert("Preenchimento do nome é obrigatorio");
+        return;
+      }
+      if (this.user.acesso == "") {
+        alert("Preenchimento do cargo é obrigatorio");
+        return;
+      }
       if(this.user.senha != this.confirmaSenha){
         alert('Confirmação de Senha Invalida ! \n A senha nos dois campos devem ser iguais !');
         return
@@ -100,6 +114,11 @@ export default {
           return
         }
       } 
+      if (this.user.rgm == "") {
+        alert("Preenchimento do Rgm é obrigatorio");
+        return;
+      }
+      
 
     },
     resetFields() {

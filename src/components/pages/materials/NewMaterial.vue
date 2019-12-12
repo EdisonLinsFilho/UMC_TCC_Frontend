@@ -3,8 +3,10 @@
     <div class="row">
       <div class="form-group col-md-6">
         <label>Material</label>
+        <font color="red">*</font>
         <input
           type="text"
+          maxlength="40"
           v-model="cadastro.nome"
           required="required"
           class="form-control"
@@ -16,10 +18,10 @@
       <div class="form-group col-md-6">
 
         <label>Classe Material</label>
+        <font color="red">*</font>
         <select type="text" class="form-control" v-model="cadastro.classe" id="classe.material">
           <option disabled selected>Selecione uma opção...</option>
           <option value="CIENCIA">Ciência</option>
-          <option value="CONSUMO">Consumo</option>
           <option value="DESENVOLVIMENTO_COGNITIVO">Desenvolvimento Cognitivo</option>
           <option value="EDUCACAO_FISICA">Educação Física</option>
           <option value="LINGUA_PORTUGUESA">Língua Portuguesa</option>
@@ -31,7 +33,9 @@
 
       <div class="form-group col-md-12">
         <label>Descrição do Material</label>
+        <font color="red">*</font>
         <textarea
+          maxlength="100"
           class="form-control"
           id="descricao.material"
           v-model="cadastro.descricao"
@@ -43,6 +47,7 @@
     <div class="row">
       <div class="form-group col-md-6">
         <label>Categoria Material</label>
+        <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
           v-model="cadastro.categoria"
@@ -58,6 +63,7 @@
       <div class="form-group col-md-6">
 
         <label >Embalagem Material</label>
+        <font color="red">*</font>
         <select
           class="custom-select my-1 mr-sm-2"
           v-model="cadastro.embalagem"
@@ -75,6 +81,7 @@
     <div class="row">
       <div class="form-group col-md-6">
         <label for="quantidade">Quantidade</label>
+        <font color="red">*</font>
         <input
           type="text"
           v-mask="'######'"
@@ -85,6 +92,7 @@
       </div>
       <div class="form-group col-md-6">
         <label for="quantidadeMinima">Quantidade Minima</label>
+        <font color="red">*</font>
         <input
           type="text"
           v-mask="'######'"
@@ -124,6 +132,10 @@ export default {
       }
       if (this.cadastro.classe == "") {
         alert("Preenchimento da Classe é obrigatorio");
+        return;
+      }
+      if (this.cadastro.descricao == "") {
+        alert("Preenchimento da descrição é obrigatorio");
         return;
       }
       if (this.cadastro.categoria == "") {
