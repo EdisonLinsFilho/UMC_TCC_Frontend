@@ -112,20 +112,24 @@ export default {
     },
 
     procurarRelatorio() {
-      
-      let ReportDto = {
-        startDate: this.dataInicial,
-        endDate: this.dataFinal,
-        type: this.tiporelatorio
-      };
 
-      console.log(ReportDto);
+
+      let url;
+      if(this.tiporelatorio != "agenda") {
+        url = "?type=" + this.tiporelatorio
+      } else {
+      var dateStart = Date.parse(this.dataInicial);
+      var dateFinal = Date.parse(this.dataFinal);
+        url = "?startDate=" + dateStart + "&endDate=" + dateFinal + "&type=" + this.tiporelatorio
+      }
+
+      console.log(url);
       
 
       axios
         .post(
-          "http://localhost:8080/api/v1/report",          
-          {ReportDto: ReportDto},
+          "http://localhost:8080/api/v1/report" + url, 
+          {},
           {
             responseType: "blob"
           }
