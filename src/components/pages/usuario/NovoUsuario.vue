@@ -41,10 +41,10 @@
           </div>   
         </div>
       </form>
-      <container >
+      <div>
         <button type="button" class="btn btn-primary" v-on:click="saveUser()">Salvar</button>
         <button type="button" class="btn btn-link" v-on:click="resetFields()" >Limpar</button>
-      </container>
+      </div>
     </div>
 </template>
 
