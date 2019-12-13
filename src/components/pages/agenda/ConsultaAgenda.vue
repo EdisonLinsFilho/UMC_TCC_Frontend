@@ -253,7 +253,9 @@ export default {
       });
     },
     procurarTodasAgendas(){
-      this.$http.get("http://localhost:8080/api/v1/agenda/getAll")
+      var status = "ACTIVE"
+      
+      this.$http.get("http://localhost:8080/api/v1/agenda/getAll/" + status)
       .then(function(data) {
         this.agendas = data.body;
         this.agendas.forEach(this.converterTodasDatas);

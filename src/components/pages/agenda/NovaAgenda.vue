@@ -5,7 +5,7 @@
         <div class="row">
           <div class="form-group col-md-10">
             <label for="campo1">Descrição da Atividade </label>
-            <input type="text" v-model="agenda.descricao" class="form-control" placeholder="Digite uma descrição da Atividade"  />
+            <input type="text" maxlength="100" v-model="agenda.descricao" class="form-control" placeholder="Digite uma descrição da Atividade"  />
           </div>
           <div class="form-group col-md-2">
             <label for="campo1">Data da Atividade </label>
@@ -20,7 +20,7 @@
         <div class="row">
           <div class="form-group col-md-12">
             <label for="campo1">Nome da Escola </label>
-            <input type="text" v-model="agenda.escola" class="form-control" placeholder="Digite o nome da Escola"/>
+            <input type="text" maxlength="70" v-model="agenda.escola" class="form-control" placeholder="Digite o nome da Escola"/>
           </div>   
         </div>
         <div class="row">
@@ -98,11 +98,18 @@
                       <div class="input-group">
                         <cool-select
                           class="responsavelDrop"
-                          item-text="nome"
+                          item-text="nome" 
                           v-model="responsavelSelect"
                           :items="responsaveis"
                           placeholder="Pesquise o Responsavel"
-                        /> 
+                        >
+                        <template slot="item" slot-scope="{ item: responsavel }">
+                          <div>
+                            {{responsavel.nome}} -
+                            {{responsavel.rg}}
+                          </div>
+                        </template>
+                        </cool-select> 
                         <button type="button" class="btn btn-link" @click="show()">Criar Novo Responsável</button>
                       </div>
                     </th>
@@ -146,7 +153,7 @@
                         <cool-select
                           item-text="descricao"
                           class="materialDrop"
-                          v-model="materialSelecionado"
+                          v-model="material"
                           :items="materiais"
                           placeholder="Pesquise o Material"
                         /> 
@@ -181,11 +188,11 @@
         <div class="row">
           <div class="col-md">
             <label for="">Quantidade que Utilizará </label>
-            <input type="text" class="form-control" v-mask="'######'" v-model="materialSelecionado.quantidade"  placeholder="Digite a quantidade que utilizará "  />
+            <input type="text" class="form-control" v-mask="'######'" v-model="quantidadeUtilizada"  placeholder="Digite a quantidade que utilizará "  />
           </div>
           <div class="col-md">
             <label for="">Quantidade Máxima </label>
-            <input type="text" class="form-control" v-model="quantidadeUtilizada" disabled  />
+            <input type="text" class="form-control" v-model="materialSelecionado.quantidade" disabled  />
           </div>
         </div>
           <br/>
@@ -235,6 +242,7 @@ import { Datetime } from "vue-datetime";
 export default {
   data() {
     return {
+      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
       agendada: "AGENDADA",
       coordenadores: [],
       professores: [],
@@ -243,11 +251,9 @@ export default {
       index: "",
       quantidadeUtilizada: 0,
       materiaisParaAtividade: [],
+      material: [],
       materiais: [],
-      materialSelecionado: {
-        quantidade: "0",
-        descricao: "",
-      },
+      materialSelecionado: [],
       responsavelSelect: [],
       //Lista de Responsáveis para a atividade
       responsaveis: [],
@@ -284,18 +290,29 @@ export default {
     } 
   }, 
   methods: {
+    verificarTodosCampos(){
+      
+    },
     addMaterial(){
-      if(this.quantidadeUtilizada < this.materialSelecionado.quantidade){
+      if(this.quantidadeUtilizada > this.materialSelecionado.quantidade){
         alert('A quantidade a ser utilizada deve ser menor que a disponível !');
       } else {
+
         this.materiaisParaAtividade.push(this.materialSelecionado);
-        this.agenda.material.push(this.materialSelecionado);
+        //this.agenda.material.push(this.materialSelecionado);
 
         this.materialDto.materialId = this.materialSelecionado.id;
-        this.materialDto.quantidadeUtilizada = this.materialSelecionado.quantidade;
+        this.materialDto.quantidadeUtilizada = this.quantidadeUtilizada;
 
         this.quantidadeUtilizadaDto.push(this.materialDto);
+
         this.hideMaterial();
+
+        var index = this.materiais.indexOf(this.material);
+
+        this.materiais.splice(index, 1);
+
+
       }
       
        
@@ -303,9 +320,12 @@ export default {
     },
     salvarAgenda(){
 
+      this.verificarTodosCampos();
+
       var date = Date.parse(this.agenda.data)
 
       let agenda = {
+        descricao: this.agenda.descricao,
         status: this.agendada,
         coordenator: this.agenda.coordenator,
         monitor: this.agenda.monitor,
@@ -331,18 +351,29 @@ export default {
         });
     },
     remResponsavel(index) {
+      this.responsaveis.push(this.novosResponsaveis[index]);
       this.novosResponsaveis.splice(index, 1);
     },
     remMaterial(index){
+      this.materiais.push(this.materiaisParaAtividade[index]);
+
       this.materiaisParaAtividade.splice(index, 1);
       this.quantidadeUtilizadaDto.splice(index, 1);
       this.agenda.material.splice(index, 1);
     },
     addResponsavel() {
-      this.novosResponsaveis.push(this.responsavelSelect)
-      
 
-      this.responsavelSelect = []
+      if(this.novosResponsaveis.length >= 3){
+        alert('Cada atividade pode conter no máximo 3 responsáveis.')
+        return
+      } else {
+        this.novosResponsaveis.push(this.responsavelSelect)
+
+        var index = this.responsaveis.indexOf(this.responsavelSelect);
+        this.responsaveis.splice(index, 1);
+
+        
+      }
     },
     clearModal(){
       (this.novoResponsavel.rg = ""),
@@ -350,26 +381,36 @@ export default {
       (this.novoResponsavel.email = "")
     },
     saveOne(){
+      
       if(this.novoResponsavel.nome == "" || this.novoResponsavel.rg == "" ||  this.novoResponsavel.email == "") {
         alert('Todos os campos são obrigatórios.');
-      } else{
+        return
+      } else if(this.novoResponsavel.rg.length < 12){
+        alert('Preencher o campo rg corretamente.')
+        return
+      } else if(this.reg.test(this.novoResponsavel.email) == false){
+        alert('Email invalido !');
+        return
+      } else {
 
         this.$http
         .post("http://localhost:8080/api/v1/responsavel", this.novoResponsavel)
         .then(function() {
           alert("Novo Responsável Cadastrado !");
           this.clearModal();
+          this.hide();
         },error => {
           console.log(error.data);
+          alert('RG para responsável já cadastrado no sistema !');
         });
 
-        this.hide();
       }
     },
     showModalMaterial() {
-      if(this.materialSelecionado.descricao != ""){
-        this.quantidadeUtilizada = this.materialSelecionado.quantidade
-        this.materialSelecionado.quantidade = "0"
+ 
+      if(this.material.descricao != ""){
+        this.quantidadeUtilizada = 0
+        this.materialSelecionado = this.material
 
         this.$modal.show('novoMaterial');
       } else {
@@ -499,7 +540,7 @@ export default {
   width: 380px;
 }
 .responsavelDrop {
-  width: 220px;
+  width: 400px;
 }
 .coolSize{
   height: 34px;
