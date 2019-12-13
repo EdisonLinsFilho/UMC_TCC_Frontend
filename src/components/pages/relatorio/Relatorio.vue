@@ -6,14 +6,24 @@
     </div>
     <br />
     <div class="row">
+      <div class="form-group col-md-4">
+        <label for="tiporelatorio">Tipo do Relatório</label>
+        <font color="red">*</font>
+        <select class="custom-select my-1 mr-sm-2" v-model="tiporelatorio" id="tiporelatorio">
+          <option disabled selected>Selecione uma opção...</option>
+          <option value="material">Material</option>
+          <option value="usuario">Usuário</option>
+          <option value="agenda">Agenda</option>
+        </select>
+      </div>
+
       <div class="input-field col-md-3" v-if="tiporelatorio == 'agenda'">
         <label class="spaceTitle" for="datainicial">Data Inicial</label>
         <font color="red">*</font>
         <div class="input-group date">
           <input
             type="date"
-            v-model="dataInicial"
-            @change="verificaDataInicial()"
+            v-model="dataInicial"            
             class="form-control"
             id="dateInicial"
           />
@@ -26,29 +36,13 @@
         <label class="spaceTitle" for>Data Final</label>
         <font color="red">*</font>
         <div class="input-group date">
-          <input
-            type="date"
-            id="dateFinal"
-            class="form-control"
-            v-model="dataFinal"
-            @change="verificaDataFinal()"
-          />
+          <input type="date" id="dateFinal" class="form-control" v-model="dataFinal" />
           <div class="input-group-addon">
             <span class="glyphicon glyphicon-th"></span>
           </div>
         </div>
       </div>
 
-      <div class="form-group col-md-4">
-        <label for="tiporelatorio">Tipo do Relatório</label>
-        <font color="red">*</font>
-        <select class="custom-select my-1 mr-sm-2" v-model="tiporelatorio" id="tiporelatorio">
-          <option disabled selected>Selecione uma opção...</option>
-          <option value="material">Material</option>
-          <option value="usuario">Usuário</option>
-          <option value="agenda">Agenda</option>
-        </select>
-      </div>
       <div class="form-group col-md-2">
         <label for="campos">
           <br />
@@ -60,40 +54,39 @@
   </div>
 </template>
 
-
-
-<script>
-import { saveAs } from "file-saver";
-
-$(document).ready(function() {
-  $(".datepicker").pickadate({
-    selectMonths: true,
-    selectYears: 15
-  });
-});
-</script>
-
 <script>
 import axios from "axios";
 
 export default {
   methods: {
-    verificaDataFinal() {
-      console.log("Data Final: " + this.dataFinal);
+
+    verificaCampos(){
+      if(this.tiporelatorio == 'agenda'){
+          
+          if(this.dataInicial == null || this.dataFinal == null ||
+            this.dataInicial == '' || this.dataFinal == '') {
+            alert("Todos os campos devem ser preenchidos");
+            return false
+          }
+        }
+
+        return true;
+    },
+
+    validaDataFinal() {
       if (
         this.dataInicial != null &&
         this.dataInicial != "" &&
         this.dataFinal != ""
       ) {
         if (this.dataFinal < this.dataInicial) {
-          alert("Data Final deve ser maior ou igual a data inicial");
-          document.getElementById("dateFinal").value = "";
-          this.dataFinal = "";
+          alert("Data Final deve ser maior que a data inicial");
           return;
         }
       }
     },
-    verificaDataInicial() {
+
+    validaDataInicial() {
       if (
         this.dataFinal != null &&
         this.dataFinal != "" &&
@@ -103,7 +96,7 @@ export default {
           document.getElementById("dateInicial").value >
           document.getElementById("dateFinal").value
         ) {
-          alert("Data Inicial deve ser menor ou igual a data final");
+          alert("Data Inicial deve ser menor que a data final");
           document.getElementById("dateInicial").value = "";
           this.dataInicial = "";
           return;
@@ -113,22 +106,37 @@ export default {
 
     procurarRelatorio() {
 
-
-      let url;
-      if(this.tiporelatorio != "agenda") {
-        url = "?type=" + this.tiporelatorio
-      } else {
-      var dateStart = Date.parse(this.dataInicial);
-      var dateFinal = Date.parse(this.dataFinal);
-        url = "?startDate=" + dateStart + "&endDate=" + dateFinal + "&type=" + this.tiporelatorio
+      if(!this.verificaCampos()){
+        return
       }
 
-      console.log(url);
-      
+      if(this.tiporelatorio == 'agenda'){
+        this.validaDataInicial();
+        this.validaDataFinal();
+      }
 
+      let url;
+
+      if (this.tiporelatorio != "agenda") {
+
+        url = "?type=" + this.tiporelatorio;
+      
+      } else {
+          var dateStart = Date.parse(this.dataInicial);
+          var dateFinal = Date.parse(this.dataFinal);
+          url =
+            "?startDate=" +
+            dateStart +
+            "&endDate=" +
+            dateFinal +
+            "&type=" +
+            this.tiporelatorio;
+        }
+
+      //REQUEST + DOWNLOAD
       axios
         .post(
-          "http://localhost:8080/api/v1/report" + url, 
+          "http://localhost:8080/api/v1/report" + url,
           {},
           {
             responseType: "blob"
@@ -149,12 +157,12 @@ export default {
     }
   },
   data() {
-    return {
-      dataInicial: 1574613868,
-      dataFinal: 1574700000,
+    return {      
+      dataInicial: '',
+      dataFinal: '',
       tiporelatorio: "agenda"
     };
-  }
+  },
 };
 </script>
 
