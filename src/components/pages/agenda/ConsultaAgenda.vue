@@ -234,6 +234,7 @@ export default {
       date: "",
       statusA: "ACTIVE",
       statusI: "INACTIVE",
+      listNull: [],
     };
   },
   methods: {
@@ -269,6 +270,7 @@ export default {
         var date = Date.parse(this.date)
 
         let agenda = {
+          id: this.agendaAlterada.id,
           descricao: this.agendaAlterada.descricao,
           status: this.statusA,
           coordenator: this.agendaAlterada.coordenator,
@@ -280,14 +282,14 @@ export default {
           data: date,
           resposaveis: this.agendaAlterada.resposaveis,
           materiais: this.agendaAlterada.materiais,
-          quantidadeMaterialUtilizadoDto: this.quantidadeUtilizadaDto,
         }
 
       this.$http
         .post("http://localhost:8080/api/v1/agenda", agenda)
         .then(function() {
           alert("Agenda Alterada");
-          this.resetFields();
+          this.procurarTodasAgendas();
+          this.$modal.hide('allPageEdit');
         }, error => {
           console.log(error.data);
         });
@@ -340,6 +342,7 @@ export default {
       this.$http.get("http://localhost:8080/api/v1/agenda/getAll/" + status)
       .then(function(data) {
         this.agendas = data.body;
+        console.log(this.agendas);
         this.agendas.forEach(this.converterTodasDatas);
       }, error => {
         console.log(error.data);
@@ -399,7 +402,12 @@ export default {
       this.$modal.hide('confirmDelete');
     },
     saveDelete(){
+      console.log(this.agenda);
+      
+      var date = Date.parse(this.agenda.data)
+
       let agenda = {
+        id: this.agenda.id,
         descricao: this.agenda.descricao,
         status: this.statusI,
         coordenator: this.agenda.coordenator,
@@ -408,16 +416,17 @@ export default {
         escola: this.agenda.escola,
         criancas: this.agenda.criancas,
         tipoEnsino: this.agenda.tipoEnsino,
-        data: this.agenda.data,
+        data: date,
         resposaveis: this.agenda.resposaveis,
         materiais: this.agenda.materiais,
+        quantidadeMaterialUtilizadoDto: this.listNull,
       }
 
       this.$http
         .post("http://localhost:8080/api/v1/agenda", agenda)
         .then(function() {
           alert("Agenda Deletada");
-          this.resetFields();
+          this.procurarTodasAgendas();
         }, error => {
           console.log(error.data);
         });
@@ -445,9 +454,6 @@ export default {
       this.agenda = agenda
       this.agendaAlterada = agenda
       this.$modal.show('allPageEdit');
-    },
-    saveEdit(){
-      this.$modal.hide('allPageEdit');
     },
     verificaNovaAgenda(){
       this.interval = setInterval(function () {  
