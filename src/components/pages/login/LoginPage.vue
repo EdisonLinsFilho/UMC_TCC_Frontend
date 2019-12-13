@@ -41,10 +41,26 @@
               <i class="material-icons">input</i>  
             </template>
           </button>
-
+        <button type="button" class="esqueciSenha" @click="showSendMail()">Esqueci Minha Senha</button>
 
         </div>
+        
       </div>
+      
+    <modal name="mandaEmail" height="auto">
+      <div class="borda">
+        <div class="row spaceLeft">
+          <div class="form-group col-md-12">
+            <label>Email</label>
+          <input type="text" v-model="emailRecuperacao" class="form-control"/>
+          </div>
+        </div>
+        <br />
+        <div align="center">
+          <button type="button" class="btn blue-button" @click="sendMail()">Enviar</button>
+        </div>
+      </div>
+    </modal>
     </form>
   </div>
 </template>
@@ -61,6 +77,7 @@ export default {
       inputMail: "",
       inputSenha: "",
       user: {},
+      emailRecuperacao: "",
     };
   },
 
@@ -102,6 +119,23 @@ export default {
       this.loading = false;
 
     },
+    showSendMail(){
+      this.$modal.show("mandaEmail");
+    },
+    sendMail(){
+      
+
+      var envio = new FormData(); 
+      envio.append('email', this.emailRecuperacao);
+      this.$http.post("http://localhost:8080/api/v1/usuario/sendMail", envio).then(
+        function(data) {
+          this.$modal.hide("mandaEmail");
+          alert("Email enviado!");
+        },
+        error => {
+          console.error(error.data);
+        });
+    }
 
   },
   created(){
@@ -117,6 +151,14 @@ export default {
 <style scoped>
 .loginscreen {
   display: inline-block;
+}
+
+.esqueciSenha{
+  color: blue;
+  border: 0ch;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 10pt;
 }
 
 .img-logo {
