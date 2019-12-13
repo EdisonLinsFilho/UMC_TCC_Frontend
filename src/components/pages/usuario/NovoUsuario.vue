@@ -48,7 +48,7 @@
         </div>
       </form>
       <div>
-        <button type="button" class="btn btn-primary" v-on:click="saveUser()">Salvar</button>
+        <button type="button" class="btn btn-primary btn-umc" v-on:click="saveUser()">Salvar</button>
         <button type="button" class="btn btn-link" v-on:click="resetFields()" >Limpar</button>
       </div>
     </div>

@@ -1,5 +1,5 @@
 :root{
-	--birorange: #FA4C05;
+	--birorange: #2871be;
 }
 
 /* LIXINHO DE TABLE */
@@ -166,7 +166,7 @@
   color:black;
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  border-bottom-color: #fcaa89;
+  border-bottom-color: #9abde2;
   border-radius: 0;
 }
 .nav-pills .nav-link{
@@ -238,4 +238,22 @@ i{
 }
 .add-new-p {
   border: none;
+}
+.btn-umc {
+  background-color:#365c7b;
+}
+.btn-umc :hover{
+  background-color:#17589c;
+}
+.modal-header{
+  background-color: #22528A;
+  color: #ffff;
+  background-image: url(../dark-triangles.png);
+}
+.btn-cancelar{
+  color: red;
+}
+.btn-cancelar :hover{
+  color: #ffff;
+  background-color: red;
 }

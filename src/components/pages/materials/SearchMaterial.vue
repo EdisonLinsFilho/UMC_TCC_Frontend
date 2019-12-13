@@ -12,7 +12,7 @@
         />
       </div>
       <div class="form-group col-md-2">
-        <button type="button" class="btn btn-primary md-4" @click="procurarMaterial()">Limpar</button>
+        <button type="button" class="btn btn-primary md-4 btn-umc" @click="procurarMaterial()">Limpar</button>
       </div>
     </div>
     <br />
@@ -126,6 +126,9 @@
     </div>
     <!-- PopUp -->
     <modal name="allPageDisbled" height="auto">
+      <div class="modal-header">
+        <h4>Resumo Material</h4>
+      </div>
       <div class="borda">
         <div class="form-group col-md-12">
           <label>Descrição</label>
@@ -155,6 +158,9 @@
     </modal>
 
     <modal name="allPageEdit" height="auto"	>
+      <div class="modal-header">
+        <h4>Material</h4>
+      </div>
       <div class="borda">
         <br/>
        <div class="form-group col-md-12">
@@ -215,8 +221,8 @@
         <br />
         <p class="size" align="center">Deseja realmente excluir ?</p>
         <div align="center">
-          <button type="button" class="btn btn-link fullLine" @click="hideDelete()">Cancelar</button>
-          <button type="button" class="btn btn-primary fullLine" @click="saveDelete()">Sim</button>
+          <button type="button" class="btn btn-link btn-cancelar fullLine" @click="hideDelete()">Cancelar</button>
+          <button type="button" class="btn btn-success fullLine" @click="saveDelete()">Sim</button>
         </div>
       </div>
     </modal>
@@ -225,6 +231,9 @@
     
     <!--aqui a modal de Baixa-->
     <modal name="confirmBaixa" height="auto">
+      <div class="modal-header">
+        <h4>Baixa em Material</h4>
+      </div>
       <div class="borda">
         <div class="row spaceLeft">
           <div class="form-group col-md-12">
@@ -254,7 +263,7 @@
         <br />
         <div align="center">
           <button type="button" class="btn btn-link fullLine" @click="hideBaixa()">Cancelar</button>
-          <button type="button" class="btn btn-primary fullLine" @click="baixaMaterial()">Salvar</button>
+          <button type="button" class="btn btn-success fullLine " @click="baixaMaterial()">Salvar</button>
         </div>
       </div>
     </modal>
