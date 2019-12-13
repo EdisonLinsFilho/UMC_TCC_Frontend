@@ -110,15 +110,15 @@
             </div >
             <div class="form-group col-md-12">
               <label>Coordenador</label>
-              <input type="text" v-model="agenda.coordenator" class="form-control" disabled/>
+              <input type="text" v-model="coordenador.nome" class="form-control" disabled/>
             </div>
             <div class="form-group col-md-12">
               <label>Professor</label>
-              <input type="text" v-model="agenda.professor" class="form-control" disabled/>
+              <input type="text" v-model="professor.nome" class="form-control" disabled/>
             </div >
             <div class="form-group col-md-12">
               <label>Monitor</label>
-              <input type="text" v-model="agenda.monitor" class="form-control" disabled/>
+              <input type="text" v-model="monitor.nome" class="form-control" disabled/>
             </div >
           </div>
         </modal>
@@ -126,15 +126,33 @@
         <modal name="allPageEdit" height="auto"	>
           <div class="borda">
             <br/>
+            <div class="row">
+              <div class="leftSpace form-group col-md-5">
+                <label>Data da Atividade</label>
+                <datetime
+                  type="datetime"
+                  v-model="date"
+                  :placeholder="'Selecione uma Data'"
+                ></datetime>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Numero de Crianças</label>
+                <input type="text" v-model="agendaAlterada.criancas" v-mask="'###'" class="form-control"/>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label>Descrição</label>
+              <input type="text" v-model="agendaAlterada.descricao" maxlength="50" class="form-control"/>
+            </div>
             <div class="form-group col-md-12">
               <label>Escola</label>
-              <input type="text" v-model="agenda.escola" maxlength="50" class="form-control"/>
+              <input type="text" v-model="agendaAlterada.escola" maxlength="50" class="form-control"/>
             </div>
             <div class="form-group col-md-12">
               <label>Tipo de Ensino</label>
               <select
                 class="custom-select my-1 mr-sm-2"
-                v-model="agenda.tipoEnsino"
+                v-model="agendaAlterada.tipoEnsino"
               >
                 <option value="FUNDAMENTAL">Fundamental</option>
                 <option value="PRIMARIO">Primário</option>
@@ -145,7 +163,7 @@
                <cool-select
                 item-text="nome"
                 class="camposDropDown"
-                v-model="agenda.coordenator"
+                v-model="agendaAlterada.coordenator"
                 :items="coordenadores"
                 placeholder="Pesquisa o Nome do Coordenador"
               />
@@ -155,7 +173,7 @@
               <cool-select
                 item-text="nome"
                 class="camposDropDown"
-                v-model="agenda.professor"
+                v-model="agendaAlterada.professor"
                 :items="professores"
                 placeholder="Pesquise o Nome do Professor"
               />
@@ -165,7 +183,7 @@
                <cool-select
                 item-text="nome"
                 class="camposDropDown"
-                v-model="agenda.monitor"
+                v-model="agendaAlterada.monitor"
                 :items="monitores"
                 placeholder="Pesquise o Nome do Monitor"
               />
@@ -194,6 +212,7 @@
 <script>
 
 import { CoolSelect } from 'vue-cool-select'
+import { Datetime } from "vue-datetime";
 
 export default {
   data() {
@@ -202,15 +221,80 @@ export default {
       filtro: [],
       agendas: [],
       agenda: [],
+      agendaAlterada: [],
       professores: [],
       coordenadores: [],
       monitores: [],
       professorToSearch: "",
       dataToSearch: "",
       interval: "",
+      professor: [],
+      monitor: [],
+      coordenador: [],
+      date: "",
+      statusA: "ACTIVE",
+      statusI: "INACTIVE",
+      listNull: [],
     };
   },
   methods: {
+    confereCampos(){
+      if(this.agendaAlterada.descricao == ""){
+        alert('Campo Descrição Obrigatório !')
+        return false;
+      } else if(this.agendaAlterada.criancas == ""){
+        alert('Campo Numero de Crianças Obrigatório !')
+        return false;
+      } else if(this.date == ""){
+        alert('Campo Data Obrigatório !')
+        return false;
+      } else if(this.agendaAlterada.tipoEnsino == ""){
+        alert('Campo Tipo Ensino Obrigatório !')
+        return false;
+      } else if(this.agendaAlterada.coordenator == null){
+        alert('Campo Coordenador Obrigatório !')
+        return false;
+      } else if(this.agendaAlterada.professor == null){
+        alert('Campo Professor Obrigatório !')
+        return false;
+      } else if(this.agendaAlterada.Monitor == ""){
+        alert('Campo Monitor Obrigatório !')
+        return false;
+      } 
+    },
+    saveEdit(){
+      if(this.confereCampos == false){
+        return;
+      } else {
+
+        var date = Date.parse(this.date)
+
+        let agenda = {
+          id: this.agendaAlterada.id,
+          descricao: this.agendaAlterada.descricao,
+          status: this.statusA,
+          coordenator: this.agendaAlterada.coordenator,
+          monitor: this.agendaAlterada.monitor,
+          professor: this.agendaAlterada.professor,
+          escola: this.agendaAlterada.escola,
+          criancas: this.agendaAlterada.criancas,
+          tipoEnsino: this.agendaAlterada.tipoEnsino,
+          data: date,
+          resposaveis: this.agendaAlterada.resposaveis,
+          materiais: this.agendaAlterada.materiais,
+        }
+
+      this.$http
+        .post("http://localhost:8080/api/v1/agenda", agenda)
+        .then(function() {
+          alert("Agenda Alterada");
+          this.procurarTodasAgendas();
+          this.$modal.hide('allPageEdit');
+        }, error => {
+          console.log(error.data);
+        });
+      }
+    },
     converterTodasDatas(element, index){
       element.data = this.dataConvert(element.data)
     },
@@ -258,6 +342,7 @@ export default {
       this.$http.get("http://localhost:8080/api/v1/agenda/getAll/" + status)
       .then(function(data) {
         this.agendas = data.body;
+        console.log(this.agendas);
         this.agendas.forEach(this.converterTodasDatas);
       }, error => {
         console.log(error.data);
@@ -317,8 +402,35 @@ export default {
       this.$modal.hide('confirmDelete');
     },
     saveDelete(){
+      console.log(this.agenda);
       
+      var date = Date.parse(this.agenda.data)
 
+      let agenda = {
+        id: this.agenda.id,
+        descricao: this.agenda.descricao,
+        status: this.statusI,
+        coordenator: this.agenda.coordenator,
+        monitor: this.agenda.monitor,
+        professor: this.agenda.professor,
+        escola: this.agenda.escola,
+        criancas: this.agenda.criancas,
+        tipoEnsino: this.agenda.tipoEnsino,
+        data: date,
+        resposaveis: this.agenda.resposaveis,
+        materiais: this.agenda.materiais,
+        quantidadeMaterialUtilizadoDto: this.listNull,
+      }
+
+      this.$http
+        .post("http://localhost:8080/api/v1/agenda", agenda)
+        .then(function() {
+          alert("Agenda Deletada");
+          this.procurarTodasAgendas();
+        }, error => {
+          console.log(error.data);
+        });
+      
     },
     confirmDelete(agenda) {
       this.$modal.show('confirmDelete');
@@ -331,15 +443,17 @@ export default {
     },
     show (agenda) {
       this.agenda = agenda
-      
+
+      this.coordenador = this.agenda.coordenator
+      this.professor = this.agenda.professor
+      this.monitor = this.agenda.monitor
+
       this.$modal.show('allPageDisbled');
     },
     showEdit (agenda) {
       this.agenda = agenda
+      this.agendaAlterada = agenda
       this.$modal.show('allPageEdit');
-    },
-    saveEdit(){
-      this.$modal.hide('allPageEdit');
     },
     verificaNovaAgenda(){
       this.interval = setInterval(function () {  
@@ -366,7 +480,8 @@ export default {
     
   },
   components: {
-    CoolSelect
+    CoolSelect,
+    datetime: Datetime,
   }, 
 }
 </script>
@@ -426,5 +541,8 @@ color: black
 }
 .bordaAzul{
   border-color: deepskyblue;
+}
+.leftSpace{
+  padding-left: 30px
 }
 </style>

@@ -243,7 +243,7 @@ export default {
   data() {
     return {
       reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      agendada: "AGENDADA",
+      status: "ACTIVE",
       coordenadores: [],
       professores: [],
       monitores: [],
@@ -291,7 +291,35 @@ export default {
   }, 
   methods: {
     verificarTodosCampos(){
-      
+
+      if(this.agenda.descricao == ""){
+        alert('O campo Descrição é obrigatório !')
+        return false;
+      } else if(this.agenda.data == ""){
+        alert('O campo Data é obrigatório !')
+        return false;
+      } else if(this.agenda.escola == ""){
+        alert('O campo Nome da Escola é obrigatório !')
+        return false;
+      } else if(this.agenda.criancas == ""){
+        alert('O campo Numero de Crianças é obrigatório !')
+        return false;
+      } else if(this.agenda.tipoEnsino == ""){
+        alert('O campo Tipo Ensino é obrigatório !')
+        return false;
+      } else if(this.agenda.coordenator == null){
+        alert('O campo Coordenador é obrigatório !')
+        return false;
+      } else if(this.agenda.professor == null){
+        alert('O campo professor é obrigatório !')
+        return false;
+      } else if(this.agenda.monitor == null){
+        alert('O campo Monitor é obrigatório !')
+        return false;
+      } else if(this.novosResponsaveis.length == 0){
+        alert('O campo Responsável é obrigatório !')
+        return false;
+      }
     },
     addMaterial(){
       if(this.quantidadeUtilizada > this.materialSelecionado.quantidade){
@@ -320,13 +348,15 @@ export default {
     },
     salvarAgenda(){
 
-      this.verificarTodosCampos();
+      if(this.verificarTodosCampos() == false){
+        return
+      }
 
       var date = Date.parse(this.agenda.data)
 
       let agenda = {
         descricao: this.agenda.descricao,
-        status: this.agendada,
+        status: this.status,
         coordenator: this.agenda.coordenator,
         monitor: this.agenda.monitor,
         professor: this.agenda.professor,
@@ -345,7 +375,7 @@ export default {
         .then(function() {
           alert("Nova agenda Cadastrada");
           this.resetFields();
-          console.log(this.project);
+          localStorage.setItem('novaAgenda', 1);
         }, error => {
           console.log(error.data);
         });
