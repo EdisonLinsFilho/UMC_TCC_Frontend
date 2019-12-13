@@ -199,7 +199,7 @@ export default {
 }
 
 .edit:hover i {
-  color: #fa4c05;
+  color: #2871be;
 }
 .col-align {
   height: 100px;

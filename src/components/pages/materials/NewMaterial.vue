@@ -104,7 +104,7 @@
     </div>
     <div id="actions" class="row">
       <div class="col-md-4">
-        <button type="submit" @click="validaCampos()" class="btn btn-primary">Salvar</button>
+        <button type="submit" @click="validaCampos()" class="btn btn-primary btn-umc">Salvar</button>
         <button type="button" class="btn btn-link" @click="resetFields()">Limpar</button>
       </div>
     </div>

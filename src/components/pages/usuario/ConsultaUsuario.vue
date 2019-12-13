@@ -12,12 +12,12 @@
         />
       </div>
       <div class="form-group col-md-2">
-        <button type="button" class="btn btn-primary" @click="clearAll(); ">Limpar</button>
+        <button type="button" class="btn btn-primary btn-umc" @click="clearAll(); ">Limpar</button>
       </div>
     </div>
     <!-- Template Output da busca -->
     <div class="container">
-      <table class="table table-hover" >
+      <table class="table table-hover">
         <thead>
           <tr>
             <th>Nome</th>
@@ -30,15 +30,15 @@
             <td>{{user.nome}}</td>
             <td>{{user.acesso}}</td>
             <td width="14%" align="right">
-              <button type="button"  class="openn" @click="show(user.id)">
+              <button type="button" class="openn" @click="show(user.id)">
                 <i class="material-icons">search</i>
               </button>
               <button type="button" class="editt" @click="showEdit(user.id)">
                 <i class="material-icons">edit</i>
-                </button>
+              </button>
               <span class="trash" @click="confirmDelete(user.id)">
-                 <span></span>
-                  <i></i>
+                <span></span>
+                <i></i>
               </span>
             </td>
           </tr>
@@ -47,14 +47,17 @@
     </div>
     <!-- PopUp -->
     <modal name="allPageDisbled" height="auto">
+      <div class="modal-header">
+        <h4>Resumo Usuario</h4>
+      </div>
       <div class="borda">
         <br />
         <div class="form-group col-md-12">
-          <label>Nome </label>
+          <label>Nome</label>
           <input type="text" v-model="usuario.nome" class="form-control" disabled />
         </div>
         <div class="form-group col-md-12">
-          <label>RGM </label>
+          <label>RGM</label>
           <input type="text" v-model="usuario.rgm" class="form-control" disabled />
         </div>
         <div class="form-group col-md-12">
@@ -73,6 +76,9 @@
     </modal>
 
     <modal name="allPageEdit" height="auto">
+      <div class="modal-header">
+        <h4>Usuario</h4>
+      </div>
       <div class="borda">
         <br />
         <div class="form-group col-md-12">
@@ -136,7 +142,6 @@
 <script>
 import { CoolSelect } from "vue-cool-select";
 export default {
-  
   data() {
     return {
       interval: null,
@@ -146,13 +151,14 @@ export default {
       uName: "",
       confirmaSenha: "",
       users: [],
-      usuario: [{
-        nome: "",
-        acesso: "",
-        status: "",
-        email: "",
-        senha: "",
-        rgm: ""
+      usuario: [
+        {
+          nome: "",
+          acesso: "",
+          status: "",
+          email: "",
+          senha: "",
+          rgm: ""
         }
       ],
       userNull: {
@@ -161,18 +167,18 @@ export default {
         status: "ACTIVE",
         email: "",
         senha: "",
-        rgm: "",
+        rgm: ""
       }
     };
   },
   beforeResolve() {
-    alert('mounted')
+    alert("mounted");
   },
   components: {
     CoolSelect
   },
   methods: {
-    clearAll(){
+    clearAll() {
       this.nomeParaPesquisa = "";
       this.searchUser();
     },
@@ -202,9 +208,7 @@ export default {
       //Recebendo os campos do BE
     },
     confirmDelete(userBD) {
-      this.$http
-      .get("http://localhost:8080/api/v1/usuario/" + userBD)
-      .then(
+      this.$http.get("http://localhost:8080/api/v1/usuario/" + userBD).then(
         function(data) {
           this.usuario = data.body;
         },
@@ -230,19 +234,25 @@ export default {
       var lowerCaseLetters = /[a-z]/g;
       var upperCaseLetters = /[A-Z]/g;
       var numbers = /[0-9]/g;
-      
+
       if (this.reg.test(this.usuario.email) == false) {
         alert("Email invalido !");
         return;
       } else {
-        this.$http.post("http://localhost:8080/api/v1/usuario/saveOrUpdate",this.usuario).then( () => {
-          this.$modal.hide("allPageEdit");
-          this.searchUser();
-        },
-          error => {
-            console.error(error.data);
-          }
-        );
+        this.$http
+          .post(
+            "http://localhost:8080/api/v1/usuario/saveOrUpdate",
+            this.usuario
+          )
+          .then(
+            () => {
+              this.$modal.hide("allPageEdit");
+              this.searchUser();
+            },
+            error => {
+              console.error(error.data);
+            }
+          );
       }
     },
     searchUser() {
@@ -268,42 +278,52 @@ export default {
           }
         );
     },
-    searchUserByName(){
-      if(this.nomeParaPesquisa != "" && this.nomeParaPesquisa.length > 2){
-        this.$http.get("http://localhost:8080/api/v1/usuario/getByName/" + this.nomeParaPesquisa).then(
-          function(data) {
-          this.users = data.body;
-        },
-        error => {
-          console.error(error.data);
-        });
+    searchUserByName() {
+      if (this.nomeParaPesquisa != "" && this.nomeParaPesquisa.length > 2) {
+        this.$http
+          .get(
+            "http://localhost:8080/api/v1/usuario/getByName/" +
+              this.nomeParaPesquisa
+          )
+          .then(
+            function(data) {
+              this.users = data.body;
+            },
+            error => {
+              console.error(error.data);
+            }
+          );
       } else {
         this.searchUser();
       }
     },
-    verificarNovoUsuario(){
-      this.interval = setInterval(function () {
-        var check = localStorage.getItem('usuarioNovo');
-        if(check == 1){
-          this.searchUser();
-          localStorage.setItem('usuarioNovo', 0);
-        }
-      }.bind(this), 1500); 
+    verificarNovoUsuario() {
+      this.interval = setInterval(
+        function() {
+          var check = localStorage.getItem("usuarioNovo");
+          if (check == 1) {
+            this.searchUser();
+            localStorage.setItem("usuarioNovo", 0);
+          }
+        }.bind(this),
+        1500
+      );
     }
   },
-  created(){
+  created() {
     this.searchUser();
-    this.verificarNovoUsuario()
+    this.verificarNovoUsuario();
   },
-  beforeDestroy(){
-    clearInterval(this.interval)
+  beforeDestroy() {
+    clearInterval(this.interval);
   }
 };
 </script>
 
 <style>
 .material-icons:hover {
-  color: #fa4c05;
+  cursor: pointer;
+  color: #2871be;
 }
 .material-icons {
   color: #365c7b;

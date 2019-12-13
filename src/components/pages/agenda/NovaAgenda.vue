@@ -174,7 +174,7 @@
         <br/>
       </form>
       <div>
-        <button type="button" class="btn btn-primary" @click="salvarAgenda()">Salvar</button>
+        <button type="button" class="btn btn-primary btn-umc" @click="salvarAgenda()">Salvar</button>
         <button type="button" class="btn btn-link" v-on:click="resetFields()" >Limpar</button>
       
       </div>
@@ -204,6 +204,9 @@
 
     <!-- PopUp -->
     <modal name="novoResponsavel" height="auto" >
+      <div class="modal-header">
+         <h4> Novo Responsável </h4>
+      </div>
       <div class="borda" >
         <br>
         <div class="input-group mb-3 space_up">
@@ -226,7 +229,7 @@
         </div >
         <div align="center">
           <button type="button" class="btn btn-link fullLine"  @click="clearModal()">Limpar</button>
-          <button type="button" class="btn btn-primary fullLine" @click="saveOne()">Salvar</button>
+          <button type="button" class="btn btn-primary fullLine btn-umc" @click="saveOne()">Salvar</button>
         </div> 
       </div> 
     </modal>
