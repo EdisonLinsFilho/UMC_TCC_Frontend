@@ -391,7 +391,7 @@ export default {
     },
     procurarMonitores() {
       this.$http
-        .get("http://localhost:8080/api/v1/usuario/byAccess?acesso=MONITOR")
+        .get("http://localhost:8080/api/v1/usuario/byAccess/MONITOR/ACTIVE")
         .then(
           function(data) {
             this.monitores = data.body;
@@ -403,7 +403,7 @@ export default {
     },
     procurarCoordenadores() {
       this.$http
-        .get("http://localhost:8080/api/v1/usuario/byAccess?acesso=COORDENADOR")
+        .get("http://localhost:8080/api/v1/usuario/byAccess/COORDENADOR/ACTIVE")
         .then(
           function(data) {
             this.coordenadores = data.body;
@@ -415,7 +415,7 @@ export default {
     },
     procurarProfessores() {
       this.$http
-        .get("http://localhost:8080/api/v1/usuario/byAccess?acesso=PROFESSOR")
+        .get("http://localhost:8080/api/v1/usuario/byAccess/PROFESSOR/ACTIVE")
         .then(
           function(data) {
             this.professores = data.body;
