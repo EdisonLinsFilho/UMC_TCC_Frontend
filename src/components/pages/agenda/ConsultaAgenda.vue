@@ -4,7 +4,7 @@
       <div class="col-8" v-if="filtroPorData">
         <datetime
           class="date"
-          type="datetime"
+          type="Date"
           v-model="dataToSearch"
           :placeholder="'Selecione uma Data'"
           :close="procurarAgendaPorData()"
@@ -330,11 +330,13 @@ export default {
       return time;
     },
     procurarAgendaPorData() {
+      
       if (!this.dataToSearch == "") {
+
         var date = Date.parse(this.dataToSearch);
 
         this.$http
-          .get("http://localhost:8080/api/v1/agenda/getByData/" + date)
+          .get("http://localhost:8080/api/v1/agenda/get-by-day/" + date)
           .then(
             function(data) {
               this.agendas = data.body;
