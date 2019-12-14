@@ -87,8 +87,8 @@
           <td>{{material.descricao}}</td>
           <td>{{material.quantidadeMinima}}</td>
           <td>{{material.quantidade}}</td>
-          <td width="14%" align="Left">
-            <div class="material-icons" style="cursor: pointer" @click="show(material)">
+          <td width="14%" align="Left">le
+            <div class="material-icons" sty="cursor: pointer" @click="show(material)">
               search&ensp;
               <span></span>
               <i></i>
@@ -171,7 +171,6 @@
           <label>Classe</label>
           <select type="text" class="form-control" v-model="material.classe" id="classe.material">
           <option value="CIENCIA">Ciência</option>
-          <option value="CONSUMO">Consumo</option>
           <option value="DESENVOLVIMENTO_COGNITIVO">Desenvolvimento Cognitivo</option>
           <option value="EDUCACAO_FISICA">Educação Física</option>
           <option value="LINGUA_PORTUGUESA">Língua Portuguesa</option>
@@ -374,12 +373,21 @@ export default {
 
     },
     saveDelete() {
-      this.material.status = "DELETED";
-      this.saveEdit();
+      this.material.status = "deletado";
+      this.postDelete();
     },
     confirmDelete(material) {
       this.material = material;
       this.$modal.show("confirmDelete");
+    },
+    postDelete(){
+      this.$http.post("http://localhost:8080/api/v1/material/change-status/" + this.material.status + "/" + this.material.id).then(
+        () => {
+          this.procurarMaterial();
+        },error => {
+          console.error(error.data);
+        }
+      )
     },
     saveEdit(){
       this.$http.post("http://localhost:8080/api/v1/material", this.material).then(
