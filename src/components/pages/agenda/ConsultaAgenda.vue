@@ -302,6 +302,7 @@ export default {
       }
     },
     converterTodasDatas(element, index) {
+      element.timeStamp = element.data
       element.data = this.dataConvert(element.data);
     },
     dataConvert(data) {
@@ -373,8 +374,8 @@ export default {
         .then(
           function(data) {
             this.agendas = data.body;
-            console.log(this.agendas);
             this.agendas.forEach(this.converterTodasDatas);
+            
           },
           error => {
             console.log(error.data);
@@ -447,30 +448,27 @@ export default {
       this.$modal.hide("confirmDelete");
     },
     saveDelete() {
-      console.log(this.agenda);
-
-      var date = Date.parse(this.agenda.data);
 
       let agenda = {
         id: this.agenda.id,
         descricao: this.agenda.descricao,
-        status: this.statusI,
+        status: "INACTIVE",
         coordenator: this.agenda.coordenator,
         monitor: this.agenda.monitor,
         professor: this.agenda.professor,
         escola: this.agenda.escola,
         criancas: this.agenda.criancas,
         tipoEnsino: this.agenda.tipoEnsino,
-        data: date,
+        data: this.agenda.timeStamp,
         resposaveis: this.agenda.resposaveis,
         materiais: this.agenda.materiais,
-        quantidadeMaterialUtilizadoDto: this.listNull
       };
 
-      this.$http.post("http://localhost:8080/api/v1/agenda", agenda).then(
-        function() {
+      this.$http.post("http://localhost:8080/api/v1/agenda", agenda)
+      .then(function() {
           alert("Agenda Deletada");
           this.procurarTodasAgendas();
+          this.hideDelete();
         },
         error => {
           console.log(error.data);

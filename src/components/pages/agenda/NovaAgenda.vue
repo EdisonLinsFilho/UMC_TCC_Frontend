@@ -5,10 +5,12 @@
         <div class="row">
           <div class="form-group col-md-10">
             <label for="campo1">Descrição da Atividade </label>
+            <font color="red">*</font>
             <input type="text" maxlength="100" v-model="agenda.descricao" class="form-control" placeholder="Digite uma descrição da Atividade"  />
           </div>
           <div class="form-group col-md-2">
             <label for="campo1">Data da Atividade </label>
+            <font color="red">*</font>
             <datetime
               class="date"
               type="datetime"
@@ -20,16 +22,18 @@
         <div class="row">
           <div class="form-group col-md-12">
             <label for="campo1">Nome da Escola </label>
+            <font color="red">*</font>
             <input type="text" maxlength="70" v-model="agenda.escola" class="form-control" placeholder="Digite o nome da Escola"/>
           </div>   
         </div>
         <div class="row">
           <div class="form-group col-md-2">
-            <label for="campo1">Numero de Crianças </label>
+            <label for="campo1">Numero de Crianças </label><font color="red">*</font>
             <input type="text" v-mask="'###'" v-model="agenda.criancas" class="form-control" placeholder="Ex: 20"/>
           </div>  
           <div class="form-group col-md litleSpace">
             <label >Tipo de Ensino </label>
+            <font color="red">*</font>
             <select
               class="custom-select my-1 mr-sm-2"
               v-model="agenda.tipoEnsino"
@@ -41,7 +45,7 @@
           </div>    
         </div>
         <div class="input-group mb-4">
-            <span class="subTitulo">Nome do Coordenador:</span>
+            <span class="subTitulo">Nome do Coordenador: <font color="red">*</font></span>
             <cool-select
               item-text="nome"
               class="camposDropDown"
@@ -51,7 +55,7 @@
             />
         </div>
         <div class="input-group mb-4">
-            <span class="subTitulo">Nome do Professor:</span>
+            <span class="subTitulo">Nome do Professor: <font color="red">*</font></span>
             <cool-select
               item-text="nome"
               class="camposDropDown"
@@ -61,7 +65,7 @@
             />
         </div>  
         <div class="input-group mb-4">
-            <span class="subTitulo">Nome do Monitor:</span>
+            <span class="subTitulo">Nome do Monitor: <font color="red">*</font></span>
             <cool-select
               item-text="nome"
               class="camposDropDown"
@@ -73,7 +77,7 @@
       <div class="row">
         <!-- Tabela Responsável -->
         <div class="col-6 ">
-          <label for="langTable">Responsável da Escola</label>
+          <label for="langTable">Responsável da Escola</label><font color="red">*</font>
             <table class="table table-hover sour-tar">
                 <thead>
                   <tr>
@@ -280,10 +284,7 @@ export default {
         }],
         data: "1389135600",
         descricao: "",
-        responsavel: [{
-          nome: "",
-          rg: ""
-        }],
+        responsavel: [],
       },
       materialDto: {
         materialId: "",
@@ -396,6 +397,11 @@ export default {
     },
     addResponsavel() {
 
+      if(this.responsavelSelect == null){
+        alert('Selecione um Responsável !')
+        return
+      }
+
       if(this.novosResponsaveis.length >= 3){
         alert('Cada atividade pode conter no máximo 3 responsáveis.')
         return
@@ -415,6 +421,8 @@ export default {
     },
     saveOne(){
       
+      let responsavel = this.novoResponsavel
+      
       if(this.novoResponsavel.nome == "" || this.novoResponsavel.rg == "" ||  this.novoResponsavel.email == "") {
         alert('Todos os campos são obrigatórios.');
         return
@@ -430,6 +438,8 @@ export default {
         .post("http://localhost:8080/api/v1/responsavel", this.novoResponsavel)
         .then(function() {
           alert("Novo Responsável Cadastrado !");
+          this.novosResponsaveis = [];
+          this.procurarResponsaveis();
           this.clearModal();
           this.hide();
         },error => {
