@@ -525,7 +525,7 @@ export default {
       });
     },
     procurarMateriais(){
-      this.$http.get("http://localhost:8080/api/v1/material/getAll")
+      this.$http.get("http://localhost:8080/api/v1/material/getAll/ativo")
       .then(function(data) {
         this.materiais = data.body;
       },error => {

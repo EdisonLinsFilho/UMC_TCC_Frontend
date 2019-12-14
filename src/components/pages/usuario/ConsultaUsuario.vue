@@ -30,12 +30,14 @@
             <td>{{user.nome}}</td>
             <td>{{user.acesso}}</td>
             <td width="14%" align="right">
-              <button type="button" class="openn" @click="show(user.id)">
+              <div class="material-icons" @click="show(user.id)">
                 <i class="material-icons">search</i>
-              </button>
-              <button type="button" class="editt" @click="showEdit(user.id)">
-                <i class="material-icons">edit</i>
-              </button>
+              </div>
+              <Div class="material-icons" @click="showEdit(user.id)">
+                edit
+              <span></span>
+              <i></i>
+              </div>
               <span class="trash" @click="confirmDelete(user.id)">
                 <span></span>
                 <i></i>
