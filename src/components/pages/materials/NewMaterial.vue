@@ -54,7 +54,6 @@
           id="categoria.material"
         >
           <option disabled selected>Selecione uma opção...</option>
-          <option value="CONSUMIVEL">Consumíveis</option>
           <option value="DURAVEL">Duráveis</option>
           <option value="DOURADO">Dourado</option>
           <option value="OUTROS">Outros</option>
