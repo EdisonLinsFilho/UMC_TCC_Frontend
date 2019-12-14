@@ -45,7 +45,7 @@
           <router-link to="/materials">
             <button class="btn btn-light btn-mennu">Material</button>
           </router-link>
-          <div class="dropdown">
+          <div class="dropdown" v-if="this.isCoordenador == true">
             <button class="btn btn-light btn-mennu dropdown-toggle" data-toggle="dropdown">Mais</button>
             <div class="dropdown-menu">
               <router-link to="/relatorio">

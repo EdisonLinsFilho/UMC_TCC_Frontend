@@ -54,8 +54,8 @@
           id="categoria.material"
         >
           <option disabled selected>Selecione uma opção...</option>
+          <option value="CONSUMIVEL">Consumível</option>
           <option value="DURAVEL">Duráveis</option>
-          <option value="DOURADO">Dourado</option>
           <option value="OUTROS">Outros</option>
         </select>
       </div>
@@ -177,7 +177,8 @@ export default {
         classe: "",
         descricao: "",
         categoria: "",
-        embalagem: ""
+        embalagem: "",
+        status: 'ATIVO'
       }
     };
   },

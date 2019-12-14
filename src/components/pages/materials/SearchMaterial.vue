@@ -255,7 +255,7 @@
         </div>
         <div class="row spaceLeft">
           <div class="form-group col-md-12">
-            <label>Quantidade utilizada</label>
+            <label>Quantidade</label>
             <input type="text" v-mask="'######'" v-model="quantidadeUtilizada" class="form-control" />
           </div>
         </div>
@@ -341,17 +341,18 @@ export default {
         },
         error => {
           this.materiaisPorNome = [];
+          alert('Operação não realizada');
         }
       )
     },
     procurarMaterialporClasse(classe){
       this.$http.get("http://localhost:8080/api/v1/material/getByClasse/" + classe).then(
         function(data) {
-          this.materiaisPorClasse = data.body;
-         
+          this.materiaisPorClasse = data.body;         
         },
         error => {
           this.materiaisPorClasse = [];
+          alert('Operação não realizada');
         }
       )
     },
@@ -361,6 +362,7 @@ export default {
           this.allMaterials = data.body;
         },
         error => {
+          alert('Operação não realizada');
           console.error(error.data);
         }
       )
@@ -384,18 +386,21 @@ export default {
       this.$http.post("http://localhost:8080/api/v1/material/change-status/" + this.material.status + "/" + this.material.id).then(
         () => {
           this.procurarMaterial();
+          this.hideDelete();
+          alert('Material deletado');
         },error => {
+          alert('Operação não realizada');
           console.error(error.data);
         }
       )
     },
     saveEdit(){
       this.$http.post("http://localhost:8080/api/v1/material", this.material).then(
-        () => {
-          this.$modal.hide("allPageEdit");
-          this.procurarMaterial();
+        () => {          
+          this.procurarMaterial();          
         },
         error => {
+          alert('Operação não realizada');
           console.error(error.data);
         }
       );
