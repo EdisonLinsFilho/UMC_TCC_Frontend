@@ -256,7 +256,7 @@ export default {
       }
     },
     searchUser() {
-      this.$http.get("http://localhost:8080/api/v1/usuario/getAll").then(
+      this.$http.get("http://localhost:8080/api/v1/usuario/getAll/active").then(
         function(data) {
           this.users = data.body;
         },

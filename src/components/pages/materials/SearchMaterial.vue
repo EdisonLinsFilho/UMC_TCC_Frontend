@@ -357,7 +357,7 @@ export default {
       )
     },
     procurarMaterial(){
-      this.$http.get("http://localhost:8080/api/v1/material/getAll").then(
+      this.$http.get("http://localhost:8080/api/v1/material/getAll/ativo").then(
         function(data) {
           this.allMaterials = data.body;
         },
@@ -374,7 +374,7 @@ export default {
 
     },
     saveDelete() {
-      this.material.status = "deleted";
+      this.material.status = "DELETED";
       this.saveEdit();
     },
     confirmDelete(material) {
