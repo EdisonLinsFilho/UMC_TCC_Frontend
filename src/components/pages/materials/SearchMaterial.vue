@@ -87,8 +87,8 @@
           <td>{{material.descricao}}</td>
           <td>{{material.quantidadeMinima}}</td>
           <td>{{material.quantidade}}</td>
-          <td width="14%" align="Left">le
-            <div class="material-icons" sty="cursor: pointer" @click="show(material)">
+          <td width="14%" align="Left">
+            <div class="material-icons"  @click="show(material)">
               search&ensp;
               <span></span>
               <i></i>

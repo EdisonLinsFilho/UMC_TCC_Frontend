@@ -101,9 +101,11 @@ export default {
             this.$http.post("http://localhost:8080/api/v1/usuario/saveOrUpdate", this.user).then(
               () => {
                 this.resetFields();
+                alert('Usuário Cadastrado !')
               },
               error => {
                 console.error(error.data);
+                alert('Dados Duplicados, favor verificar todos os campos !')
               }
             );
 
