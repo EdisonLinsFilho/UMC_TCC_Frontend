@@ -501,7 +501,7 @@ export default {
       });
     },
     procurarCoordenadores(){
-      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess?acesso=COORDENADOR")
+      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess/coordenador/active")
       .then(function(data) {
         this.coordenadores = data.body;
       },error => {
@@ -509,7 +509,7 @@ export default {
       });
     },
     procurarProfessores(){
-      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess?acesso=PROFESSOR")
+      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess/PROFESSOR/ACTIVE")
       .then(function(data) {
         this.professores = data.body;
       },error => {
@@ -517,7 +517,7 @@ export default {
       });
     },
     procurarMonitores(){
-      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess?acesso=MONITOR")
+      this.$http.get("http://localhost:8080/api/v1/usuario/byAccess/MONITOR/ACTIVE")
       .then(function(data) {
         this.monitores = data.body;
       },error => {

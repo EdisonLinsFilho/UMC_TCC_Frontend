@@ -49,24 +49,19 @@
       </div>
       
     <modal name="mandaEmail" height="auto">
-      <div class="modal-header">
-        <h4>Reset senha</h4>
-      </div>
       <div class="borda">
-        <div class="row spaceLeft recover-modal">
+        <div class="row spaceLeft">
           <div class="form-group col-md-12">
             <label>Email</label>
-          <input type="text" v-model="emailRecuperacao" placeholder="Digite seu email para redefinirmos sua senha"
-           class="form-control"/>
+          <input type="text" v-model="emailRecuperacao" class="form-control"/>
           </div>
         </div>
         <br />
         <div align="center">
-          <button type="button" class="btn blue-button btn-login" @click="sendMail()">Enviar</button>
+          <button type="button" class="btn blue-button" @click="sendMail()">Enviar</button>
         </div>
       </div>
     </modal>
-
     </form>
   </div>
 </template>
@@ -182,15 +177,5 @@ img {
 
 .remempass {
   margin-top: 16px;
-}
-
-.recover-modal{
-  margin: 5px 5px 5px 5px;
-}
-
-.btn-login{
-    margin-top: -20px;
-    margin-bottom: 10px;
-    width: 20%;
 }
 </style>

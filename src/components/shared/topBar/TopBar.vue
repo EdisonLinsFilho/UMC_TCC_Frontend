@@ -22,7 +22,7 @@
               <router-link :to="'/userme/' + passid">
                 <div class="dropdown-item">Minha conta</div>
               </router-link>
-              <div class="dropdown-item dropdown-header" @click="logoff();">Logoff</div>
+              <div class="dropdown-item dropdown-header cursor" @click="logoff();">Logoff</div>
             </div>
           </div>
         </div>
@@ -207,5 +207,8 @@ export default {
 .dropdown-item:hover {
   background: #1f476e;
   box-shadow: inherit;
+}
+.cursor{
+  cursor: pointer;
 }
 </style>
