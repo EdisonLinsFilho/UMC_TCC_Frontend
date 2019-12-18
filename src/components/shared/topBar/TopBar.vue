@@ -33,9 +33,6 @@
       <!--Navegação azul-->
       <div class="navbar navbar-expand-sm navi-menu">
         <div class="btn-group" style="margin:0 auto;">
-          <!-- <router-link to="/clients">
-            <button class="btn btn-light btn-mennu">Clients</button>
-          </router-link> -->
           <router-link to="/agenda">
             <button class="btn btn-light btn-mennu">Agenda</button>
           </router-link>
@@ -46,12 +43,9 @@
             <button class="btn btn-light btn-mennu">Material</button>
           </router-link>
           <div class="dropdown" v-if="this.isCoordenador == true">
-            <button class="btn btn-light btn-mennu dropdown-toggle" data-toggle="dropdown">Mais</button>
-            <div class="dropdown-menu">
-              <router-link to="/relatorio">
-              <button class="btn btn-light btn-mennu dropdown-item">Relatório </button>
-              </router-link>
-                 </div>
+            <router-link to="/relatorio">
+              <button class="btn btn-light btn-mennu dropdown-item">Relatório</button>
+            </router-link>
           </div>
         </div>
       </div>
