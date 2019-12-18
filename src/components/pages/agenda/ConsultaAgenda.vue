@@ -61,12 +61,12 @@
               <span></span>
               <i></i>
             </div>
-            <div class="material-icons" style="cursor: pointer" @click="showEdit(agenda)">
+            <div v-if="!acessoMonitor" class="material-icons" style="cursor: pointer" @click="showEdit(agenda)">
               edit&ensp;
               <span></span>
               <i></i>
             </div>
-            <span class="trash" @click="confirmDelete(agenda)">
+            <span v-if="!acessoMonitor" class="trash" @click="confirmDelete(agenda)">
               <span></span>
               <i></i>
             </span>
@@ -240,7 +240,8 @@ export default {
       date: "",
       statusA: "ACTIVE",
       statusI: "INACTIVE",
-      listNull: []
+      listNull: [],
+      acessoMonitor: false,
     };
   },
   methods: {
@@ -511,10 +512,21 @@ export default {
         }.bind(this),
         1500
       );
+    },
+    verificaUsuarioLogado(){
+      var acesso = localStorage.getItem('loggedAccess');
+
+      if(acesso == "MONITOR"){
+        this.acessoMonitor = true;
+      } else {
+        this.acessoMonitor = false;
+      }
+
     }
   },
   created() {
     this.filtro = "Data";
+    this.verificaUsuarioLogado();
     this.procurarProfessores();
     this.procurarMonitores();
     this.procurarCoordenadores();

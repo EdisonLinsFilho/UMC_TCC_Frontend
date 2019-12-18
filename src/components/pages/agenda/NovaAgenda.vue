@@ -381,6 +381,7 @@ export default {
           this.resetFields();
           localStorage.setItem('novaAgenda', 1);
         }, error => {
+          alert(error.data.message);
           console.log(error.data);
         });
     },

@@ -69,7 +69,7 @@
               aria-controls="collapseExample"
             >&emsp;Ações</a>
           </th>
-          <th scope="col">
+          <th v-if="!acessoProfessor" scope="col">
             <a
               style="color: black"
               class="link-table"
@@ -94,19 +94,19 @@
               <i></i>
             </div>
 
-            <div class="material-icons" style="cursor: pointer" @click="showEdit(material)">
+            <div v-if="!acessoProfessor" class="material-icons" style="cursor: pointer" @click="showEdit(material)">
               edit&ensp;
               <span></span>
               <i></i>
             </div>
 
-            <span class="trash" @click="confirmDelete(material)">
+            <span v-if="!acessoProfessor" class="trash" @click="confirmDelete(material)">
               <span></span>
               <i></i>
             </span>
           </td>
           <td>
-            <div class="material-icons" style="cursor: pointer" data-toggle="modal" data-target=".bd-example-modal-lg" @click="confirmBaixa(material)">
+            <div v-if="!acessoProfessor" class="material-icons" style="cursor: pointer" data-toggle="modal" data-target=".bd-example-modal-lg" @click="confirmBaixa(material)">
               &ensp;import_export
               <span></span>
               <i></i>
@@ -292,6 +292,7 @@ export default {
       id: "",
       solicitacao: "SAIDA",
       interval: "",
+      acessoProfessor: false,
     };
   },
   beforeDestroy(){
@@ -300,9 +301,20 @@ export default {
   created(){
     this.procurarMaterial();
     this.verificarNovoMaterial();
+    this.verificaUsuarioLogado();
   },
 
   methods: {
+    verificaUsuarioLogado(){
+      var acesso = localStorage.getItem('loggedAccess');
+
+      if(acesso == "PROFESSOR"){
+        this.acessoProfessor = true;
+      } else {
+        this.acessoProfessor = false;
+      }
+
+    },
     verificaMesmoObjeto2(item){
       if(item == this.materialAuxiliar){
         this.allMaterials.push(item);
