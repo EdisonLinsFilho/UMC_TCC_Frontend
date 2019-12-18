@@ -490,7 +490,12 @@ export default {
       (this.agenda.coordenator = []),
       (this.agenda.professor = ""),
       (this.novosResponsaveis = []) ,
-      (this.responsavelSelect = "")
+      (this.responsavelSelect = ""),
+      (this.material = []),
+      (this.materiaisParaAtividade = []),
+
+      this.procurarMateriais();
+      this.procurarResponsaveis();
     },
     procurarResponsaveis(){
       //Procurar Todos Responsaveis
