@@ -33,7 +33,7 @@
       <thead>
         <tr>
           <th scope="col">Data/Hora</th>
-          <th scope="col">Descricao</th>
+          <th scope="col">Descrição</th>
           <th scope="col">Numero de Crianças</th>
           <th scope="col">Materiais e Responsaveis</th>
           <th></th>
