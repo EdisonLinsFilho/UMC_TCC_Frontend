@@ -15,7 +15,7 @@
     "element-ui": "^2.4.11",
     "file-saver": "^2.0.2",
     "luxon": "^1.10.0",
-    "moment": "^2.23.0",
+    "moment": "^2.29.2",
     "scss": "^0.2.4",
     "style-loader": "^0.23.1",
     "v-mask": "^2.0.2",
