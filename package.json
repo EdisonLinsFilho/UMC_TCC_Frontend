@@ -14,7 +14,7 @@
     "bootstrap-timepicker": "^0.5.2",
     "element-ui": "^2.4.11",
     "file-saver": "^2.0.2",
-    "luxon": "^1.10.0",
+    "luxon": "^1.28.1",
     "moment": "^2.23.0",
     "scss": "^0.2.4",
     "style-loader": "^0.23.1",
